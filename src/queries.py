@@ -51,3 +51,110 @@ def agrupar_recursos_dataset(
   except Exception as e:
     print(f"Erro ao processar o dataset {dataset_id}: {e}")
     return {}
+
+
+def analisar_colunas_por_periodo(
+    dicionario_agrupado, portal_url="https://dados.es.gov.br/"
+):
+  """Analisa os recursos agrupados, extrai os anos, verifica as colunas via Datastore,
+
+  agrupa os períodos consecutivos com a mesma estrutura e inclui a lista e a
+  quantidade
+  de colunas diferentes em relação ao grupo anterior.
+  """
+  rc = RemoteCKAN(portal_url)
+  resultado_final = {}
+
+  for chave_principal, lista_recursos in dicionario_agrupado.items():
+    recursos_com_ano = []
+
+    # 1. Extrai o ano de cada arquivo para ordenação cronológica
+    for rec in lista_recursos:
+      name = rec["name"]
+      match = re.search(r"(19\d{2}|20\d{2})", name)
+      ano = int(match.group(1)) if match else 0
+      recursos_com_ano.append((ano, rec))
+
+    # Ordena os recursos pelo ano (e pelo nome caso não tenha ano)
+    recursos_com_ano.sort(key=lambda x: (x[0], x[1]["name"]))
+
+    grupos_colunas = []
+    current_group = None
+    prev_cols_set = None
+
+    for ano, rec in recursos_com_ano:
+      res_id = rec["id"]
+      colunas = []
+
+      try:
+        # limit=0 busca apenas a estrutura/metadados dos campos sem baixar os dados
+        ds_res = rc.action.datastore_search(resource_id=res_id, limit=0)
+        fields = ds_res.get("fields", [])
+        # Extrai os nomes das colunas (ignorando o campo interno '_id' do CKAN)
+        colunas = [f["id"] for f in fields if f["id"] != "_id"]
+      except Exception:
+        # Se o recurso não estiver no datastore ou falhar, mantém lista vazia
+        pass
+
+      # Ordena alfabeticamente a lista de colunas atual
+      colunas_ordenadas = sorted(colunas)
+      colunas_tuple = tuple(colunas_ordenadas)
+      colunas_set = set(colunas_ordenadas)
+
+      if current_group is None:
+        current_group = {
+            "PeriodoInicio": ano if ano != 0 else None,
+            "PeriodoFim": ano if ano != 0 else None,
+            "QtdColunas": len(colunas_ordenadas),
+            "ColunasAtual": colunas_ordenadas,
+            "signature": colunas_tuple,
+            "diff": [],
+            "qtd_diff": 0,
+        }
+        prev_cols_set = colunas_set
+      else:
+        # Se mantiver exatamente as mesmas colunas do grupo anterior, estende o período fim
+        if current_group["signature"] == colunas_tuple:
+          if ano != 0:
+            current_group["PeriodoFim"] = ano
+        else:
+          # Mudou a estrutura: calcula quais colunas diferem e a quantidade
+          diff_cols = sorted(list(prev_cols_set ^ colunas_set))
+          qtd_diff = len(diff_cols)
+
+          # Salva o grupo anterior completo com a quantidade de diferenças
+          grupos_colunas.append({
+              "PeriodoInicio": current_group["PeriodoInicio"],
+              "PeriodoFim": current_group["PeriodoFim"],
+              "QtdColunas": current_group["QtdColunas"],
+              "ColunasAtual": current_group["ColunasAtual"],
+              "QtdColunasDiferentesAoAnterior": current_group["qtd_diff"],
+              "ColunasDiferentesAoAnterior": current_group["diff"],
+          })
+
+          # Atualiza a referência anterior e inicia um novo grupo
+          prev_cols_set = set(current_group["ColunasAtual"])
+          current_group = {
+              "PeriodoInicio": ano if ano != 0 else None,
+              "PeriodoFim": ano if ano != 0 else None,
+              "QtdColunas": len(colunas_ordenadas),
+              "ColunasAtual": colunas_ordenadas,
+              "signature": colunas_tuple,
+              "qtd_diff": qtd_diff,
+              "diff": diff_cols,
+          }
+
+    # Adiciona o último grupo remanescente
+    if current_group is not None:
+      grupos_colunas.append({
+          "PeriodoInicio": current_group["PeriodoInicio"],
+          "PeriodoFim": current_group["PeriodoFim"],
+          "QtdColunas": current_group["QtdColunas"],
+          "ColunasAtual": current_group["ColunasAtual"],
+          "QtdColunasDiferentesAoAnterior": current_group["qtd_diff"],
+          "ColunasDiferentesAoAnterior": current_group["diff"],
+      })
+
+    resultado_final[chave_principal] = grupos_colunas
+
+  return resultado_final
