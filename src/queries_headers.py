@@ -4,7 +4,7 @@ from pathlib import Path
 from ckanapi import RemoteCKAN
 
 
-def __agrupar_recursos_dataset(
+def agrupar_recursos_dataset(
     dataset_id, portal_url="https://dados.es.gov.br/"
 ):
   """Consulta um dataset no CKAN e agrupa seus recursos por prefixo de nome (removendo extensões e dígitos, preservando o case).
@@ -52,7 +52,7 @@ def __agrupar_recursos_dataset(
     return {}
 
 
-def __analisar_colunas_por_periodo(
+def analisar_colunas_por_periodo(
     dicionario_agrupado, portal_url="https://dados.es.gov.br/"
 ):
   """Analisa os recursos agrupados, extrai os anos, verifica as colunas via Datastore,
@@ -173,8 +173,8 @@ def gerar_analise_das_colunas(
 
   específico para facilitar a análise humana do retorno da função.
   """
-  resultado_agrupado = __agrupar_recursos_dataset(dataset_id)
-  analise_dict = __analisar_colunas_por_periodo(resultado_agrupado)
+  resultado_agrupado = agrupar_recursos_dataset(dataset_id)
+  analise_dict = analisar_colunas_por_periodo(resultado_agrupado)
 
   linhas = []
 
