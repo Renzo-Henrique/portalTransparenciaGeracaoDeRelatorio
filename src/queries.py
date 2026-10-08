@@ -6,9 +6,7 @@ from ckanapi import RemoteCKAN
 def agrupar_recursos_dataset(
     dataset_id, portal_url="https://dados.es.gov.br/"
 ):
-  """Consulta um dataset no CKAN e agrupa seus recursos por prefixo de nome
-
-  (removendo extensões e dígitos, preservando o case).
+  """Consulta um dataset no CKAN e agrupa seus recursos por prefixo de nome (removendo extensões e dígitos, preservando o case).
   """
   rc = RemoteCKAN(portal_url)
   grupos = {}
@@ -58,9 +56,8 @@ def analisar_colunas_por_periodo(
 ):
   """Analisa os recursos agrupados, extrai os anos, verifica as colunas via Datastore,
 
-  agrupa os períodos consecutivos com a mesma estrutura e inclui a lista e a
-  quantidade
-  de colunas diferentes em relação ao grupo anterior.
+  agrupa os períodos consecutivos com a mesma estrutura, calcula as diferenças
+  e armazena os IDs e nomes dos arquivos pertencentes a cada período.
   """
   rc = RemoteCKAN(portal_url)
   resultado_final = {}
@@ -84,6 +81,7 @@ def analisar_colunas_por_periodo(
 
     for ano, rec in recursos_com_ano:
       res_id = rec["id"]
+      res_name = rec["name"]
       colunas = []
 
       try:
@@ -101,6 +99,8 @@ def analisar_colunas_por_periodo(
       colunas_tuple = tuple(colunas_ordenadas)
       colunas_set = set(colunas_ordenadas)
 
+      info_arquivo = {"id": res_id, "name": res_name}
+
       if current_group is None:
         current_group = {
             "PeriodoInicio": ano if ano != 0 else None,
@@ -110,19 +110,22 @@ def analisar_colunas_por_periodo(
             "signature": colunas_tuple,
             "diff": [],
             "qtd_diff": 0,
+            "arquivos": [info_arquivo],
         }
         prev_cols_set = colunas_set
       else:
-        # Se mantiver exatamente as mesmas colunas do grupo anterior, estende o período fim
+        # Se mantiver exatamente as mesmas colunas do grupo anterior, estende o período fim e acumula o arquivo
         if current_group["signature"] == colunas_tuple:
           if ano != 0:
             current_group["PeriodoFim"] = ano
+          current_group["arquivos"].append(info_arquivo)
         else:
-          # Mudou a estrutura: calcula quais colunas diferem e a quantidade
+          # Mudou a estrutura:
+          # 1. Calcula a diferença usando o último grupo válido armazenado em prev_cols_set
           diff_cols = sorted(list(prev_cols_set ^ colunas_set))
           qtd_diff = len(diff_cols)
 
-          # Salva o grupo anterior completo com a quantidade de diferenças
+          # 2. Salva o grupo anterior na lista final
           grupos_colunas.append({
               "PeriodoInicio": current_group["PeriodoInicio"],
               "PeriodoFim": current_group["PeriodoFim"],
@@ -130,10 +133,13 @@ def analisar_colunas_por_periodo(
               "ColunasAtual": current_group["ColunasAtual"],
               "QtdColunasDiferentesAoAnterior": current_group["qtd_diff"],
               "ColunasDiferentesAoAnterior": current_group["diff"],
+              "ArquivosPeriodo": current_group["arquivos"],
           })
 
-          # Atualiza a referência anterior e inicia um novo grupo
+          # 3. Atualiza o prev_cols_set para ser o grupo que acabou de ser fechado
           prev_cols_set = set(current_group["ColunasAtual"])
+
+          # 4. Inicia um novo grupo com a nova estrutura e o arquivo atual
           current_group = {
               "PeriodoInicio": ano if ano != 0 else None,
               "PeriodoFim": ano if ano != 0 else None,
@@ -142,6 +148,7 @@ def analisar_colunas_por_periodo(
               "signature": colunas_tuple,
               "qtd_diff": qtd_diff,
               "diff": diff_cols,
+              "arquivos": [info_arquivo],
           }
 
     # Adiciona o último grupo remanescente
@@ -153,6 +160,7 @@ def analisar_colunas_por_periodo(
           "ColunasAtual": current_group["ColunasAtual"],
           "QtdColunasDiferentesAoAnterior": current_group["qtd_diff"],
           "ColunasDiferentesAoAnterior": current_group["diff"],
+          "ArquivosPeriodo": current_group["arquivos"],
       })
 
     resultado_final[chave_principal] = grupos_colunas
