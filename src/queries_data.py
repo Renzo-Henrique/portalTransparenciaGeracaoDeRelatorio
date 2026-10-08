@@ -17,16 +17,15 @@ except ImportError:
 
 def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.br/"):
   """Analisa estatísticas de um recurso limitando a no máximo 50.000 registros
-
   amostrados aleatoriamente (com seed fixa), sem excesso de logs para garantir
   máxima performance e evitar travamentos de I/O.
   """
   rc = RemoteCKAN(portal_url)
 
   try:
-    # 1. Paginação limitada a no máximo 30.000 registros
+    # 1. Paginação limitada a no máximo 50.000 registros
     limit = 10000
-    max_registros = 30000
+    max_registros = 50000
     offset = 0
     all_records = []
 
@@ -47,7 +46,7 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
       offset += current_limit
 
     if not all_records:
-      return {}
+      return None, 0, []
 
     # 2. Carrega no DataFrame e aplica amostragem aleatória por seed
     df = pd.DataFrame(all_records)
@@ -58,77 +57,129 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
       df = df.sample(n=max_registros, random_state=42)
 
     total_linhas = len(df)
-    analise_colunas = {}
     colunas_ordenadas = sorted(df.columns)
 
-    # 3. Análise coluna por coluna sem excesso de writes (utilizando apenas a barra do tqdm)
-    for col in tqdm(colunas_ordenadas, desc="    3. Analisando colunas", leave=False):
-      try:
-        serie = df[col]
-        
-        nulos = int(serie.isna().sum())
-        try:
-          zeros = int((serie == 0).sum())
-        except Exception:
-          zeros = 0
+    return df, total_linhas, colunas_ordenadas
 
-        distintos = int(serie.nunique(dropna=True))
+  except Exception:
+    return None, 0, []
 
-        caso_1 = (nulos > 50) or (zeros > 50)
-        caso_2 = (distintos > 50)
-
-        perc_nulos = (nulos / total_linhas * 100) if total_linhas > 0 else 0
-        provavel_enum = (
-            (distintos <= 20 or (distintos / total_linhas < 0.01))
-            if total_linhas > 0
-            else False
-        )
-
-        analise_colunas[col] = {
-            "total_linhas": total_linhas,
-            "valores_nulos": nulos,
-            "valores_zeros": zeros,
-            "porcentagem_nulos": round(perc_nulos, 2),
-            "valores_distintos": distintos,
-            "provavel_enum": provavel_enum,
-            "alerta_caso_1": caso_1,
-            "alerta_caso_2": caso_2,
-            "status_analise": "sucesso"
-        }
-
-      except Exception:
-        # Se ocorrer qualquer exceção em uma coluna pesada, pula silenciosamente e registra a mensagem solicitada
-        analise_colunas[col] = {
-            "total_linhas": total_linhas,
-            "valores_nulos": 0,
-            "valores_zeros": 0,
-            "porcentagem_nulos": 0.0,
-            "valores_distintos": 0,
-            "provavel_enum": False,
-            "alerta_caso_1": False,
-            "alerta_caso_2": False,
-            "status_analise": "insuficiente",
-            "mensagem": "Obtiveram-se registros estatisticamente suficientes que não comprovam essa hipótese."
-        }
-
-    return analise_colunas
-
-  except Exception as e:
-    print(f"\n[Erro Crítico] Falha geral ao analisar o recurso {res_id}: {e}")
-    return {}
 
 def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.gov.br/"):
-  """Varre o dicionário utilizando 3 níveis de TQDM (Grupos ➔ Arquivos ➔ Colunas)."""
+  """Varre o dicionário utilizando 3 níveis de TQDM:
+  1. Grupos Principais
+  2. Períodos de tempo
+  3. Arquivos do Período
+  """
   for chave_principal, grupos in tqdm(analise_dict.items(), desc="1. Grupos Principais"):
-    for grupo in grupos:
+    for grupo in tqdm(grupos, desc="   2. Períodos de tempo", leave=False):
       arquivos = grupo.get("ArquivosPeriodo", [])
       
-      for arq in tqdm(arquivos, desc=f"  2. Arquivos ({chave_principal[:15]})", leave=False):
-        res_id = arq.get("id")
+      if arquivos:
+        analises_arquivos = {}
+        
+        # Nível 3: Iteração sobre os arquivos do período
+        for arq in tqdm(arquivos, desc="      3. Arquivos do Período", leave=False):
+          res_id = arq.get("id")
+          if not res_id:
+            continue
+            
+          df, total_linhas, colunas_ordenadas = analisar_qualidade_colunas_recurso(res_id, portal_url)
+          
+          if df is None or total_linhas == 0:
+            continue
 
-        if res_id:
-          qualidade_colunas = analisar_qualidade_colunas_recurso(res_id, portal_url)
-          arq["analiseDeColunas"] = qualidade_colunas
+          analise_colunas = {}
+          
+          for col in colunas_ordenadas:
+            try:
+              serie = df[col]
+              
+              nulos = int(serie.isna().sum())
+              try:
+                zeros = int((serie == 0).sum())
+              except Exception:
+                zeros = 0
+
+              distintos = int(serie.nunique(dropna=True))
+
+              caso_1 = (nulos > 50) or (zeros > 50)
+              caso_2 = (distintos > 50)
+
+              perc_nulos = (nulos / total_linhas * 100) if total_linhas > 0 else 0
+              provavel_enum = (
+                  (distintos <= 20 or (distintos / total_linhas < 0.01))
+                  if total_linhas > 0
+                  else False
+              )
+
+              analise_colunas[col] = {
+                  "total_linhas": total_linhas,
+                  "valores_nulos": nulos,
+                  "valores_zeros": zeros,
+                  "porcentagem_nulos": round(perc_nulos, 2),
+                  "valores_distintos": distintos,
+                  "provavel_enum": provavel_enum,
+                  "alerta_caso_1": caso_1,
+                  "alerta_caso_2": caso_2,
+                  "status_analise": "sucesso"
+              }
+
+            except Exception:
+              analise_colunas[col] = {
+                  "total_linhas": total_linhas,
+                  "valores_nulos": 0,
+                  "valores_zeros": 0,
+                  "porcentagem_nulos": 0.0,
+                  "valores_distintos": 0,
+                  "provavel_enum": False,
+                  "alerta_caso_1": False,
+                  "alerta_caso_2": False,
+                  "status_analise": "insuficiente",
+                  "mensagem": "Obtiveram-se registros estatisticamente suficientes que não comprovam essa hipótese."
+              }
+
+          analises_arquivos[res_id] = analise_colunas
+        
+        grupo["analiseDeColunasPorArquivo"] = analises_arquivos
+
+        # Consolidação das colunas agrupadas por período de tempo
+        analise_periodo = {}
+        colunas_acumuladas = {}
+        for res_id, cols_dict in analises_arquivos.items():
+          for col_nome, metrics in cols_dict.items():
+            if col_nome not in colunas_acumuladas:
+              colunas_acumuladas[col_nome] = []
+            colunas_acumuladas[col_nome].append(metrics)
+
+        for col_nome, metrics_list in colunas_acumuladas.items():
+          valid_metrics = [m for m in metrics_list if m.get("status_analise") == "sucesso"]
+          if valid_metrics:
+            avg_linhas = sum(m["total_linhas"] for m in valid_metrics) // len(valid_metrics)
+            avg_nulos = sum(m["valores_nulos"] for m in valid_metrics) // len(valid_metrics)
+            avg_zeros = sum(m["valores_zeros"] for m in valid_metrics) // len(valid_metrics)
+            avg_perc_nulos = round(sum(m["porcentagem_nulos"] for m in valid_metrics) / len(valid_metrics), 2)
+            avg_distintos = sum(m["valores_distintos"] for m in valid_metrics) // len(valid_metrics)
+            
+            provavel_enum = any(m["provavel_enum"] for m in valid_metrics)
+            caso_1 = any(m["alerta_caso_1"] for m in valid_metrics)
+            caso_2 = any(m["alerta_caso_2"] for m in valid_metrics)
+
+            analise_periodo[col_nome] = {
+                "total_linhas": avg_linhas,
+                "valores_nulos": avg_nulos,
+                "valores_zeros": avg_zeros,
+                "porcentagem_nulos": avg_perc_nulos,
+                "valores_distintos": avg_distintos,
+                "provavel_enum": provavel_enum,
+                "alerta_caso_1": caso_1,
+                "alerta_caso_2": caso_2,
+                "status_analise": "sucesso"
+            }
+          else:
+            analise_periodo[col_nome] = metrics_list[0]
+
+        grupo["analiseDeColunasPorPeriodo"] = analise_periodo
 
   return analise_dict
 
@@ -138,7 +189,7 @@ def gerar_analise_das_colunas(
     nome_arquivo_saida="colunasAnalisadas.md",
     caminho_saida="./",
 ):
-  """Gera os arquivos .md e .pdf repassando os alertas dos Casos 1 e 2 detalhadamente."""
+  """Gera os arquivos .md e .pdf com base na análise estrutural e de qualidade por período."""
   resultado_agrupado = agrupar_recursos_dataset(dataset_id)
   analise_dict = analisar_colunas_por_periodo(resultado_agrupado)
   analise_dict = enriquecer_analise_com_qualidade(analise_dict)
@@ -146,8 +197,8 @@ def gerar_analise_das_colunas(
   linhas = []
   linhas.append("# Relatório de Análise Estrutural e Qualidade de Dados - CKAN")
   linhas.append(
-      "\nEste documento apresenta um resumo consolidado das bases de dados, "
-      "evolução dos períodos, variações de colunas e métricas de qualidade "
+      "\nEste documento apresenta um resumo consolidado das bases de dados por período, "
+      "evolução das colunas e métricas de qualidade consolidadas por período de tempo "
       "com marcação de alertas (Caso 1: Nulos/Zeros > 50 e Caso 2: Distintos > 50).\n"
   )
   linhas.append("---")
@@ -173,39 +224,41 @@ def gerar_analise_das_colunas(
       else:
         linhas.append("  - *Colunas removidas/alteradas:* Nenhuma")
 
-      linhas.append("\n**Arquivos/Recursos Vinculados e Análise de Qualidade:**")
       arquivos = grupo.get("ArquivosPeriodo", [])
       if arquivos:
+        linhas.append("\n**Arquivos Vinculados ao Período:**")
         for arq in arquivos:
-          linhas.append(f"  - 📄 **`{arq.get('name')}`** *(ID: `{arq.get('id')}`)*")
-          
-          analise_cols = arq.get("analiseDeColunas", {})
-          if analise_cols:
-            linhas.append("    - *Análise de Colunas:*")
-            for col_nome, metricas in analise_cols.items():
-              if metricas.get("status_analise") == "insuficiente":
-                linhas.append(
-                    f"      - `{col_nome}` ➔ *{metricas.get('mensagem')}*"
-                )
-              else:
-                tags = []
-                if metricas.get("provavel_enum"):
-                  tags.append("🟢 [Enum]")
-                if metricas.get("alerta_caso_1"):
-                  tags.append("⚠️ [Caso 1: >50 Nulos/Zeros]")
-                if metricas.get("alerta_caso_2"):
-                  tags.append("⚠️ [Caso 2: >50 Distintos]")
-                
-                tag_str = " " + " ".join(tags) if tags else ""
+          res_id = arq.get("id")
+          linhas.append(f"  - 📄 **`{arq.get('name')}`** *(ID: `{res_id}`)*")
 
-                linhas.append(
-                    f"      - `{col_nome}` ➔ "
-                    f"Nulos: **{metricas.get('porcentagem_nulos')}%** "
-                    f"({metricas.get('valores_nulos')} nulos, {metricas.get('valores_zeros', 0)} zeros) | "
-                    f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}"
-                )
+      linhas.append("\n**Análise de Qualidade das Colunas (Consolidada por Período):**")
+      analise_cols = grupo.get("analiseDeColunasPorPeriodo", {})
+      
+      if analise_cols:
+        for idx, (col_nome, metricas) in enumerate(analise_cols.items(), 1):
+          if metricas.get("status_analise") == "insuficiente":
+            linhas.append(
+                f"  {idx}. `{col_nome}` ➔ *{metricas.get('mensagem')}*"
+            )
+          else:
+            tags = []
+            if metricas.get("provavel_enum"):
+              tags.append("🟢 [Enum]")
+            if metricas.get("alerta_caso_1"):
+              tags.append("⚠️ [Caso 1: >50 Nulos/Zeros]")
+            if metricas.get("alerta_caso_2"):
+              tags.append("⚠️ [Caso 2: >50 Distintos]")
+            
+            tag_str = " " + " ".join(tags) if tags else ""
+
+            linhas.append(
+                f"  {idx}. `{col_nome}` ➔ "
+                f"Nulos: **{metricas.get('porcentagem_nulos')}%** "
+                f"({metricas.get('valores_nulos')} nulos, {metricas.get('valores_zeros', 0)} zeros) | "
+                f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}\n"
+            )
       else:
-        linhas.append("  - *Nenhum arquivo listado.*")
+        linhas.append("  - *Nenhuma métrica obtida para este período.*")
 
       linhas.append("---")
 
@@ -222,24 +275,24 @@ def gerar_analise_das_colunas(
     if SUPORTE_PDF:
       conteudo_html = markdown.markdown(conteudo_md, extensions=["fenced_code", "tables"])
       html_completo = f"""
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <head>
-                <meta charset="UTF-8">
-                <style>
-                    body {{ font-family: Helvetica, Arial, sans-serif; margin: 30px; color: #333; line-height: 1.5; font-size: 13px; }}
-                    h1 {{ color: #004080; border-bottom: 2px solid #004080; padding-bottom: 5px; font-size: 20px; }}
-                    h2 {{ color: #0059b3; margin-top: 25px; font-size: 16px; }}
-                    h3 {{ color: #222; font-size: 14px; margin-top: 15px; }}
-                    hr {{ border: 0; border-top: 1px solid #ddd; margin: 15px 0; }}
-                    code {{ background: #f6f8fa; padding: 2px 4px; border-radius: 3px; font-size: 11px; }}
-                </style>
-            </head>
-            <body>
-                {conteudo_html}
-            </body>
-            </html>
-            """
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+              <meta charset="UTF-8">
+              <style>
+                  body {{ font-family: Helvetica, Arial, sans-serif; margin: 30px; color: #333; line-height: 1.5; font-size: 13px; }}
+                  h1 {{ color: #004080; border-bottom: 2px solid #004080; padding-bottom: 5px; font-size: 20px; }}
+                  h2 {{ color: #0059b3; margin-top: 25px; font-size: 16px; }}
+                  h3 {{ color: #222; font-size: 14px; margin-top: 15px; }}
+                  hr {{ border: 0; border-top: 1px solid #ddd; margin: 15px 0; }}
+                  code {{ background: #f6f8fa; padding: 2.3px 4px; border-radius: 3px; font-size: 11px; }}
+              </style>
+          </head>
+          <body>
+              {conteudo_html}
+          </body>
+          </html>
+          """
       caminho_completo_pdf = diretorio / Path(nome_arquivo_saida).with_suffix(".pdf").name
       HTML(string=html_completo).write_pdf(caminho_completo_pdf)
       print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
