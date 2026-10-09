@@ -184,7 +184,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
   return analise_dict
 
 
-def gerar_analise_das_colunas(
+def gerar_analise_das_colunas_dados(
     dataset_id,
     nome_arquivo_saida="colunasAnalisadas.md",
     caminho_saida="./",

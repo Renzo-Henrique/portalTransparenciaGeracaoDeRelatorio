@@ -164,7 +164,7 @@ except ImportError:
   SUPORTE_PDF = False
 
 
-def gerar_analise_das_colunas(
+def gerar_analise_das_colunas_headers(
     dataset_id,
     nome_arquivo_saida="colunasAnalisadas.md",
     caminho_saida="./",
