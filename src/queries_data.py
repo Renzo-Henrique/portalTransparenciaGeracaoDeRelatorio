@@ -6,6 +6,10 @@ from tqdm import tqdm
 
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
+_LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
+_LIMIT_MAXIMO_REGISTROS = 30000  # Limite máximo de registros a serem analisados
+_RANDOM_SEED = 42  # Seed fixa para amostragem aleatória consistente
+
 # Tentativa de importação das bibliotecas para conversão de PDF
 try:
   import markdown
@@ -23,9 +27,9 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
   rc = RemoteCKAN(portal_url)
 
   try:
-    # 1. Paginação limitada a no máximo 50.000 registros
-    limit = 10000
-    max_registros = 50000
+    # 1. Paginação limitada a no máximo 30.000 registros
+    limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
+    max_registros = _LIMIT_MAXIMO_REGISTROS
     offset = 0
     all_records = []
 
@@ -54,7 +58,7 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
       df = df.drop(columns=["_id"])
 
     if len(df) > max_registros:
-      df = df.sample(n=max_registros, random_state=42)
+      df = df.sample(n=max_registros, random_state=_RANDOM_SEED)
 
     total_linhas = len(df)
     colunas_ordenadas = sorted(df.columns)

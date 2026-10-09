@@ -1,0 +1,8 @@
+Arquivo .md gerado com sucesso em: 'generated/analise_receitas_headers.md'
+Arquivo .pdf gerado com sucesso em: 'generated/analise_receitas_headers.pdf'
+Arquivo .md gerado com sucesso em: 'generated/analise_receitas_dados.md'
+Arquivo .pdf gerado com sucesso em: 'generated/analise_receitas_dados.pdf'
+Arquivo .md gerado com sucesso em: 'generated/analise_despesas_headers.md'
+Arquivo .pdf gerado com sucesso em: 'generated/analise_despesas_headers.pdf'
+Arquivo .md gerado com sucesso em: 'generated/analise_despesas_dados.md'
+Arquivo .pdf gerado com sucesso em: 'generated/analise_despesas_dados.pdf'
