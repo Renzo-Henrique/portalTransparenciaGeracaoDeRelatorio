@@ -340,73 +340,73 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   2. `Ano` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum]
 
-  3. `ArrecadadaBruta` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **4690** ⚠️ [Caso 2: >50 Distintos]
+  3. `ArrecadadaBruta` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **4523** ⚠️ [Caso 2: >50 Distintos]
 
-  4. `ArrecadadaDeducao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1161** ⚠️ [Caso 2: >50 Distintos]
+  4. `ArrecadadaDeducao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1237** ⚠️ [Caso 2: >50 Distintos]
 
-  5. `ArrecadadaLiquida` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6045** ⚠️ [Caso 2: >50 Distintos]
+  5. `ArrecadadaLiquida` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5407** ⚠️ [Caso 2: >50 Distintos]
 
   6. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3** 🟢 [Enum]
 
-  7. `CodAlinea` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **66** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  7. `CodAlinea` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **64** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   8. `CodCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3** 🟢 [Enum]
 
-  9. `CodDetalhamento1` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **32** 🟢 [Enum]
+  9. `CodDetalhamento1` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **33** 🟢 [Enum]
 
-  10. `CodDetalhamento2` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **66** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  10. `CodDetalhamento2` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **64** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  11. `CodDetalhamento3` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **78** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  11. `CodDetalhamento3` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **75** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   12. `CodEspecie` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **21** 🟢 [Enum]
 
-  13. `CodNatureza` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **100** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  13. `CodNatureza` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   14. `CodOrigem` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **11** 🟢 [Enum]
 
-  15. `CodRubrica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **32** 🟢 [Enum]
+  15. `CodRubrica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **33** 🟢 [Enum]
 
-  16. `CodSubalinea` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **100** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  16. `CodSubalinea` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  17. `CodTipo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **100** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  17. `CodTipo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  18. `CodUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **35** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  18. `CodUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **34** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   19. `CodigoContaContabil` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5** 🟢 [Enum]
 
-  20. `CodigoDetalhamentoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **50** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  20. `CodigoDetalhamentoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **51** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   21. `CodigoDetalhamentoFonteAux` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  22. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **35** 🟢 [Enum]
+  22. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **36** 🟢 [Enum]
 
   23. `CodigoGrupoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3** 🟢 [Enum]
 
   24. `CodigoIdUso` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum]
 
-  25. `CodigoUGEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **53** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  25. `CodigoUGEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **60** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  26. `ContaContabil` ➔ Nulos: **38.15%** (11444 nulos, 0 zeros) | Distintos: **4** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  26. `ContaContabil` ➔ Nulos: **38.78%** (11634 nulos, 0 zeros) | Distintos: **4** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   27. `Data` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **11** 🟢 [Enum]
 
-  28. `DataContabilizacao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **13284** ⚠️ [Caso 2: >50 Distintos]
+  28. `DataContabilizacao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **13226** ⚠️ [Caso 2: >50 Distintos]
 
-  29. `DataEmissao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **249** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  29. `DataEmissao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **250** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   30. `Detalhamento1` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **29** 🟢 [Enum]
 
-  31. `Detalhamento2` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **62** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  31. `Detalhamento2` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **60** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  32. `Detalhamento3` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **74** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  32. `Detalhamento3` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **71** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   33. `DetalhamentoFonte` ➔ Nulos: **0.01%** (1 nulos, 0 zeros) | Distintos: **96** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  34. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5465** ⚠️ [Caso 2: >50 Distintos]
+  34. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5540** ⚠️ [Caso 2: >50 Distintos]
 
   35. `Especie` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **17** 🟢 [Enum]
 
-  36. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **35** 🟢 [Enum]
+  36. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **36** 🟢 [Enum]
 
   37. `GrupoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum]
 
@@ -416,9 +416,9 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   40. `Mes` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **11** 🟢 [Enum]
 
-  41. `Natureza` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  41. `Natureza` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **98** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  42. `Origem` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8** 🟢 [Enum]
+  42. `Origem` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
 
   43. `PrevistaBruta` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **33** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
@@ -430,7 +430,7 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   47. `Realizado` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  48. `RecolhidaBruta` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **11548** ⚠️ [Caso 2: >50 Distintos]
+  48. `RecolhidaBruta` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **12042** ⚠️ [Caso 2: >50 Distintos]
 
   49. `Recolhido` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -438,15 +438,15 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   51. `Subalinea` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  52. `Tipo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  52. `Tipo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **98** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   53. `TipoArquivo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **4** 🟢 [Enum]
 
   54. `TipoLancamento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
-  55. `UGEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **53** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  55. `UGEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **60** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  56. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **35** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  56. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **34** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
 ---
 
@@ -462,17 +462,17 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 **Análise de Qualidade das Colunas (Consolidada por Período):**
   1. `Ano` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum]
 
-  2. `CpfCnpj` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **678** ⚠️ [Caso 2: >50 Distintos]
+  2. `CpfCnpj` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **677** ⚠️ [Caso 2: >50 Distintos]
 
   3. `DataInscricao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **223** ⚠️ [Caso 2: >50 Distintos]
 
-  4. `Id` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2507** ⚠️ [Caso 2: >50 Distintos]
+  4. `Id` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2506** ⚠️ [Caso 2: >50 Distintos]
 
   5. `NomeDevedor` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **576** ⚠️ [Caso 2: >50 Distintos]
 
-  6. `NumeroCDA` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2507** ⚠️ [Caso 2: >50 Distintos]
+  6. `NumeroCDA` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2506** ⚠️ [Caso 2: >50 Distintos]
 
-  7. `NumeroProcesso` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2507** ⚠️ [Caso 2: >50 Distintos]
+  7. `NumeroProcesso` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2506** ⚠️ [Caso 2: >50 Distintos]
 
   8. `ValorReal` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2404** ⚠️ [Caso 2: >50 Distintos]
 

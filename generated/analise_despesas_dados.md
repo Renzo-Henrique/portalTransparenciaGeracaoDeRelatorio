@@ -23,7 +23,7 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
   - 📄 **`Despesas-2013.csv`** *(ID: `a42b22d5-96bd-4778-8279-d1077cffb2a4`)*
 
 **Análise de Qualidade das Colunas (Consolidada por Período):**
-  1. `Acao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **108** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  1. `Acao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **117** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   2. `AgenciaOrigem` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -37,7 +37,7 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   7. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
-  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **168** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **171** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   9. `CodigoCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
@@ -47,43 +47,43 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   12. `CodigoDetalhamentoFonte` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  13. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **52** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  13. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **53** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   14. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
 
   15. `CodigoFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
 
-  16. `CodigoFuncionalProgramatica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **41** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  16. `CodigoFuncionalProgramatica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **42** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  17. `CodigoGestaoEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **11** 🟢 [Enum]
+  17. `CodigoGestaoEmitente` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **10** 🟢 [Enum]
 
   18. `CodigoGrupoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5** 🟢 [Enum]
 
   19. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **10** 🟢 [Enum]
 
-  20. `CodigoOrgao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **15** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  20. `CodigoOrgao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **14** 🟢 [Enum]
 
   21. `CodigoPlanoOrcamentario` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  22. `CodigoProcesso` ➔ Nulos: **10.69%** (3208 nulos, 0 zeros) | Distintos: **3875** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  22. `CodigoProcesso` ➔ Nulos: **6.6%** (1981 nulos, 0 zeros) | Distintos: **3400** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **35** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **36** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  24. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **23** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  24. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **164** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **169** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   26. `CodigoSubtitulo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
-  27. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **68** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  27. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **67** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   28. `Contrato` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2391** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2465** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   30. `CredorRetencao` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  31. `Data` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **125** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  31. `Data` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **127** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   32. `DescricaoElementoDespesa` ➔ Nulos: **50.0%** (15000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -93,13 +93,13 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   35. `DetalhamentoFonte` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  36. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6532** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  36. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6796** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2909** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3579** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   38. `DomicilioBancarioOrigem` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  39. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **42** 🟢 [Enum]
+  39. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **44** 🟢 [Enum]
 
   40. `Embasamento` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -107,19 +107,19 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   42. `Esfera` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  43. `Favorecido` ➔ Nulos: **10.0%** (3000 nulos, 0 zeros) | Distintos: **1765** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  43. `Favorecido` ➔ Nulos: **10.0%** (3000 nulos, 0 zeros) | Distintos: **1900** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  44. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
+  44. `Fonte` ➔ Nulos: **0.0%** (1 nulos, 0 zeros) | Distintos: **8** 🟢 [Enum]
 
   45. `Funcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
 
   46. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5** 🟢 [Enum]
 
-  47. `HistoricoDocumento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **10205** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  47. `HistoricoDocumento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8586** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   48. `Id` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **15582** ⚠️ [Caso 2: >50 Distintos]
 
-  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2408** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2485** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   50. `IdUso` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -137,15 +137,15 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   57. `PlanoOrcamentario` ➔ Nulos: **100.0%** (15582 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  58. `Processo` ➔ Nulos: **14.51%** (4351 nulos, 0 zeros) | Distintos: **2941** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  58. `Processo` ➔ Nulos: **9.54%** (2861 nulos, 0 zeros) | Distintos: **2566** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  59. `ProcessoAssunto` ➔ Nulos: **64.51%** (4934 nulos, 0 zeros) | Distintos: **92** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  59. `ProcessoAssunto` ➔ Nulos: **59.54%** (3443 nulos, 0 zeros) | Distintos: **88** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  60. `Programa` ➔ Nulos: **1.99%** (597 nulos, 0 zeros) | Distintos: **30** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  60. `Programa` ➔ Nulos: **6.82%** (2045 nulos, 0 zeros) | Distintos: **32** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  61. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **23** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  61. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  62. `SubelementoDespesa` ➔ Nulos: **3.32%** (995 nulos, 0 zeros) | Distintos: **129** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  62. `SubelementoDespesa` ➔ Nulos: **3.01%** (902 nulos, 0 zeros) | Distintos: **135** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   63. `Subtitulo` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
@@ -157,13 +157,13 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   67. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **67** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1177** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1699** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1968** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3566** ⚠️ [Caso 2: >50 Distintos]
 
-  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6470** ⚠️ [Caso 2: >50 Distintos]
+  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **4437** ⚠️ [Caso 2: >50 Distintos]
 
-  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **42** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **225** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
 ---
 ### 🔹 Período: 2013
@@ -301,29 +301,29 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
   - 📄 **`Despesas-2026.csv`** *(ID: `1d4a0ae2-5e0c-41d2-8e36-45e092afe109`)*
 
 **Análise de Qualidade das Colunas (Consolidada por Período):**
-  1. `Acao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **273** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  1. `Acao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **267** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  2. `AgenciaOrigem` ➔ Nulos: **85.2%** (25559 nulos, 0 zeros) | Distintos: **6** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  2. `AgenciaOrigem` ➔ Nulos: **83.5%** (25051 nulos, 0 zeros) | Distintos: **5** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   3. `Ano` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum]
 
   4. `AnoLicitacao` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **6** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  5. `BancoOrigem` ➔ Nulos: **85.2%** (25559 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  5. `BancoOrigem` ➔ Nulos: **83.5%** (25051 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   6. `CargoFuncao` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   7. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
-  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **321** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **315** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   9. `CodigoCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2** 🟢 [Enum]
 
-  10. `CodigoConvenioConcedido` ➔ Nulos: **53.47%** (16040 nulos, 0 zeros) | Distintos: **70** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  10. `CodigoConvenioConcedido` ➔ Nulos: **53.53%** (16059 nulos, 0 zeros) | Distintos: **75** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  11. `CodigoConvenioRecebido` ➔ Nulos: **99.62%** (29886 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  11. `CodigoConvenioRecebido` ➔ Nulos: **99.68%** (29905 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  12. `CodigoDetalhamentoFonte` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **60** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  12. `CodigoDetalhamentoFonte` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **61** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   13. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **47** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
@@ -341,27 +341,27 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   20. `CodigoOrgao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **27** 🟢 [Enum]
 
-  21. `CodigoPlanoOrcamentario` ➔ Nulos: **99.62%** (29886 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  21. `CodigoPlanoOrcamentario` ➔ Nulos: **99.68%** (29905 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  22. `CodigoProcesso` ➔ Nulos: **0.06%** (16 nulos, 17 zeros) | Distintos: **11985** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  22. `CodigoProcesso` ➔ Nulos: **0.06%** (18 nulos, 15 zeros) | Distintos: **11767** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **64** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **63** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   24. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **63** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 57 zeros) | Distintos: **575** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 5 zeros) | Distintos: **575** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  26. `CodigoSubtitulo` ➔ Nulos: **0.0%** (0 nulos, 8583 zeros) | Distintos: **10** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  26. `CodigoSubtitulo` ➔ Nulos: **0.0%** (0 nulos, 8810 zeros) | Distintos: **10** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   27. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **102** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  28. `Contrato` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **1465** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  28. `Contrato` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **1500** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6476** ⚠️ [Caso 2: >50 Distintos]
+  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6436** ⚠️ [Caso 2: >50 Distintos]
 
-  30. `CredorRetencao` ➔ Nulos: **94.03%** (28209 nulos, 0 zeros) | Distintos: **177** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  30. `CredorRetencao` ➔ Nulos: **95.37%** (28611 nulos, 0 zeros) | Distintos: **160** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  31. `Data` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **274** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  31. `Data` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **272** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   32. `DescricaoElementoDespesa` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -371,21 +371,21 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   35. `DetalhamentoFonte` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **55** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  36. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **15076** ⚠️ [Caso 2: >50 Distintos]
+  36. `Documento` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **15391** ⚠️ [Caso 2: >50 Distintos]
 
-  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5137** ⚠️ [Caso 2: >50 Distintos]
+  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5070** ⚠️ [Caso 2: >50 Distintos]
 
-  38. `DomicilioBancarioOrigem` ➔ Nulos: **85.2%** (25559 nulos, 0 zeros) | Distintos: **52** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  38. `DomicilioBancarioOrigem` ➔ Nulos: **83.5%** (25051 nulos, 0 zeros) | Distintos: **59** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   39. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **47** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  40. `Embasamento` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **945** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  40. `Embasamento` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **934** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  41. `Emenda` ➔ Nulos: **99.87%** (29961 nulos, 0 zeros) | Distintos: **36** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  41. `Emenda` ➔ Nulos: **99.84%** (29953 nulos, 0 zeros) | Distintos: **42** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   42. `Esfera` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  43. `Favorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6535** ⚠️ [Caso 2: >50 Distintos]
+  43. `Favorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6494** ⚠️ [Caso 2: >50 Distintos]
 
   44. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **41** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
@@ -393,37 +393,37 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   46. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **5** 🟢 [Enum]
 
-  47. `HistoricoDocumento` ➔ Nulos: **12.81%** (3842 nulos, 0 zeros) | Distintos: **21535** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  47. `HistoricoDocumento` ➔ Nulos: **11.03%** (3307 nulos, 0 zeros) | Distintos: **21908** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   48. `Id` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **30000** ⚠️ [Caso 2: >50 Distintos]
 
-  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6554** ⚠️ [Caso 2: >50 Distintos]
+  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **6512** ⚠️ [Caso 2: >50 Distintos]
 
   50. `IdUso` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   51. `Modalidade` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum]
 
-  52. `NomeCredorRetencao` ➔ Nulos: **94.03%** (28209 nulos, 0 zeros) | Distintos: **176** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  52. `NomeCredorRetencao` ➔ Nulos: **95.37%** (28611 nulos, 0 zeros) | Distintos: **160** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  53. `NomeTipoRetencao` ➔ Nulos: **94.03%** (28209 nulos, 0 zeros) | Distintos: **29** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  53. `NomeTipoRetencao` ➔ Nulos: **95.37%** (28611 nulos, 0 zeros) | Distintos: **27** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  54. `NumeroLicitacao` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **338** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  54. `NumeroLicitacao` ➔ Nulos: **53.85%** (16153 nulos, 0 zeros) | Distintos: **350** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  55. `NumeroProcesso` ➔ Nulos: **99.62%** (29886 nulos, 0 zeros) | Distintos: **19** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  55. `NumeroProcesso` ➔ Nulos: **99.68%** (29905 nulos, 0 zeros) | Distintos: **19** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   56. `Orgao` ➔ Nulos: **100.0%** (30000 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  57. `PlanoOrcamentario` ➔ Nulos: **99.62%** (29886 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  57. `PlanoOrcamentario` ➔ Nulos: **99.68%** (29905 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  58. `Processo` ➔ Nulos: **65.89%** (19765 nulos, 0 zeros) | Distintos: **3431** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  58. `Processo` ➔ Nulos: **65.66%** (19697 nulos, 0 zeros) | Distintos: **3089** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  59. `ProcessoAssunto` ➔ Nulos: **65.88%** (19763 nulos, 0 zeros) | Distintos: **129** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  59. `ProcessoAssunto` ➔ Nulos: **65.65%** (19695 nulos, 0 zeros) | Distintos: **124** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  60. `Programa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **64** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  60. `Programa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **63** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   61. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **63** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  62. `SubelementoDespesa` ➔ Nulos: **0.19%** (57 nulos, 0 zeros) | Distintos: **561** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  62. `SubelementoDespesa` ➔ Nulos: **0.01%** (4 nulos, 0 zeros) | Distintos: **562** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   63. `Subtitulo` ➔ Nulos: **15.38%** (4615 nulos, 0 zeros) | Distintos: **9** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
@@ -431,17 +431,17 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   65. `TipoLicitacao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **12** 🟢 [Enum]
 
-  66. `TipoRetencao` ➔ Nulos: **94.03%** (28209 nulos, 0 zeros) | Distintos: **29** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  66. `TipoRetencao` ➔ Nulos: **95.37%** (28611 nulos, 0 zeros) | Distintos: **27** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  67. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **102** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  67. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **101** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **3401** ⚠️ [Caso 2: >50 Distintos]
+  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **2520** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **7697** ⚠️ [Caso 2: >50 Distintos]
+  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **7807** ⚠️ [Caso 2: >50 Distintos]
 
-  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **7612** ⚠️ [Caso 2: >50 Distintos]
+  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8522** ⚠️ [Caso 2: >50 Distintos]
 
-  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **484** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **442** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
 ---
 
@@ -678,37 +678,37 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   10. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **10** 🟢 [Enum]
 
-  11. `CodigoPlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **466** ⚠️ [Caso 2: >50 Distintos]
+  11. `CodigoPlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **467** ⚠️ [Caso 2: >50 Distintos]
 
   12. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **56** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   13. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **58** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  14. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 3284 zeros) | Distintos: **527** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  14. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 3314 zeros) | Distintos: **527** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   15. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **68** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  16. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 3115 zeros) | Distintos: **7122** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  16. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos, 3145 zeros) | Distintos: **7108** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  17. `DespesaEmpenhada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8539** ⚠️ [Caso 2: >50 Distintos]
+  17. `DespesaEmpenhada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8519** ⚠️ [Caso 2: >50 Distintos]
 
-  18. `DespesaLiquidada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8277** ⚠️ [Caso 2: >50 Distintos]
+  18. `DespesaLiquidada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **8255** ⚠️ [Caso 2: >50 Distintos]
 
-  19. `DespesaPaga` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9494** ⚠️ [Caso 2: >50 Distintos]
+  19. `DespesaPaga` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9476** ⚠️ [Caso 2: >50 Distintos]
 
-  20. `DotacaoAtualizada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9917** ⚠️ [Caso 2: >50 Distintos]
+  20. `DotacaoAtualizada` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **9900** ⚠️ [Caso 2: >50 Distintos]
 
-  21. `DotacaoInicial` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **802** ⚠️ [Caso 2: >50 Distintos]
+  21. `DotacaoInicial` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **808** ⚠️ [Caso 2: >50 Distintos]
 
   22. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **45** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
-  23. `Emenda` ➔ Nulos: **98.11%** (20953 nulos, 0 zeros) | Distintos: **341** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
+  23. `Emenda` ➔ Nulos: **98.04%** (20931 nulos, 0 zeros) | Distintos: **347** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
   24. `Esfera` ➔ Nulos: **53.85%** (7673 nulos, 0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  25. `Favorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **7102** ⚠️ [Caso 2: >50 Distintos]
+  25. `Favorecido` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **7089** ⚠️ [Caso 2: >50 Distintos]
 
-  26. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **42** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
+  26. `Fonte` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **41** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
   27. `Funcao` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **20** 🟢 [Enum]
 
@@ -716,7 +716,7 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   29. `Id` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **21519** ⚠️ [Caso 2: >50 Distintos]
 
-  30. `Microregiao` ➔ Nulos: **53.85%** (7673 nulos, 5269 zeros) | Distintos: **5** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+  30. `Microregiao` ➔ Nulos: **53.85%** (7673 nulos, 5246 zeros) | Distintos: **5** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
   31. `Modalidade` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **10** 🟢 [Enum]
 
@@ -730,7 +730,7 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   36. `NomeUnidadeOrcamentaria` ➔ Nulos: **53.85%** (7673 nulos, 0 zeros) | Distintos: **36** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos]
 
-  37. `PlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **463** ⚠️ [Caso 2: >50 Distintos]
+  37. `PlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **464** ⚠️ [Caso 2: >50 Distintos]
 
   38. `Programa` ➔ Nulos: **0.0%** (0 nulos, 0 zeros) | Distintos: **56** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos]
 
