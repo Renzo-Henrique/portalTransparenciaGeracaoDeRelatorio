@@ -190,7 +190,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
 
 def gerar_analise_das_colunas_dados(
     dataset_id,
-    nome_arquivo_saida="colunasAnalisadas.md",
+    nome_arquivo_saida="dados_analisadas.md",
     caminho_saida="./",
 ):
   """Gera os arquivos .md e .pdf com base na análise estrutural e de qualidade por período."""

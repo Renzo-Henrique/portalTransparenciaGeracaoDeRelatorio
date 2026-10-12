@@ -3,6 +3,7 @@ certifi==2026.7.22
 cffi==2.1.1
 charset-normalizer==3.5.2
 ckanapi==4.11
+cryptography==50.0.2
 cssselect2==0.10.1
 docopt==0.6.2
 dotenv==0.9.9
@@ -11,9 +12,13 @@ idna==3.20
 Markdown==3.11
 numpy==2.5.3
 pandas==3.0.6
+pdfminer.six==20260107
+pdfplumber==0.11.10
 pillow==12.3.0
 pycparser==3.1
 pydyf==0.12.1
+pypdf==6.20.0
+pypdfium2==5.14.0
 pyphen==0.18.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.4

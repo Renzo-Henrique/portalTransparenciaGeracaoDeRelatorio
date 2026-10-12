@@ -1,3 +1,4 @@
+from queries_dictionary import gerar_relatorio_dicionario_pdf, obter_dicionario_pdf_dataset
 from queries_headers import *
 from queries_data import *
 import json
@@ -7,10 +8,11 @@ _DESPESAS_ID = "99e16b13-0e6f-4504-8544-00de842ab1fd"
 _PREFIXO_ARQUIVO_SAIDA = "analise"
 
 def analise_completa():
-  gerar_analise_das_colunas_headers(dataset_id = _RECEITAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_receitas_headers.md", caminho_saida = "./generated")
-  gerar_analise_das_colunas_dados(dataset_id = _RECEITAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_receitas_dados.md", caminho_saida = "./generated")
-  gerar_analise_das_colunas_headers(dataset_id = _DESPESAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_despesas_headers.md", caminho_saida = "./generated")
-  gerar_analise_das_colunas_dados(dataset_id = _DESPESAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_despesas_dados.md", caminho_saida = "./generated")
+  #gerar_analise_das_colunas_headers(dataset_id = _RECEITAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_receitas_headers.md", caminho_saida = "./generated")
+  #gerar_analise_das_colunas_dados(dataset_id = _RECEITAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_receitas_dados.md", caminho_saida = "./generated")
+  #gerar_analise_das_colunas_headers(dataset_id = _DESPESAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_despesas_headers.md", caminho_saida = "./generated")
+  #gerar_analise_das_colunas_dados(dataset_id = _DESPESAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_despesas_dados.md", caminho_saida = "./generated")
+  gerar_relatorio_dicionario_pdf(dataset_id = _RECEITAS_ID, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_receitas_dicionario.md", caminho_saida = "./generated")
 
 # Exemplo de uso com o ID fornecido:
 if __name__ == "__main__":

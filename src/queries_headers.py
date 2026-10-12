@@ -166,7 +166,7 @@ except ImportError:
 
 def gerar_analise_das_colunas_headers(
     dataset_id,
-    nome_arquivo_saida="colunasAnalisadas.md",
+    nome_arquivo_saida="colunas_analisadas.md",
     caminho_saida="./",
 ):
   """Gera um arquivo .md e sua versão correspondente em .pdf em um caminho
