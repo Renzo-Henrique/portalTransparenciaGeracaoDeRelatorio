@@ -7,7 +7,10 @@ from tqdm import tqdm
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
 _LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
-_LIMIT_MAXIMO_REGISTROS = 30000  # Limite máximo de registros a serem analisados
+_ANALISAR_TODOS_REGISTROS = False  # [FLAG] True para remover o limite e buscar todos os registros; False para respeitar o limite abaixo
+_LIMIT_MAXIMO_REGISTROS = 10000  # Limite máximo de registros a serem analisados
+_LIMIT_NULOS_POR_COLUNA = 50  # Limite de valores nulos por coluna para disparar alerta
+_LIMIT_DISTINTOS_POR_COLUNA = 50  # Limite de valores distintos por coluna para disparar alerta
 _RANDOM_SEED = 42  # Seed fixa para amostragem aleatória consistente
 
 # Tentativa de importação das bibliotecas para conversão de PDF
@@ -20,22 +23,25 @@ except ImportError:
 
 
 def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.br/"):
-  """Analisa estatísticas de um recurso limitando a no máximo 50.000 registros
+  """Analisa estatísticas de um recurso limitando a no máximo registros
   amostrados aleatoriamente (com seed fixa), sem excesso de logs para garantir
   máxima performance e evitar travamentos de I/O.
   """
   rc = RemoteCKAN(portal_url)
 
   try:
-    # 1. Paginação limitada a no máximo 30.000 registros
-    limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
-    max_registros = _LIMIT_MAXIMO_REGISTROS
     offset = 0
     all_records = []
 
-    while len(all_records) < max_registros:
+    while True:
+      if not _ANALISAR_TODOS_REGISTROS and len(all_records) >= _LIMIT_MAXIMO_REGISTROS:
+        break
+
+      current_limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
+      if not _ANALISAR_TODOS_REGISTROS:
+        current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))
+
       try:
-        current_limit = min(limit, max_registros - len(all_records))
         ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
       except Exception:
         break
@@ -45,20 +51,19 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
         break
       all_records.extend(records)
 
-      if len(records) < current_limit or len(all_records) >= max_registros:
+      if len(records) < current_limit:
         break
       offset += current_limit
 
     if not all_records:
       return None, 0, []
 
-    # 2. Carrega no DataFrame e aplica amostragem aleatória por seed
     df = pd.DataFrame(all_records)
     if "_id" in df.columns:
       df = df.drop(columns=["_id"])
 
-    if len(df) > max_registros:
-      df = df.sample(n=max_registros, random_state=_RANDOM_SEED)
+    if not _ANALISAR_TODOS_REGISTROS and len(df) > _LIMIT_MAXIMO_REGISTROS:
+      df = df.sample(n=_LIMIT_MAXIMO_REGISTROS, random_state=_RANDOM_SEED)
 
     total_linhas = len(df)
     colunas_ordenadas = sorted(df.columns)
@@ -75,12 +80,13 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
   2. Períodos de tempo
   3. Arquivos do Período
   """
-  for chave_principal, grupos in tqdm(analise_dict.items(), desc="1. Grupos Principais"):
+  for chave_principal, grupos in tqdm(analise_dict.items(), desc="Grupos Principais"):
     for grupo in tqdm(grupos, desc="   2. Períodos de tempo", leave=False):
       arquivos = grupo.get("ArquivosPeriodo", [])
       
       if arquivos:
         analises_arquivos = {}
+        dfs_periodo = []
         
         # Nível 3: Iteração sobre os arquivos do período
         for arq in tqdm(arquivos, desc="      3. Arquivos do Período", leave=False):
@@ -90,6 +96,9 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
             
           df, total_linhas, colunas_ordenadas = analisar_qualidade_colunas_recurso(res_id, portal_url)
           
+          if df is not None and total_linhas > 0:
+            dfs_periodo.append(df)
+
           if df is None or total_linhas == 0:
             continue
 
@@ -99,20 +108,29 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
             try:
               serie = df[col]
               
-              nulos = int(serie.isna().sum())
+              # 1. Nulos tradicionais (NaN, None) + 2. Único caractere que não é letra (ex: " ", "-", ".", etc.)
+              nulos_tradicionais = serie.isna()
+              serie_str = serie.astype(str)
+              unico_caractere_nao_letra = (serie.notna()) & (serie_str.str.len() == 1) & (~serie_str.str.isalpha())
+              nulos = int((nulos_tradicionais | unico_caractere_nao_letra).sum())
+
+              # Tratamento robusto para zeros exatos e equivalentes em string
               try:
-                zeros = int((serie == 0).sum())
+                serie_val_str = serie_str.str.strip().str.replace(',', '.', regex=False)
+                zeros = int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
               except Exception:
-                zeros = 0
+                zeros = int((serie == 0).sum())
 
               distintos = int(serie.nunique(dropna=True))
 
-              caso_1 = (nulos > 50) or (zeros > 50)
-              caso_2 = (distintos > 50)
+              caso_1 = (nulos > _LIMIT_NULOS_POR_COLUNA) or (zeros > _LIMIT_NULOS_POR_COLUNA)
+              caso_2 = (distintos > _LIMIT_DISTINTOS_POR_COLUNA)
 
               perc_nulos = (nulos / total_linhas * 100) if total_linhas > 0 else 0
+              perc_zeros = (zeros / total_linhas * 100) if total_linhas > 0 else 0
+              
               provavel_enum = (
-                  (distintos <= 20 or (distintos / total_linhas < 0.01))
+                  (distintos <= _LIMIT_DISTINTOS_POR_COLUNA or (distintos / total_linhas < 0.05))
                   if total_linhas > 0
                   else False
               )
@@ -122,6 +140,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "valores_nulos": nulos,
                   "valores_zeros": zeros,
                   "porcentagem_nulos": round(perc_nulos, 2),
+                  "porcentagem_zeros": round(perc_zeros, 2),
                   "valores_distintos": distintos,
                   "provavel_enum": provavel_enum,
                   "alerta_caso_1": caso_1,
@@ -135,6 +154,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "valores_nulos": 0,
                   "valores_zeros": 0,
                   "porcentagem_nulos": 0.0,
+                  "porcentagem_zeros": 0.0,
                   "valores_distintos": 0,
                   "provavel_enum": False,
                   "alerta_caso_1": False,
@@ -147,41 +167,69 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
         
         grupo["analiseDeColunasPorArquivo"] = analises_arquivos
 
-        # Consolidação das colunas agrupadas por período de tempo
+        # Consolidação por período unificando o universo completo dos arquivos do intervalo
         analise_periodo = {}
-        colunas_acumuladas = {}
-        for res_id, cols_dict in analises_arquivos.items():
-          for col_nome, metrics in cols_dict.items():
-            if col_nome not in colunas_acumuladas:
-              colunas_acumuladas[col_nome] = []
-            colunas_acumuladas[col_nome].append(metrics)
+        if dfs_periodo:
+          df_periodo_completo = pd.concat(dfs_periodo, ignore_index=True)
+          total_linhas_periodo = len(df_periodo_completo)
+          colunas_ordenadas_periodo = sorted(df_periodo_completo.columns)
 
-        for col_nome, metrics_list in colunas_acumuladas.items():
-          valid_metrics = [m for m in metrics_list if m.get("status_analise") == "sucesso"]
-          if valid_metrics:
-            avg_linhas = sum(m["total_linhas"] for m in valid_metrics) // len(valid_metrics)
-            avg_nulos = sum(m["valores_nulos"] for m in valid_metrics) // len(valid_metrics)
-            avg_zeros = sum(m["valores_zeros"] for m in valid_metrics) // len(valid_metrics)
-            avg_perc_nulos = round(sum(m["porcentagem_nulos"] for m in valid_metrics) / len(valid_metrics), 2)
-            avg_distintos = sum(m["valores_distintos"] for m in valid_metrics) // len(valid_metrics)
-            
-            provavel_enum = any(m["provavel_enum"] for m in valid_metrics)
-            caso_1 = any(m["alerta_caso_1"] for m in valid_metrics)
-            caso_2 = any(m["alerta_caso_2"] for m in valid_metrics)
+          for col_nome in colunas_ordenadas_periodo:
+            try:
+              serie = df_periodo_completo[col_nome]
+              
+              nulos_tradicionais = serie.isna()
+              serie_str = serie.astype(str)
+              # Conta como nulo apenas se tiver 1 caractere, NÃO for letra E TAMBÉM NÃO for número
+              unico_caractere_invalido = (serie.notna()) & (serie_str.str.len() == 1) & (~serie_str.str.isalpha()) & (~serie_str.str.isdigit())
+              nulos = int((nulos_tradicionais | unico_caractere_invalido).sum())
+              
+              try:
+                serie_val_str = serie_str.str.strip().str.replace(',', '.', regex=False)
+                zeros = int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
+              except Exception:
+                zeros = int((serie == 0).sum())
 
-            analise_periodo[col_nome] = {
-                "total_linhas": avg_linhas,
-                "valores_nulos": avg_nulos,
-                "valores_zeros": avg_zeros,
-                "porcentagem_nulos": avg_perc_nulos,
-                "valores_distintos": avg_distintos,
-                "provavel_enum": provavel_enum,
-                "alerta_caso_1": caso_1,
-                "alerta_caso_2": caso_2,
-                "status_analise": "sucesso"
-            }
-          else:
-            analise_periodo[col_nome] = metrics_list[0]
+              distintos = int(serie.nunique(dropna=True))
+
+              caso_1 = (nulos > _LIMIT_NULOS_POR_COLUNA) or (zeros > _LIMIT_NULOS_POR_COLUNA)
+              caso_2 = (distintos > _LIMIT_DISTINTOS_POR_COLUNA)
+
+              perc_nulos = (nulos / total_linhas_periodo * 100) if total_linhas_periodo > 0 else 0
+              perc_zeros = (zeros / total_linhas_periodo * 100) if total_linhas_periodo > 0 else 0
+
+              provavel_enum = (
+                  (distintos <= 20 or (distintos / total_linhas_periodo < 0.01))
+                  if total_linhas_periodo > 0
+                  else False
+              )
+
+              analise_periodo[col_nome] = {
+                  "total_linhas": total_linhas_periodo,
+                  "valores_nulos": nulos,
+                  "valores_zeros": zeros,
+                  "porcentagem_nulos": round(perc_nulos, 2),
+                  "porcentagem_zeros": round(perc_zeros, 2),
+                  "valores_distintos": distintos,
+                  "provavel_enum": provavel_enum,
+                  "alerta_caso_1": caso_1,
+                  "alerta_caso_2": caso_2,
+                  "status_analise": "sucesso"
+              }
+            except Exception:
+              analise_periodo[col_nome] = {
+                  "total_linhas": total_linhas_periodo,
+                  "valores_nulos": 0,
+                  "valores_zeros": 0,
+                  "porcentagem_nulos": 0.0,
+                  "porcentagem_zeros": 0.0,
+                  "valores_distintos": 0,
+                  "provavel_enum": False,
+                  "alerta_caso_1": False,
+                  "alerta_caso_2": False,
+                  "status_analise": "insuficiente",
+                  "mensagem": "Obtiveram-se registros estatisticamente suficientes que não comprovam essa hipótese."
+              }
 
         grupo["analiseDeColunasPorPeriodo"] = analise_periodo
 
@@ -235,7 +283,7 @@ def gerar_analise_das_colunas_dados(
           res_id = arq.get("id")
           linhas.append(f"  - 📄 **`{arq.get('name')}`** *(ID: `{res_id}`)*")
 
-      linhas.append("\n**Análise de Qualidade das Colunas (Consolidada por Período):**")
+      linhas.append("\n**Análise de Qualidade das Colunas (Consolidada por Período):**\n")
       analise_cols = grupo.get("analiseDeColunasPorPeriodo", {})
       
       if analise_cols:
@@ -257,8 +305,8 @@ def gerar_analise_das_colunas_dados(
 
             linhas.append(
                 f"  {idx}. `{col_nome}` ➔ "
-                f"Nulos: **{metricas.get('porcentagem_nulos')}%** "
-                f"({metricas.get('valores_nulos')} nulos, {metricas.get('valores_zeros', 0)} zeros) | "
+                f"Nulos: **{metricas.get('porcentagem_nulos')}%** ({metricas.get('valores_nulos')} nulos) | "
+                f"Zeros: **{metricas.get('porcentagem_zeros', 0)}%** ({metricas.get('valores_zeros', 0)} zeros) | "
                 f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}\n"
             )
       else:
