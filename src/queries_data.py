@@ -24,8 +24,8 @@ except ImportError:
 
 def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.br/"):
   """Analisa estatísticas de um recurso limitando a no máximo registros
-  amostrados aleatoriamente (com seed fixa), sem excesso de logs para garantir
-  máxima performance e evitar travamentos de I/O.
+
+  amostrados aleatoriamente (com seed fixa), incluindo contagem de linhas no TQDM.
   """
   rc = RemoteCKAN(portal_url)
 
@@ -33,27 +33,32 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
     offset = 0
     all_records = []
 
-    while True:
-      if not _ANALISAR_TODOS_REGISTROS and len(all_records) >= _LIMIT_MAXIMO_REGISTROS:
-        break
+    # TQDM integrado para exibir a quantidade de linhas analisadas do recurso atual em tempo real
+    with tqdm(desc=f"        Baixando recurso {res_id[:8]}", leave=False, unit="reg") as pbar:
+      while True:
+        if not _ANALISAR_TODOS_REGISTROS and len(all_records) >= _LIMIT_MAXIMO_REGISTROS:
+          break
 
-      current_limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
-      if not _ANALISAR_TODOS_REGISTROS:
-        current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))
+        current_limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
+        if not _ANALISAR_TODOS_REGISTROS:
+          current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))
 
-      try:
-        ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
-      except Exception:
-        break
+        try:
+          ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
+        except Exception:
+          break
 
-      records = ds_res.get("records", [])
-      if not records:
-        break
-      all_records.extend(records)
+        records = ds_res.get("records", [])
+        if not records:
+          break
+        all_records.extend(records)
+        
+        pbar.update(len(records))
+        pbar.set_postfix(linhas_coletadas=len(all_records))
 
-      if len(records) < current_limit:
-        break
-      offset += current_limit
+        if len(records) < current_limit:
+          break
+        offset += current_limit
 
     if not all_records:
       return None, 0, []
@@ -74,22 +79,68 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
     return None, 0, []
 
 
+def _calcular_estatisticas_coluna(serie):
+  """Calcula estatísticas avançadas para colunas numéricas (mínimo, máximo, média,
+
+  mediana, desvio padrão) ou para colunas de texto (comprimento mínimo, comprimento
+  máximo, comprimento médio e desvio padrão do tamanho).
+  """
+  serie_limpa = serie.dropna()
+  if len(serie_limpa) == 0:
+    return None
+
+  # 1. Tenta tratar como coluna numérica
+  serie_str = serie_limpa.astype(str).str.strip().str.replace(',', '.', regex=False)
+  serie_num = pd.to_numeric(serie_str, errors='coerce')
+
+  if serie_num.notna().all() and len(serie_num) > 0:
+    return {
+        "tipo_estatistica": "numerica",
+        "minimo": float(serie_num.min()),
+        "maximo": float(serie_num.max()),
+        "media": round(float(serie_num.mean()), 2),
+        "mediana": float(serie_num.median()),
+        "desvio_padrao": round(float(serie_num.std(ddof=0)), 2) if len(serie_num) > 1 else 0.0
+    }
+  
+  # 2. Caso não seja puramente numérica, trata como coluna de texto (string)
+  tamanhos = serie_limpa.astype(str).str.len()
+  if len(tamanhos) > 0:
+    return {
+        "tipo_estatistica": "texto",
+        "min_length": int(tamanhos.min()),
+        "max_length": int(tamanhos.max()),
+        "mean_length": round(float(tamanhos.mean()), 2),
+        "std_length": round(float(tamanhos.std(ddof=0)), 2) if len(tamanhos) > 1 else 0.0
+    }
+
+  return None
+
+
 def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.gov.br/"):
-  """Varre o dicionário utilizando 3 níveis de TQDM:
-  1. Grupos Principais
-  2. Períodos de tempo
-  3. Arquivos do Período
+  """Varre o dicionário utilizando 3 níveis de TQDM incluindo o nome do grupo
+
+  principal e o período de tempo nas descrições.
   """
   for chave_principal, grupos in tqdm(analise_dict.items(), desc="Grupos Principais"):
-    for grupo in tqdm(grupos, desc="   2. Períodos de tempo", leave=False):
+    for grupo in tqdm(grupos, desc=f"   [{chave_principal}] Períodos de tempo", leave=False):
+      periodo_inicio = grupo.get("PeriodoInicio")
+      periodo_fim = grupo.get("PeriodoFim")
+      periodo_str = (
+          f"{periodo_inicio}"
+          if periodo_inicio == periodo_fim
+          else f"{periodo_inicio} até {periodo_fim}"
+      )
+      
       arquivos = grupo.get("ArquivosPeriodo", [])
       
       if arquivos:
         analises_arquivos = {}
         dfs_periodo = []
         
-        # Nível 3: Iteração sobre os arquivos do período
-        for arq in tqdm(arquivos, desc="      3. Arquivos do Período", leave=False):
+        # Nível 3: Iteração sobre os arquivos do período incluindo o grupo e o período no TQDM
+        desc_arq = f"      [{chave_principal} | {periodo_str}] Arquivos"
+        for arq in tqdm(arquivos, desc=desc_arq, leave=False):
           res_id = arq.get("id")
           if not res_id:
             continue
@@ -108,13 +159,11 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
             try:
               serie = df[col]
               
-              # 1. Nulos tradicionais (NaN, None) + 2. Único caractere que não é letra (ex: " ", "-", ".", etc.)
               nulos_tradicionais = serie.isna()
               serie_str = serie.astype(str)
               unico_caractere_nao_letra = (serie.notna()) & (serie_str.str.len() == 1) & (~serie_str.str.isalpha())
               nulos = int((nulos_tradicionais | unico_caractere_nao_letra).sum())
 
-              # Tratamento robusto para zeros exatos e equivalentes em string
               try:
                 serie_val_str = serie_str.str.strip().str.replace(',', '.', regex=False)
                 zeros = int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
@@ -135,6 +184,8 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   else False
               )
 
+              stats_col = _calcular_estatisticas_coluna(serie)
+
               analise_colunas[col] = {
                   "total_linhas": total_linhas,
                   "valores_nulos": nulos,
@@ -145,6 +196,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "provavel_enum": provavel_enum,
                   "alerta_caso_1": caso_1,
                   "alerta_caso_2": caso_2,
+                  "estatisticas_coluna": stats_col,
                   "status_analise": "sucesso"
               }
 
@@ -159,6 +211,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "provavel_enum": False,
                   "alerta_caso_1": False,
                   "alerta_caso_2": False,
+                  "estatisticas_coluna": None,
                   "status_analise": "insuficiente",
                   "mensagem": "Obtiveram-se registros estatisticamente suficientes que não comprovam essa hipótese."
               }
@@ -180,7 +233,6 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
               
               nulos_tradicionais = serie.isna()
               serie_str = serie.astype(str)
-              # Conta como nulo apenas se tiver 1 caractere, NÃO for letra E TAMBÉM NÃO for número
               unico_caractere_invalido = (serie.notna()) & (serie_str.str.len() == 1) & (~serie_str.str.isalpha()) & (~serie_str.str.isdigit())
               nulos = int((nulos_tradicionais | unico_caractere_invalido).sum())
               
@@ -204,6 +256,8 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   else False
               )
 
+              stats_col = _calcular_estatisticas_coluna(serie)
+
               analise_periodo[col_nome] = {
                   "total_linhas": total_linhas_periodo,
                   "valores_nulos": nulos,
@@ -214,6 +268,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "provavel_enum": provavel_enum,
                   "alerta_caso_1": caso_1,
                   "alerta_caso_2": caso_2,
+                  "estatisticas_coluna": stats_col,
                   "status_analise": "sucesso"
               }
             except Exception:
@@ -227,6 +282,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
                   "provavel_enum": False,
                   "alerta_caso_1": False,
                   "alerta_caso_2": False,
+                  "estatisticas_coluna": None,
                   "status_analise": "insuficiente",
                   "mensagem": "Obtiveram-se registros estatisticamente suficientes que não comprovam essa hipótese."
               }
@@ -234,14 +290,15 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
         grupo["analiseDeColunasPorPeriodo"] = analise_periodo
 
   return analise_dict
-
-
 def gerar_analise_das_colunas_dados(
     dataset_id,
     nome_arquivo_saida="dados_analisadas.md",
     caminho_saida="./",
 ):
-  """Gera os arquivos .md e .pdf com base na análise estrutural e de qualidade por período."""
+  """Gera os arquivos .md e .pdf com base na análise estrutural e de qualidade por período,
+
+  incluindo estatísticas numéricas nos relatórios.
+  """
   resultado_agrupado = agrupar_recursos_dataset(dataset_id)
   analise_dict = analisar_colunas_por_periodo(resultado_agrupado)
   analise_dict = enriquecer_analise_com_qualidade(analise_dict)
@@ -250,7 +307,7 @@ def gerar_analise_das_colunas_dados(
   linhas.append("# Relatório de Análise Estrutural e Qualidade de Dados - CKAN")
   linhas.append(
       "\nEste documento apresenta um resumo consolidado das bases de dados por período, "
-      "evolução das colunas e métricas de qualidade consolidadas por período de tempo "
+      "evolução das colunas, métricas de qualidade e estatísticas numéricas consolidadas "
       "com marcação de alertas (Caso 1: Nulos/Zeros > 50 e Caso 2: Distintos > 50).\n"
   )
   linhas.append("---")
@@ -303,11 +360,27 @@ def gerar_analise_das_colunas_dados(
             
             tag_str = " " + " ".join(tags) if tags else ""
 
+            stats = metricas.get("estatisticas_coluna")
+            stats_str = ""
+            if stats:
+              if stats["tipo_estatistica"] == "numerica":
+                stats_str = (
+                    f" | 📊 **Estatísticas (Numérica):** [Mín: {stats['minimo']}, "
+                    f"Máx: {stats['maximo']}, Média: {stats['media']}, "
+                    f"Mediana: {stats['mediana']}, DesvPad: {stats['desvio_padrao']}]"
+                )
+              else:
+                stats_str = (
+                    f" | 📝 **Estatísticas (Texto):** [Tam Mín: {stats['min_length']}, "
+                    f"Tam Máx: {stats['max_length']}, Tam Média: {stats['mean_length']}, "
+                    f"DesvPad Tam: {stats['std_length']}]"
+                )
+
             linhas.append(
                 f"  {idx}. `{col_nome}` ➔ "
                 f"Nulos: **{metricas.get('porcentagem_nulos')}%** ({metricas.get('valores_nulos')} nulos) | "
                 f"Zeros: **{metricas.get('porcentagem_zeros', 0)}%** ({metricas.get('valores_zeros', 0)} zeros) | "
-                f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}\n"
+                f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}{stats_str}\n"
             )
       else:
         linhas.append("  - *Nenhuma métrica obtida para este período.*")
