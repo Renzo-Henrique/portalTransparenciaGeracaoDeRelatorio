@@ -155,7 +155,7 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
 
           analise_colunas = {}
           
-          for col in colunas_ordenadas:
+          for col in tqdm(colunas_ordenadas, desc="        Analisando colunas", leave=False):
             try:
               serie = df[col]
               
@@ -312,10 +312,10 @@ def gerar_analise_das_colunas_dados(
   )
   linhas.append("---")
 
-  for chave_principal, grupos in analise_dict.items():
+  for chave_principal, grupos in tqdm(analise_dict.items(), desc="Compilando Relatório"):
     linhas.append(f"\n## 📂 Grupo Principal: `{chave_principal}`\n")
 
-    for grupo in grupos:
+    for grupo in tqdm(grupos, desc="        Processando grupos", leave=False):
       periodo_inicio = grupo.get("PeriodoInicio")
       periodo_fim = grupo.get("PeriodoFim")
       periodo_str = (
