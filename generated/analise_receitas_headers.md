@@ -7,7 +7,7 @@ variações de colunas e mapeamento de arquivos obtidos do portal de transparên
 
 ## 📂 Grupo Principal: `receitas`
 
-### 🔹 Período: 2004 até 2008
+### 🔹 Período: 2004 até 2017
 - **Quantidade Total de Colunas:** `21`
 - **Diferenças em relação ao grupo anterior:** `0` colunas
   - *Colunas removidas/alteradas:* Nenhuma (estruturalmente idêntico ou primeiro período)
@@ -24,43 +24,7 @@ variações de colunas e mapeamento de arquivos obtidos do portal de transparên
 
   - 📄 `receitas2008.csv` *(ID: `f5d276e6-74d8-411c-a99f-5ab9ddfab940`)*
 
-
-<details>
-<summary><b>Ver lista completa de colunas neste período (21 colunas)</b></summary>
-
-
-```text
-alinea, ano, categoriaEconomica, codAlinea, codCategoriaEconomica, codEspecie, codOrigem, codRubrica, codSubalinea, codUnidadeGestora, codigoDetalhamentoFonteAux, data, especie, mes, origem, previsto, realizado, recolhido, rubrica, subalinea, unidadeGestora
-```
-</details>
-
----
-### 🔹 Período: 2009
-- **Quantidade Total de Colunas:** `0`
-- **Diferenças em relação ao grupo anterior:** `21` colunas
-  - *Colunas removidas/alteradas:* `alinea`, `ano`, `categoriaEconomica`, `codAlinea`, `codCategoriaEconomica`, `codEspecie`, `codOrigem`, `codRubrica`, `codSubalinea`, `codUnidadeGestora`, `codigoDetalhamentoFonteAux`, `data`, `especie`, `mes`, `origem`, `previsto`, `realizado`, `recolhido`, `rubrica`, `subalinea`, `unidadeGestora`
-
-**Arquivos/Recursos Vinculados:**
-
   - 📄 `receitas2009.csv` *(ID: `d2423087-21bf-4cb3-b846-2eddb43ee0e4`)*
-
-
-<details>
-<summary><b>Ver lista completa de colunas neste período (0 colunas)</b></summary>
-
-
-```text
-
-```
-</details>
-
----
-### 🔹 Período: 2010 até 2017
-- **Quantidade Total de Colunas:** `21`
-- **Diferenças em relação ao grupo anterior:** `21` colunas
-  - *Colunas removidas/alteradas:* `alinea`, `ano`, `categoriaEconomica`, `codAlinea`, `codCategoriaEconomica`, `codEspecie`, `codOrigem`, `codRubrica`, `codSubalinea`, `codUnidadeGestora`, `codigoDetalhamentoFonteAux`, `data`, `especie`, `mes`, `origem`, `previsto`, `realizado`, `recolhido`, `rubrica`, `subalinea`, `unidadeGestora`
-
-**Arquivos/Recursos Vinculados:**
 
   - 📄 `receitas2010.csv` *(ID: `6ff68743-0b00-4d22-a5c2-400bf32ea260`)*
 

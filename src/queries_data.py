@@ -32,6 +32,7 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
   try:
     offset = 0
     all_records = []
+    pagina_atual = 1
 
     # TQDM integrado para exibir a quantidade de linhas analisadas do recurso atual em tempo real
     with tqdm(desc=f"        Baixando recurso {res_id[:8]}", leave=False, unit="reg") as pbar:
@@ -54,11 +55,12 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
         all_records.extend(records)
         
         pbar.update(len(records))
-        pbar.set_postfix(linhas_coletadas=len(all_records))
+        pbar.set_postfix(pagina=pagina_atual, total_acumulado=len(all_records))
 
         if len(records) < current_limit:
           break
         offset += current_limit
+        pagina_atual += 1
 
     if not all_records:
       return None, 0, []
@@ -227,7 +229,8 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
           total_linhas_periodo = len(df_periodo_completo)
           colunas_ordenadas_periodo = sorted(df_periodo_completo.columns)
 
-          for col_nome in colunas_ordenadas_periodo:
+          desc_periodo_col = f"      [{chave_principal} | {periodo_str}] Consolidando Período"
+          for col_nome in tqdm(colunas_ordenadas_periodo, desc=desc_periodo_col, leave=False):
             try:
               serie = df_periodo_completo[col_nome]
               
@@ -289,7 +292,29 @@ def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.
 
         grupo["analiseDeColunasPorPeriodo"] = analise_periodo
 
+        # Agrupar colunas com exatamente as mesmas estatísticas de dados para detecção de duplicadas
+        mapa_stats = {}
+        for col_nome, metricas in analise_periodo.items():
+          if metricas.get("status_analise") == "sucesso":
+            stats_dict = metricas.get("estatisticas_coluna")
+            stats_items = frozenset(stats_dict.items()) if stats_dict else None
+            sig = (
+                metricas.get("valores_nulos"),
+                metricas.get("valores_zeros"),
+                metricas.get("porcentagem_nulos"),
+                metricas.get("porcentagem_zeros"),
+                metricas.get("valores_distintos"),
+                stats_items
+            )
+            mapa_stats.setdefault(sig, []).append(col_nome)
+
+        colunas_mesmas_estatisticas = [cols for cols in mapa_stats.values() if len(cols) > 1]
+        grupo["colunas_mesmas_estatisticas"] = colunas_mesmas_estatisticas
+
   return analise_dict
+
+
+
 def gerar_analise_das_colunas_dados(
     dataset_id,
     nome_arquivo_saida="dados_analisadas.md",
@@ -384,6 +409,14 @@ def gerar_analise_das_colunas_dados(
             )
       else:
         linhas.append("  - *Nenhuma métrica obtida para este período.*")
+
+      # Adiciona o aviso de colunas com exatamente as mesmas estatísticas após a listagem
+      colunas_mesmas_stats = grupo.get("colunas_mesmas_estatisticas", [])
+      if colunas_mesmas_stats:
+        linhas.append("\n> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**\n")
+        for grupo_cols in colunas_mesmas_stats:
+          linhas.append(f"> - `{'`, `'.join(grupo_cols)}`\n")
+        linhas.append("")
 
       linhas.append("---")
 

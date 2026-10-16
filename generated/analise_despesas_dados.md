@@ -166,6 +166,14 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **97.81%** (54609 zeros) | Distintos: **1083** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -14450.0, Máx: 528590.0, Média: 268.6, Mediana: 0.0, DesvPad: 6795.14]
 
+
+> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**
+
+> - `AgenciaOrigem`, `AnoLicitacao`, `BancoOrigem`, `CargoFuncao`, `CodigoConvenioConcedido`, `CodigoConvenioRecebido`, `CodigoDetalhamentoFonte`, `CodigoPlanoOrcamentario`, `Contrato`, `CredorRetencao`, `DescricaoEsfera`, `DescricaoIdUso`, `DetalhamentoFonte`, `DomicilioBancarioOrigem`, `Embasamento`, `Emenda`, `Esfera`, `IdUso`, `NomeCredorRetencao`, `NomeTipoRetencao`, `NumeroLicitacao`, `NumeroProcesso`, `PlanoOrcamentario`, `TipoRetencao`
+
+> - `DescricaoElementoDespesa`, `Orgao`
+
+
 ---
 ### 🔹 Período: 2013
 - **Quantidade Total de Colunas:** `53`
@@ -282,6 +290,14 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   53. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **95.91%** (9591 zeros) | Distintos: **370** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 2102306.91, Média: 1349.28, Mediana: 0.0, DesvPad: 28487.2]
 
+
+> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**
+
+> - `CargoFuncao`, `CodigoConvenioConcedido`, `CodigoConvenioRecebido`, `CodigoPlanoOrcamentario`, `DescricaoElementoDespesa`, `NumeroProcesso`, `Orgao`, `PlanoOrcamentario`
+
+> - `CodigoFuncionalProgramatica`, `CodigoSubtitulo`
+
+
 ---
 ### 🔹 Período: 2014 até 2026
 - **Quantidade Total de Colunas:** `71`
@@ -304,113 +320,113 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
 **Análise de Qualidade das Colunas (Consolidada por Período):**
 
-  1. `Acao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1147** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 178, Tam Média: 48.19, DesvPad Tam: 20.27]
+  1. `Acao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1149** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 178, Tam Média: 48.31, DesvPad Tam: 20.26]
 
-  2. `AgenciaOrigem` ➔ Nulos: **82.38%** (107098 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **30** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 51.0, Máx: 3665.0, Média: 876.96, Mediana: 675.0, DesvPad: 873.91]
+  2. `AgenciaOrigem` ➔ Nulos: **82.08%** (106698 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **30** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 51.0, Máx: 3665.0, Média: 876.68, Mediana: 675.0, DesvPad: 872.34]
 
   3. `Ano` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **13** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 2014.0, Máx: 2026.0, Média: 2020.0, Mediana: 2020.0, DesvPad: 3.74]
 
-  4. `AnoLicitacao` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **37.9%** (49265 zeros) | Distintos: **28** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 2026.0, Média: 361.63, Mediana: 0.0, DesvPad: 775.09]
+  4. `AnoLicitacao` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **37.7%** (49010 zeros) | Distintos: **26** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 2026.0, Média: 370.43, Mediana: 0.0, DesvPad: 782.39]
 
-  5. `BancoOrigem` ➔ Nulos: **82.38%** (107098 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **3** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 104.0, Média: 19.41, Mediana: 21.0, DesvPad: 6.65]
+  5. `BancoOrigem` ➔ Nulos: **82.08%** (106698 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **3** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 104.0, Média: 19.45, Mediana: 21.0, DesvPad: 6.83]
 
   6. `CargoFuncao` ➔ Nulos: **100.0%** (130000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  7. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 18, Tam Máx: 19, Tam Média: 18.03, DesvPad Tam: 0.18]
+  7. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 18, Tam Máx: 19, Tam Média: 18.04, DesvPad Tam: 0.18]
 
-  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1258** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 2.0, Máx: 8684.0, Média: 2470.23, Mediana: 2128.0, DesvPad: 1311.32]
+  8. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1261** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 2.0, Máx: 8684.0, Média: 2471.77, Mediana: 2128.0, DesvPad: 1311.53]
 
-  9. `CodigoCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **4** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 3.0, Máx: 4.0, Média: 3.03, Mediana: 3.0, DesvPad: 0.18]
+  9. `CodigoCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **4** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 3.0, Máx: 4.0, Média: 3.04, Mediana: 3.0, DesvPad: 0.18]
 
-  10. `CodigoConvenioConcedido` ➔ Nulos: **53.52%** (69581 nulos) | Zeros: **46.06%** (59879 zeros) | Distintos: **313** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 260733.0, Média: 1941.25, Mediana: 0.0, DesvPad: 20714.76]
+  10. `CodigoConvenioConcedido` ➔ Nulos: **53.52%** (69581 nulos) | Zeros: **46.05%** (59862 zeros) | Distintos: **327** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 260760.0, Média: 2020.49, Mediana: 0.0, DesvPad: 21202.55]
 
   11. `CodigoConvenioRecebido` ➔ Nulos: **99.68%** (129581 nulos) | Zeros: **0.32%** (419 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 0.0, Média: 0.0, Mediana: 0.0, DesvPad: 0.0]
 
-  12. `CodigoDetalhamentoFonte` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **307** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 101.0, Máx: 899.000113, Média: 409.36, Mediana: 500.0, DesvPad: 202.95]
+  12. `CodigoDetalhamentoFonte` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **317** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 101.0, Máx: 899.000113, Média: 409.97, Mediana: 500.0, DesvPad: 203.59]
 
-  13. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **100** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 96.0, Média: 33.18, Mediana: 33.0, DesvPad: 22.86]
+  13. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **102** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 96.0, Média: 33.21, Mediana: 33.0, DesvPad: 22.82]
 
-  14. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **169** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 101.0, Máx: 899.0, Média: 272.97, Mediana: 142.0, DesvPad: 200.21]
+  14. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **170** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 101.0, Máx: 899.0, Média: 273.25, Mediana: 142.0, DesvPad: 200.7]
 
   15. `CodigoFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **49** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 28.0, Média: 10.82, Mediana: 10.0, DesvPad: 6.43]
 
   16. `CodigoFuncionalProgramatica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **100.0%** (130000 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 0.0, Média: 0.0, Mediana: 0.0, DesvPad: 0.0]
 
-  17. `CodigoGestaoEmitente` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **129** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 60201.0, Média: 23564.61, Mediana: 28202.0, DesvPad: 21867.76]
+  17. `CodigoGestaoEmitente` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **128** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 60201.0, Média: 23609.9, Mediana: 28203.0, DesvPad: 21850.26]
 
-  18. `CodigoGrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **12** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 6.0, Média: 2.59, Mediana: 3.0, DesvPad: 0.87]
+  18. `CodigoGrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **12** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 6.0, Média: 2.6, Mediana: 3.0, DesvPad: 0.87]
 
-  19. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **23** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 20.0, Máx: 95.0, Média: 88.74, Mediana: 90.0, DesvPad: 7.42]
+  19. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **23** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 20.0, Máx: 95.0, Média: 88.71, Mediana: 90.0, DesvPad: 7.47]
 
-  20. `CodigoOrgao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **58** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 80.0, Média: 36.78, Mediana: 44.0, DesvPad: 14.95]
+  20. `CodigoOrgao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **58** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 80.0, Média: 36.78, Mediana: 44.0, DesvPad: 14.94]
 
   21. `CodigoPlanoOrcamentario` ➔ Nulos: **99.68%** (129581 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 1821.0, Máx: 1821.0, Média: 1821.0, Mediana: 1821.0, DesvPad: 0.0]
 
-  22. `CodigoProcesso` ➔ Nulos: **0.07%** (94 nulos) | Zeros: **0.06%** (72 zeros) | Distintos: **61086** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 16, Tam Média: 10.17, DesvPad Tam: 2.19]
+  22. `CodigoProcesso` ➔ Nulos: **0.07%** (94 nulos) | Zeros: **0.06%** (78 zeros) | Distintos: **61498** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 16, Tam Média: 10.16, DesvPad Tam: 2.19]
 
-  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **229** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 270.42, Mediana: 53.0, DesvPad: 357.97]
+  23. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **229** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 269.79, Mediana: 53.0, DesvPad: 357.71]
 
-  24. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **153** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 31.0, Máx: 846.0, Média: 232.34, Mediana: 126.0, DesvPad: 159.63]
+  24. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **152** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 31.0, Máx: 846.0, Média: 232.98, Mediana: 126.0, DesvPad: 159.8]
 
-  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.04%** (55 zeros) | Distintos: **1588** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5896.0, Média: 3045.11, Mediana: 2744.0, DesvPad: 949.44]
+  25. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.04%** (55 zeros) | Distintos: **1592** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5897.0, Média: 3044.87, Mediana: 2742.0, DesvPad: 949.58]
 
-  26. `CodigoSubtitulo` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **76.87%** (99936 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 59.0, Média: 12.23, Mediana: 0.0, DesvPad: 22.35]
+  26. `CodigoSubtitulo` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **76.7%** (99705 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 59.0, Média: 12.32, Mediana: 0.0, DesvPad: 22.42]
 
-  27. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **250** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 10101.0, Máx: 800102.0, Média: 366961.7, Mediana: 440901.0, DesvPad: 149580.66]
+  27. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **249** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 10101.0, Máx: 800102.0, Média: 366894.28, Mediana: 440901.0, DesvPad: 149419.08]
 
-  28. `Contrato` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **33.54%** (43607 zeros) | Distintos: **6596** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 26004574.0, Média: 5870717.58, Mediana: 0.0, DesvPad: 9670774.94]
+  28. `Contrato` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **33.46%** (43501 zeros) | Distintos: **6679** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 26004520.0, Média: 5915726.51, Mediana: 0.0, DesvPad: 9702021.01]
 
-  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **20972** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 14, Tam Média: 12.15, DesvPad Tam: 3.37]
+  29. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **21089** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 14, Tam Média: 12.17, DesvPad Tam: 3.36]
 
-  30. `CredorRetencao` ➔ Nulos: **95.63%** (124320 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **500** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 191.0, Máx: 92872100000126.0, Média: 15844950166908.97, Mediana: 4747160000150.0, DesvPad: 18036413702286.84]
+  30. `CredorRetencao` ➔ Nulos: **95.55%** (124210 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **515** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 191.0, Máx: 92872100000126.0, Média: 15799830507556.4, Mediana: 6641196000128.0, DesvPad: 17628806409524.21]
 
-  31. `Data` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **3359** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 19, Tam Máx: 19, Tam Média: 19.0, DesvPad Tam: 0.0]
+  31. `Data` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **3364** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 19, Tam Máx: 19, Tam Média: 19.0, DesvPad Tam: 0.0]
 
   32. `DescricaoElementoDespesa` ➔ Nulos: **100.0%** (130000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 
-  33. `DescricaoEsfera` ➔ Nulos: **92.31%** (120000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 30, Tam Média: 20.22, DesvPad Tam: 6.43]
+  33. `DescricaoEsfera` ➔ Nulos: **92.31%** (120000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 30, Tam Média: 20.08, DesvPad Tam: 6.36]
 
-  34. `DescricaoIdUso` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **6** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 21, Tam Máx: 95, Tam Média: 33.13, DesvPad Tam: 4.2]
+  34. `DescricaoIdUso` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **6** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 21, Tam Máx: 95, Tam Média: 33.14, DesvPad Tam: 4.2]
 
-  35. `DetalhamentoFonte` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **274** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 197, Tam Média: 44.88, DesvPad Tam: 28.8]
+  35. `DetalhamentoFonte` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **282** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 197, Tam Média: 44.95, DesvPad Tam: 28.82]
 
-  36. `Documento` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **93105** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 11, Tam Máx: 11, Tam Média: 11.0, DesvPad Tam: 0.0]
+  36. `Documento` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **92955** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 11, Tam Máx: 11, Tam Média: 11.0, DesvPad Tam: 0.0]
 
-  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **35263** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 11, Tam Máx: 11, Tam Média: 11.0, DesvPad Tam: 0.0]
+  37. `DocumentoEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **35599** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 11, Tam Máx: 11, Tam Média: 11.0, DesvPad Tam: 0.0]
 
-  38. `DomicilioBancarioOrigem` ➔ Nulos: **82.38%** (107098 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **238** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 10, Tam Média: 8.3, DesvPad Tam: 1.44]
+  38. `DomicilioBancarioOrigem` ➔ Nulos: **82.08%** (106698 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **251** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 10, Tam Média: 8.3, DesvPad Tam: 1.44]
 
-  39. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **97** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 120, Tam Média: 32.4, DesvPad Tam: 14.25]
+  39. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **99** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 120, Tam Média: 32.35, DesvPad Tam: 14.25]
 
-  40. `Embasamento` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **4909** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 8, Tam Máx: 243, Tam Média: 51.3, DesvPad Tam: 19.41]
+  40. `Embasamento` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **4971** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 8, Tam Máx: 243, Tam Média: 50.99, DesvPad Tam: 19.37]
 
-  41. `Emenda` ➔ Nulos: **99.87%** (129825 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **168** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 12, Tam Máx: 12, Tam Média: 12.0, DesvPad Tam: 0.0]
+  41. `Emenda` ➔ Nulos: **99.86%** (129813 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **179** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 12, Tam Máx: 12, Tam Média: 12.0, DesvPad Tam: 0.0]
 
-  42. `Esfera` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 10.0, Máx: 20.0, Média: 13.17, Mediana: 10.0, DesvPad: 4.65]
+  42. `Esfera` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 10.0, Máx: 20.0, Média: 13.15, Mediana: 10.0, DesvPad: 4.65]
 
-  43. `Favorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **22742** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 104, Tam Média: 33.82, DesvPad Tam: 13.79]
+  43. `Favorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **22854** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 104, Tam Média: 33.82, DesvPad Tam: 13.78]
 
-  44. `Fonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **173** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 150, Tam Média: 42.98, DesvPad Tam: 29.09]
+  44. `Fonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **174** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 150, Tam Média: 42.99, DesvPad Tam: 29.1]
 
   45. `Funcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **25** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 21, Tam Média: 12.07, DesvPad Tam: 5.56]
 
-  46. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **6** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 26, Tam Média: 24.82, DesvPad Tam: 2.23]
+  46. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **6** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 26, Tam Média: 24.8, DesvPad Tam: 2.27]
 
-  47. `HistoricoDocumento` ➔ Nulos: **10.99%** (14291 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **100200** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 1024, Tam Média: 177.52, DesvPad Tam: 121.57]
+  47. `HistoricoDocumento` ➔ Nulos: **10.26%** (13343 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **101139** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 1024, Tam Média: 178.18, DesvPad Tam: 122.07]
 
-  48. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **130000** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 199445987.0, Máx: 215985248.0, Média: 204438548.04, Mediana: 203401004.5, DesvPad: 4333223.52]
+  48. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **130000** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 199445987.0, Máx: 218210599.0, Média: 204609728.88, Mediana: 203401004.5, DesvPad: 4804154.12]
 
-  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **26074** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 8314695.0, Máx: 8431556.0, Média: 8362459.46, Mediana: 8369999.0, DesvPad: 27823.27]
+  49. `IdFavorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **26215** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 8314695.0, Máx: 8431649.0, Média: 8362421.63, Mediana: 8369959.0, DesvPad: 27904.04]
 
-  50. `IdUso` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **15.36%** (19968 zeros) | Distintos: **5** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 6.0, Média: 0.72, Mediana: 1.0, DesvPad: 0.55]
+  50. `IdUso` ➔ Nulos: **53.85%** (70000 nulos) | Zeros: **15.36%** (19968 zeros) | Distintos: **5** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 6.0, Média: 0.72, Mediana: 1.0, DesvPad: 0.56]
 
-  51. `Modalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **13** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 18, Tam Máx: 129, Tam Média: 21.94, DesvPad Tam: 18.53]
+  51. `Modalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **13** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 18, Tam Máx: 129, Tam Média: 21.92, DesvPad Tam: 18.43]
 
-  52. `NomeCredorRetencao` ➔ Nulos: **95.63%** (124320 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **519** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 97, Tam Média: 31.03, DesvPad Tam: 13.99]
+  52. `NomeCredorRetencao` ➔ Nulos: **95.55%** (124210 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **533** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 97, Tam Média: 31.06, DesvPad Tam: 13.92]
 
-  53. `NomeTipoRetencao` ➔ Nulos: **95.63%** (124320 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **98** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 15, Tam Máx: 100, Tam Média: 36.53, DesvPad Tam: 17.35]
+  53. `NomeTipoRetencao` ➔ Nulos: **95.55%** (124210 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **98** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 15, Tam Máx: 100, Tam Média: 36.53, DesvPad Tam: 17.56]
 
-  54. `NumeroLicitacao` ➔ Nulos: **53.86%** (70023 nulos) | Zeros: **39.59%** (51463 zeros) | Distintos: **1617** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 15, Tam Média: 4.11, DesvPad Tam: 1.99]
+  54. `NumeroLicitacao` ➔ Nulos: **53.86%** (70018 nulos) | Zeros: **39.37%** (51186 zeros) | Distintos: **1656** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 15, Tam Média: 4.11, DesvPad Tam: 2.0]
 
   55. `NumeroProcesso` ➔ Nulos: **99.68%** (129581 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **116** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 58329617.0, Máx: 2020024240778.0, Média: 1764989131689.9, Mediana: 2020015997619.0, DesvPad: 670233541401.92]
 
@@ -418,33 +434,39 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   57. `PlanoOrcamentario` ➔ Nulos: **99.68%** (129581 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 22, Tam Máx: 22, Tam Média: 22.0, DesvPad Tam: 0.0]
 
-  58. `Processo` ➔ Nulos: **63.57%** (82640 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **17166** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 473, Tam Média: 99.78, DesvPad Tam: 52.44]
+  58. `Processo` ➔ Nulos: **63.56%** (82631 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **17169** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 473, Tam Média: 99.79, DesvPad Tam: 52.44]
 
-  59. `ProcessoAssunto` ➔ Nulos: **63.56%** (82631 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **372** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 100, Tam Média: 12.58, DesvPad Tam: 5.91]
+  59. `ProcessoAssunto` ➔ Nulos: **63.55%** (82621 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **375** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 100, Tam Média: 12.59, DesvPad Tam: 5.91]
 
-  60. `Programa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **185** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 149, Tam Média: 34.32, DesvPad Tam: 20.75]
+  60. `Programa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **185** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 149, Tam Média: 34.36, DesvPad Tam: 20.81]
 
-  61. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **81** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 51, Tam Média: 23.91, DesvPad Tam: 8.35]
+  61. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **81** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 51, Tam Média: 23.93, DesvPad Tam: 8.37]
 
-  62. `SubelementoDespesa` ➔ Nulos: **0.04%** (53 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1178** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 200, Tam Média: 42.35, DesvPad Tam: 21.33]
+  62. `SubelementoDespesa` ➔ Nulos: **0.04%** (53 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1183** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 200, Tam Média: 42.42, DesvPad Tam: 21.34]
 
-  63. `Subtitulo` ➔ Nulos: **15.38%** (20000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **11** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 16, Tam Média: 7.32, DesvPad Tam: 2.59]
+  63. `Subtitulo` ➔ Nulos: **15.38%** (20000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **11** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 16, Tam Média: 7.33, DesvPad Tam: 2.6]
 
-  64. `TipoFavorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **8** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 4.0, Média: 1.94, Mediana: 2.0, DesvPad: 0.72]
+  64. `TipoFavorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **8** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 4.0, Média: 1.93, Mediana: 2.0, DesvPad: 0.72]
 
-  65. `TipoLicitacao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **29** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 70, Tam Média: 20.08, DesvPad Tam: 9.44]
+  65. `TipoLicitacao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **29** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 70, Tam Média: 20.04, DesvPad Tam: 9.46]
 
-  66. `TipoRetencao` ➔ Nulos: **95.63%** (124320 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **88** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 382.0, Média: 78.43, Mediana: 69.0, DesvPad: 85.14]
+  66. `TipoRetencao` ➔ Nulos: **95.55%** (124210 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **88** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 387.0, Média: 77.44, Mediana: 61.0, DesvPad: 84.73]
 
-  67. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **154** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 90, Tam Média: 42.56, DesvPad Tam: 15.82]
+  67. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **153** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 90, Tam Média: 42.63, DesvPad Tam: 15.82]
 
-  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **84.98%** (110478 zeros) | Distintos: **9647** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -1909489066.2, Máx: 273806631.0, Média: 6692.27, Mediana: 0.0, DesvPad: 5562125.84]
+  68. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **83.3%** (108287 zeros) | Distintos: **10390** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -1909489066.2, Máx: 273806631.0, Média: 10987.57, Mediana: 0.0, DesvPad: 5541550.59]
 
-  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **56.62%** (73610 zeros) | Distintos: **35167** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -103912215.18, Máx: 150464263.83, Média: 17748.29, Mediana: 0.0, DesvPad: 768424.62]
+  69. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **58.48%** (76019 zeros) | Distintos: **33937** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -103912215.18, Máx: 83011565.75, Média: 18174.25, Mediana: 0.0, DesvPad: 683627.89]
 
-  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **59.58%** (77454 zeros) | Distintos: **33673** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -11387956.61, Máx: 120000000.0, Média: 23685.07, Mediana: 0.0, DesvPad: 544612.39]
+  70. `ValorPago` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **59.73%** (77645 zeros) | Distintos: **33573** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -3275961.26, Máx: 53000000.0, Média: 22651.35, Mediana: 0.0, DesvPad: 421071.45]
 
-  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **98.81%** (128458 zeros) | Distintos: **1365** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -424702.95, Máx: 17049985.54, Média: 592.02, Mediana: 0.0, DesvPad: 57669.45]
+  71. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **98.5%** (128049 zeros) | Distintos: **1747** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -424702.95, Máx: 17049985.54, Média: 853.57, Mediana: 0.0, DesvPad: 65897.13]
+
+
+> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**
+
+> - `CargoFuncao`, `DescricaoElementoDespesa`, `Orgao`
+
 
 ---
 
@@ -584,6 +606,12 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   62. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **97.34%** (19468 zeros) | Distintos: **506** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: -304482.2, Máx: 2724286.5, Média: 1140.3, Mediana: 0.0, DesvPad: 28521.73]
 
+
+> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**
+
+> - `CargoFuncao`, `CodigoConvenioRecebido`, `CodigoPlanoOrcamentario`, `DescricaoElementoDespesa`, `NumeroProcesso`, `Orgao`, `PlanoOrcamentario`
+
+
 ---
 
 ## 📂 Grupo Principal: `RestosAPagar-`
@@ -664,89 +692,89 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
 **Análise de Qualidade das Colunas (Consolidada por Período):**
 
-  1. `Acao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **857** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 178, Tam Média: 49.99, DesvPad Tam: 26.34]
+  1. `Acao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **864** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 178, Tam Média: 51.09, DesvPad Tam: 27.18]
 
   2. `Ano` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **13** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 2014.0, Máx: 2026.0, Média: 2020.94, Mediana: 2021.0, DesvPad: 3.51]
 
   3. `CategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **3** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 18, Tam Máx: 23, Tam Média: 18.13, DesvPad Tam: 0.34]
 
-  4. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1145** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 2347.66, Mediana: 2095.0, DesvPad: 1246.69]
+  4. `CodigoAcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1146** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 2365.69, Mediana: 2114.0, DesvPad: 1289.8]
 
   5. `CodigoCategoriaEconomica` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **6** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 3.0, Máx: 9.0, Média: 3.13, Mediana: 3.0, DesvPad: 0.34]
 
-  6. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **108** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 99.0, Média: 37.01, Mediana: 36.0, DesvPad: 23.1]
+  6. `CodigoElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **108** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 99.0, Média: 37.14, Mediana: 36.0, DesvPad: 22.99]
 
-  7. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (1 zeros) | Distintos: **148** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 899.0, Média: 319.52, Mediana: 271.0, DesvPad: 220.85]
+  7. `CodigoFonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (1 zeros) | Distintos: **150** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 899.0, Média: 319.16, Mediana: 271.0, DesvPad: 220.33]
 
-  8. `CodigoFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **51** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 99.0, Média: 10.43, Mediana: 10.0, DesvPad: 7.37]
+  8. `CodigoFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **51** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 99.0, Média: 10.8, Mediana: 10.0, DesvPad: 7.28]
 
-  9. `CodigoGrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **14** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9.0, Média: 2.88, Mediana: 3.0, DesvPad: 0.79]
+  9. `CodigoGrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **14** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9.0, Média: 2.89, Mediana: 3.0, DesvPad: 0.79]
 
-  10. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **28** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 20.0, Máx: 99.0, Média: 87.0, Mediana: 90.0, DesvPad: 11.28]
+  10. `CodigoModalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **28** 🟢 [Enum] | 📊 **Estatísticas (Numérica):** [Mín: 20.0, Máx: 99.0, Média: 86.85, Mediana: 90.0, DesvPad: 11.5]
 
-  11. `CodigoPlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1491** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 3540.0, Média: 481.24, Mediana: 1.0, DesvPad: 788.85]
+  11. `CodigoPlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1529** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 3546.0, Média: 493.01, Mediana: 1.0, DesvPad: 818.65]
 
-  12. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **201** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 219.16, Mediana: 47.0, DesvPad: 453.17]
+  12. `CodigoPrograma` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **201** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1.0, Máx: 9999.0, Média: 218.71, Mediana: 47.0, DesvPad: 453.3]
 
-  13. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **152** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 31.0, Máx: 999.0, Média: 247.42, Mediana: 124.0, DesvPad: 197.49]
+  13. `CodigoSubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **152** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 31.0, Máx: 999.0, Média: 257.12, Mediana: 128.0, DesvPad: 199.44]
 
-  14. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **15.75%** (16420 zeros) | Distintos: **1554** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5896.0, Média: 2563.99, Mediana: 2525.0, DesvPad: 1407.95]
+  14. `CodigoSubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **15.54%** (16202 zeros) | Distintos: **1549** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5896.0, Média: 2591.59, Mediana: 2552.0, DesvPad: 1420.05]
 
-  15. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **249** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 10101.0, Máx: 990101.0, Média: 310481.82, Mediana: 350101.0, DesvPad: 180521.16]
+  15. `CodigoUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **249** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 10101.0, Máx: 990101.0, Média: 322271.09, Mediana: 350201.0, DesvPad: 174457.22]
 
-  16. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **17.27%** (18003 zeros) | Distintos: **27579** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 14, Tam Média: 9.75, DesvPad Tam: 4.67]
+  16. `CpfCnpjNis` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **17.06%** (17789 zeros) | Distintos: **28079** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 1, Tam Máx: 14, Tam Média: 9.8, DesvPad Tam: 4.65]
 
-  17. `DespesaEmpenhada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **30.44%** (31733 zeros) | Distintos: **37846** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 353961.72, Mediana: 840.0, DesvPad: 8741735.65]
+  17. `DespesaEmpenhada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **30.62%** (31918 zeros) | Distintos: **37377** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 342857.23, Mediana: 806.97, DesvPad: 8677688.61]
 
-  18. `DespesaLiquidada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **35.24%** (36737 zeros) | Distintos: **37310** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 329988.6, Mediana: 477.0, DesvPad: 8689893.81]
+  18. `DespesaLiquidada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **35.59%** (37106 zeros) | Distintos: **36654** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 322967.96, Mediana: 448.0, DesvPad: 8658099.78]
 
-  19. `DespesaPaga` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **27.9%** (29082 zeros) | Distintos: **42765** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535319679.62, Média: 339767.81, Mediana: 909.755, DesvPad: 8670620.7]
+  19. `DespesaPaga` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **27.85%** (29031 zeros) | Distintos: **42166** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535319679.62, Média: 332421.71, Mediana: 900.0, DesvPad: 8636134.98]
 
-  20. `DotacaoAtualizada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **20.95%** (21838 zeros) | Distintos: **44342** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 439094.71, Mediana: 1787.05, DesvPad: 9520047.89]
+  20. `DotacaoAtualizada` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **21.21%** (22108 zeros) | Distintos: **43786** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1535385174.9, Média: 426146.8, Mediana: 1710.85, DesvPad: 9455835.25]
 
-  21. `DotacaoInicial` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **89.66%** (93468 zeros) | Distintos: **3578** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1689500621.0, Média: 374692.12, Mediana: 0.0, DesvPad: 10610457.25]
+  21. `DotacaoInicial` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **89.77%** (93588 zeros) | Distintos: **3444** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 1689500621.0, Média: 366805.38, Mediana: 0.0, DesvPad: 10580773.89]
 
-  22. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **59** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 8, Tam Máx: 120, Tam Média: 30.75, DesvPad Tam: 15.1]
+  22. `ElementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **59** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 8, Tam Máx: 120, Tam Média: 30.78, DesvPad Tam: 15.09]
 
-  23. `Emenda` ➔ Nulos: **97.1%** (101231 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1875** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 12, Tam Máx: 12, Tam Média: 12.0, DesvPad Tam: 0.0]
+  23. `Emenda` ➔ Nulos: **96.91%** (101028 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2031** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 12, Tam Máx: 12, Tam Média: 12.0, DesvPad Tam: 0.0]
 
-  24. `Esfera` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 10.0, Máx: 20.0, Média: 11.24, Mediana: 10.0, DesvPad: 3.3]
+  24. `Esfera` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 10.0, Máx: 20.0, Média: 11.34, Mediana: 10.0, DesvPad: 3.41]
 
-  25. `Favorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (1 zeros) | Distintos: **25347** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 100, Tam Média: 27.06, DesvPad Tam: 15.67]
+  25. `Favorecido` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (1 zeros) | Distintos: **25727** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 100, Tam Média: 27.1, DesvPad Tam: 15.66]
 
-  26. `Fonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **121** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 140, Tam Média: 31.78, DesvPad Tam: 16.74]
+  26. `Fonte` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **123** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 140, Tam Média: 32.09, DesvPad Tam: 17.4]
 
-  27. `Funcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **26** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 23, Tam Média: 14.07, DesvPad Tam: 5.12]
+  27. `Funcao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **26** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 23, Tam Média: 13.96, DesvPad Tam: 5.17]
 
-  28. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **7** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 26, Tam Média: 23.61, DesvPad Tam: 4.05]
+  28. `GrupoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **7** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 13, Tam Máx: 26, Tam Média: 23.53, DesvPad Tam: 4.13]
 
-  29. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **104250** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 327967.0, Máx: 66870878.0, Média: 38105881.63, Mediana: 65199808.5, DesvPad: 32222873.83]
+  29. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **104250** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 327967.0, Máx: 66999671.0, Média: 38118235.88, Mediana: 65199808.5, DesvPad: 32233920.84]
 
-  30. `Microregiao` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **46.67%** (48651 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 59.0, Média: 9.93, Mediana: 0.0, DesvPad: 20.61]
+  30. `Microregiao` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **46.17%** (48129 zeros) | Distintos: **22** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 59.0, Média: 10.41, Mediana: 0.0, DesvPad: 21.01]
 
-  31. `Modalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **17** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 9, Tam Máx: 129, Tam Média: 23.38, DesvPad Tam: 19.95]
+  31. `Modalidade` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **17** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 9, Tam Máx: 129, Tam Média: 23.48, DesvPad Tam: 19.9]
 
-  32. `Municipio` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **79** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 320010.0, Máx: 999999.0, Média: 924611.7, Mediana: 999999.0, DesvPad: 213437.66]
+  32. `Municipio` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **79** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 320010.0, Máx: 999999.0, Média: 918074.17, Mediana: 999999.0, DesvPad: 221295.03]
 
-  33. `NomeEsfera` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 30, Tam Média: 17.74, DesvPad Tam: 4.62]
+  33. `NomeEsfera` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 30, Tam Média: 17.88, DesvPad Tam: 4.77]
 
-  34. `NomeMicroregiao` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **11** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 16, Tam Média: 7.07, DesvPad Tam: 2.44]
+  34. `NomeMicroregiao` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **11** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Estatísticas (Texto):** [Tam Mín: 6, Tam Máx: 16, Tam Média: 7.11, DesvPad Tam: 2.47]
 
-  35. `NomeMunicipio` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **79** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 23, Tam Média: 4.72, DesvPad Tam: 2.63]
+  35. `NomeMunicipio` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **79** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 4, Tam Máx: 23, Tam Média: 4.81, DesvPad Tam: 2.84]
 
-  36. `NomeUnidadeOrcamentaria` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **103** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 127, Tam Média: 49.8, DesvPad Tam: 16.53]
+  36. `NomeUnidadeOrcamentaria` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **104** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 127, Tam Média: 50.27, DesvPad Tam: 17.09]
 
-  37. `PlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1410** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 191, Tam Média: 21.65, DesvPad Tam: 18.92]
+  37. `PlanoOrcamentario` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1451** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 191, Tam Média: 21.73, DesvPad Tam: 18.91]
 
-  38. `Programa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **177** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 149, Tam Média: 40.64, DesvPad Tam: 22.63]
+  38. `Programa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **178** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 149, Tam Média: 39.54, DesvPad Tam: 22.58]
 
-  39. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **88** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 62, Tam Média: 23.35, DesvPad Tam: 7.8]
+  39. `SubFuncao` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **88** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 7, Tam Máx: 62, Tam Média: 23.56, DesvPad Tam: 7.92]
 
-  40. `SubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1274** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 194, Tam Média: 40.02, DesvPad Tam: 23.95]
+  40. `SubelementoDespesa` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **1266** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 5, Tam Máx: 194, Tam Média: 40.43, DesvPad Tam: 24.42]
 
-  41. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **154** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 90, Tam Média: 46.76, DesvPad Tam: 15.23]
+  41. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **154** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 16, Tam Máx: 90, Tam Média: 47.17, DesvPad Tam: 15.44]
 
-  42. `UnidadeOrcamentaria` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **108** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1101.0, Máx: 80101.0, Média: 28193.24, Mediana: 31201.0, DesvPad: 17121.12]
+  42. `UnidadeOrcamentaria` ➔ Nulos: **42.45%** (44250 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **108** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 1101.0, Máx: 80101.0, Média: 30256.87, Mediana: 31202.0, DesvPad: 16350.92]
 
 ---
 
@@ -782,23 +810,23 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
 
   2. `Data` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **18** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 19, Tam Máx: 19, Tam Média: 19.0, DesvPad Tam: 0.0]
 
-  3. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2066** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 11452.0, Máx: 700647.0, Média: 349958.12, Mediana: 262741.5, DesvPad: 271412.99]
+  3. `Id` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **2066** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 11452.0, Máx: 701139.0, Média: 349987.41, Mediana: 262741.5, DesvPad: 271450.85]
 
   4. `SiglaUnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **204** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 90, Tam Média: 43.08, DesvPad Tam: 18.83]
 
   5. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **196** ⚠️ [Caso 2: >50 Distintos] | 📝 **Estatísticas (Texto):** [Tam Mín: 3, Tam Máx: 90, Tam Média: 45.13, DesvPad Tam: 17.48]
 
-  6. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **12.58%** (260 zeros) | Distintos: **1807** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4788599153.95, Média: 148363602.1, Mediana: 14589310.094999999, DesvPad: 456808224.2]
+  6. `ValorEmpenho` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **12.58%** (260 zeros) | Distintos: **1807** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4788599153.95, Média: 148400530.72, Mediana: 14589310.094999999, DesvPad: 456837678.09]
 
-  7. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **8.76%** (181 zeros) | Distintos: **1886** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4602955744.27, Média: 145062149.21, Mediana: 13982949.605, DesvPad: 446373901.35]
+  7. `ValorLiquidado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **8.76%** (181 zeros) | Distintos: **1886** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4602955744.27, Média: 145198808.02, Mediana: 13982949.605, DesvPad: 446701875.47]
 
-  8. `ValorOrcado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **1.98%** (41 zeros) | Distintos: **1988** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5426690790.98, Média: 180691988.69, Mediana: 23424071.405, DesvPad: 512433274.38]
+  8. `ValorOrcado` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **1.98%** (41 zeros) | Distintos: **1988** ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 5426690790.98, Média: 180715626.54, Mediana: 23424071.405, DesvPad: 512446647.72]
 
   9. `ValorOrcadoInicial` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **3.97%** (82 zeros) | Distintos: **1904** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4351806442.0, Média: 154370221.81, Mediana: 18543344.0, DesvPad: 445060053.96]
 
-  10. `ValorPago` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **8.76%** (181 zeros) | Distintos: **1886** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4560087385.15, Média: 142299150.07, Mediana: 13483675.01, DesvPad: 438839559.19]
+  10. `ValorPago` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **8.76%** (181 zeros) | Distintos: **1886** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 4560087385.15, Média: 142446343.88, Mediana: 13483675.01, DesvPad: 439606208.25]
 
-  11. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **32.09%** (663 zeros) | Distintos: **1403** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 484008397.04, Média: 6020162.82, Mediana: 384780.38, DesvPad: 26405498.03]
+  11. `ValorRap` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **32.09%** (663 zeros) | Distintos: **1403** ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📊 **Estatísticas (Numérica):** [Mín: 0.0, Máx: 484008397.04, Média: 6020168.42, Mediana: 384780.38, DesvPad: 26405502.19]
 
 ---
 
@@ -894,5 +922,11 @@ Este documento apresenta um resumo consolidado das bases de dados por período, 
   40. `UnidadeGestora` ➔ Nulos: **0.0%** (0 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **45** 🟢 [Enum] | 📝 **Estatísticas (Texto):** [Tam Mín: 21, Tam Máx: 90, Tam Média: 50.56, DesvPad Tam: 16.47]
 
   41. `UnidadeOrcamentaria` ➔ Nulos: **100.0%** (10000 nulos) | Zeros: **0.0%** (0 zeros) | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
+
+
+> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**
+
+> - `Esfera`, `Microregiao`, `Municipio`, `NomeEsfera`, `NomeMicroregiao`, `NomeMunicipio`, `NomeUnidadeOrcamentaria`, `UnidadeOrcamentaria`
+
 
 ---
