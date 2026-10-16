@@ -7,7 +7,7 @@ from tqdm import tqdm
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
 _LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
-_LIMIT_MAXIMO_REGISTROS = 10000  # Limite máximo de registros a serem analisados
+_LIMIT_MAXIMO_REGISTROS = 40000  # Limite máximo de registros a serem analisados
 _LIMIT_NULOS_POR_COLUNA = 50  # Limite de valores nulos por coluna para disparar alerta
 _LIMIT_DISTINTOS_POR_COLUNA = 50  # Limite de valores distintos por coluna para disparar alerta
 _RANDOM_SEED = 42  # Seed fixa para amostragem aleatória consistente
