@@ -1,8 +1,3 @@
-O arquivo `README.md` foi totalmente atualizado para refletir o estado atual do código, incluindo os novos módulos de análise de metadados (`queries_metadata.py`), exportação LaTeX (`latex_table.py`) e a seção detalhada explicando como interpretar cada um dos três tipos de relatório gerados.
-
-### Conteúdo Atualizado para o `README.md`
-
-```markdown
 # Auditoria Automatizada de Datasets CKAN - Portal da Transparência
 
 Este repositório contém uma ferramenta em Python projetada para automatizar a auditoria estrutural, estatística e de metadados de datasets baseados em portais **CKAN** (como o Portal da Transparência do Estado do Espírito Santo). O sistema agrupa recursos temporais, avalia variações de colunas, audita metadados e calcula métricas de qualidade, gerando relatórios formatados em **Markdown (.md)**, **PDF (.pdf)** e códigos auxiliares em **LaTeX (.tex)**.
