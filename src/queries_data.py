@@ -7,7 +7,6 @@ from tqdm import tqdm
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
 _LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
-_ANALISAR_TODOS_REGISTROS = False  # [FLAG] True para remover o limite e buscar todos os registros; False para respeitar o limite abaixo
 _LIMIT_MAXIMO_REGISTROS = 10000  # Limite máximo de registros a serem analisados
 _LIMIT_NULOS_POR_COLUNA = 50  # Limite de valores nulos por coluna para disparar alerta
 _LIMIT_DISTINTOS_POR_COLUNA = 50  # Limite de valores distintos por coluna para disparar alerta
@@ -37,12 +36,10 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
     # TQDM integrado para exibir a quantidade de linhas analisadas do recurso atual em tempo real
     with tqdm(desc=f"        Baixando recurso {res_id[:8]}", leave=False, unit="reg") as pbar:
       while True:
-        if not _ANALISAR_TODOS_REGISTROS and len(all_records) >= _LIMIT_MAXIMO_REGISTROS:
+        if len(all_records) >= _LIMIT_MAXIMO_REGISTROS:
           break
 
-        current_limit = _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
-        if not _ANALISAR_TODOS_REGISTROS:
-          current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))
+        current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))  
 
         try:
           ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
@@ -69,7 +66,7 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
     if "_id" in df.columns:
       df = df.drop(columns=["_id"])
 
-    if not _ANALISAR_TODOS_REGISTROS and len(df) > _LIMIT_MAXIMO_REGISTROS:
+    if len(df) > _LIMIT_MAXIMO_REGISTROS:
       df = df.sample(n=_LIMIT_MAXIMO_REGISTROS, random_state=_RANDOM_SEED)
 
     total_linhas = len(df)
