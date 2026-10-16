@@ -2,6 +2,7 @@ from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_perio
 
 _RECEITAS_ID = "3210df25-0dfe-414b-aed4-844ddcdf87bb"
 _DESPESAS_ID = "99e16b13-0e6f-4504-8544-00de842ab1fd"
+_CONTRATOS_ID = "36f4bfc0-48f2-4cf9-a812-5249724da742"
 _PREFIXO_ARQUIVO_SAIDA = "tabela_latex"
 
 
@@ -117,3 +118,4 @@ if __name__ == "__main__":
   
   gerar_latex_tabelas_periodos_para_dataset(dataset_id = _RECEITAS_ID, nome_arquivo_saida="generated/apendice_gerado_receitas.tex")
   gerar_latex_tabelas_periodos_para_dataset(dataset_id = _DESPESAS_ID, nome_arquivo_saida="generated/apendice_gerado_despesas.tex")
+  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _CONTRATOS_ID, nome_arquivo_saida="generated/apendice_gerado_contratos.tex")

@@ -1,20 +1,21 @@
+O arquivo `README.md` foi totalmente atualizado para refletir o estado atual do código, incluindo os novos módulos de análise de metadados (`queries_metadata.py`), exportação LaTeX (`latex_table.py`) e a seção detalhada explicando como interpretar cada um dos três tipos de relatório gerados.
+
+### Conteúdo Atualizado para o `README.md`
+
+```markdown
 # Auditoria Automatizada de Datasets CKAN - Portal da Transparência
 
-Este repositório contém uma ferramenta em Python projetada para automatizar a auditoria estrutural e estatística de datasets baseados em portais **CKAN** (como o Portal da Transparência do Estado do Espírito Santo). O script agrupa recursos temporais, avalia variações de colunas e executa análises estatísticas de qualidade (contagem de nulos, zeros, valores distintos e detecção de enums) gerando relatórios formatados em **Markdown (.md)** e **PDF (.pdf)**.
+Este repositório contém uma ferramenta em Python projetada para automatizar a auditoria estrutural, estatística e de metadados de datasets baseados em portais **CKAN** (como o Portal da Transparência do Estado do Espírito Santo). O sistema agrupa recursos temporais, avalia variações de colunas, audita metadados e calcula métricas de qualidade, gerando relatórios formatados em **Markdown (.md)**, **PDF (.pdf)** e códigos auxiliares em **LaTeX (.tex)**.
 
 ---
 
 ## 🚀 Arquitetura e Principais Módulos
 
-* **`src/main.py`**: Script principal que define os IDs dos datasets alvo (como Receitas e Despesas) e aciona as funções de geração de relatórios de cabeçalhos e dados estatísticos.
-
-
-* **`src/queries_headers.py`**: Realiza a conexão via `ckanapi`, consulta os metadados do pacote, filtra arquivos CSV, agrupa recursos por prefixo textual removendo extensões e dígitos numéricos, e analisa colunas por período cronológico.
-
-
-* **`src/queries_data.py`**: Realiza a amostragem de dados via paginação (limitada a no máximo 30.000 registros utilizando uma `seed` fixa para reprodutibilidade), processa métricas por meio do `pandas` com proteções robustas contra travamentos e gera os relatórios detalhados.
-
-
+* **`src/main.py`** (ou `main_2.py`): Script principal que define os IDs dos datasets alvo (como Receitas, Despesas e Contratos) e aciona a geração automatizada de relatórios.
+* **`src/queries_metadata.py`**: Realiza a auditoria de metadados dos arquivos do dataset, identificando arquivos desatualizados (> 1 mês), comparando chaves estruturais par a par entre grupos (numerados sequencialmente como `001`, `002`, etc.) e detectando chaves internas com valores idênticos.
+* **`src/queries_headers.py`**: Conecta-se via `ckanapi`, filtra arquivos CSV, agrupa recursos por período cronológico e analisa variações estruturais de cabeçalhos e colunas.
+* **`src/queries_data.py`**: Realiza amostragem de dados via paginação (com teto de segurança e seed fixa), processa métricas avançadas via `pandas` (nulos, zeros, valores distintos, detecção de enums e estatísticas numéricas/textuais) e aponta colunas duplicadas com nomes diferentes.
+* **`src/latex_table.py`**: Converte a estrutura de mapeamento de colunas e períodos diretamente para código LaTeX (`longtable`), facilitando a inclusão em relatórios acadêmicos e técnicos.
 
 ---
 
@@ -39,31 +40,56 @@ pip install -r requirements.txt
 
 ### 3. Configurando a Base de Alvo (`src/main.py`)
 
-Para analisar uma base de dados específica do portal da transparência, você pode obter o UUID/ID do dataset desejado diretamente na URL da página do dataset no portal CKAN.
+Para analisar uma base de dados específica do portal da transparência, obtenha o UUID/ID do dataset desejado diretamente na URL do portal CKAN.
 
-Abra o arquivo `src/main.py` e altere a constante correspondente ou adicione um novo identificador na chamada principal:
+Abra o script principal (`src/main.py` ou `main_2.py`) e adicione/ajuste as chamadas de geração:
 
 ```python
 if __name__ == "__main__":
-  # Insira o ID (UUID) do dataset do portal CKAN que deseja auditar
-  dataset_id = "seu-dataset-uuid-aqui"
-  prefixo_arquivo_saida = "relatorio_auditoria"
-
-  # Gera a análise estrutural de cabeçalhos e colunas
-  gerar_analise_das_colunas_headers(dataset_id=dataset_id, nome_arquivo_saida=f"{prefixo_arquivo_saida}_headers.md", caminho_saida="./generated")
-  
-  # Gera a análise detalhada de qualidade de dados (nulos, zeros e enums)
-  analise_enriquecida = gerar_analise_das_colunas_dados(dataset_id=dataset_id, nome_arquivo_saida=f"{prefixo_arquivo_saida}_dados.md", caminho_saida="./generated")
+  # Executa a análise completa para os datasets configurados
+  analise_completa()
 
 ```
 
 ### 4. Executando o Script
 
-Após configurar o ID do dataset desejado, execute o script de automação através do comando:
+Execute a automação através do comando:
 
 ```bash
 python3 src/main.py
 
 ```
 
-Os relatórios consolidados em **Markdown** e **PDF** serão gerados automaticamente dentro da pasta `./generated` informada no código.
+Os relatórios consolidados serão salvos automaticamente na pasta `./generated`.
+
+---
+
+## 📖 Como Interpretar os Relatórios
+
+A ferramenta gera três tipos principais de relatórios por base de dados auditada. Veja abaixo como realizar a leitura de cada um deles:
+
+### 1. Relatório de Metadados (`*_metadados.md` / `*.pdf`)
+
+* **Análise de Arquivos Desatualizados:** Identifica rapidamente quais recursos possuem datas de criação ou última modificação superiores a 1 mês em relação ao período atual, alertando sobre defasagens de publicação.
+* **Comparação Par a Par entre Grupos:** Mostra de forma cruzada (ex: Grupo `001` vs Grupo `002`) quais chaves estruturais de metadados estão presentes em um grupo e ausentes no outro.
+* **Chaves de Metadados do Grupo:** Lista de forma limpa e em um único parágrafo todas as propriedades customizadas e metadados que caracterizam aquele grupo de arquivos.
+* **Avisos de Chaves Internas Iguais:** Aponta quando chaves estruturais diferentes dentro de um mesmo arquivo possuem o mesmo valor (ex: `id` e `resource_id`), informando por meio de avisos se o valor difere entre os arquivos ou se permanece idêntico para todos.
+
+### 2. Relatório Estrutural de Cabeçalhos (`*_headers.md` / `*.pdf`)
+
+* **Agrupamento por nome de Arquivo:** Agrupa os arquivos por nomes similares (nomes iguais se retirados os dígitos do arquivo).
+* **Evolução Cronológica por Período:** Cria subgrupos por blocos temporais em que a estrutura de colunas permaneceu inalterada.
+* **Diferenciação Estrutural:** Aponta exatamente quantas colunas foram adicionadas, removidas ou alteradas em relação ao período imediatamente anterior.
+* **Mapeamento de Arquivos e Listagem:** Lista os recursos CKAN vinculados a cada período e traz uma seção expansível (`<details>`) contendo a lista completa de colunas presentes.
+
+### 3. Relatório de Qualidade de Dados (`*_dados.md` / `*.pdf`)
+
+* **Métricas Estatísticas Avançadas:** Exibe contagem e porcentagem de valores nulos e zeros, além da quantidade de valores distintos por coluna.
+* **Marcações e Alertas Automáticos:**
+* 🟢 `[Enum]`: Indica colunas com características de dados enumerados.
+* ⚠️ `[Caso 1: >50 Nulos/Zeros]` e `[Caso 2: >50 Distintos]`: Disparam alertas automáticos de qualidade.
+* 📊 **Estatísticas Numéricas / 📝 Texto:** Apresentam mínimo, máximo, média, mediana e desvio padrão (para colunas numéricas) ou comprimentos mínimo, máximo e médio (para colunas de texto).
+
+
+* **Detecção de Colunas Duplicadas:** Inclui um aviso ao final de cada período listando quais colunas possuem **exatamente as mesmas estatísticas de dados**, auxiliando na identificação de colunas repetidas que possuem nomes diferentes.
+

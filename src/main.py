@@ -1,6 +1,6 @@
 from queries_headers import *
 from queries_data import *
-from queries_metadata import gerar_analise_metadados
+from queries_metadata import *
 
 _RECEITAS_ID = "3210df25-0dfe-414b-aed4-844ddcdf87bb"
 _DESPESAS_ID = "99e16b13-0e6f-4504-8544-00de842ab1fd"
