@@ -1,4 +1,4 @@
-import os
+import requests
 from pathlib import Path
 from ckanapi import RemoteCKAN
 import pandas as pd
@@ -43,7 +43,11 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
 
         try:
           ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
-        except Exception:
+        except requests.exceptions.RequestException as e:
+          print(f"❌ [Erro de Rede] Falha de conexão ao acessar o portal CKAN: {e}")
+          break
+        except Exception as e:
+          print(f"❌ [Erro na API] Erro inesperado ao buscar o recurso {res_id}: {e}")
           break
 
         records = ds_res.get("records", [])
@@ -425,7 +429,7 @@ def gerar_analise_das_colunas_dados(
 
     caminho_completo_md = diretorio / nome_arquivo_saida
     caminho_completo_md.write_text(conteudo_md, encoding="utf-8")
-    print(f"Arquivo .md gerado com sucesso em: '{caminho_completo_md}'")
+    #print(f"Arquivo .md gerado com sucesso em: '{caminho_completo_md}'")
 
     if SUPORTE_PDF:
       conteudo_html = markdown.markdown(conteudo_md, extensions=["fenced_code", "tables"])
@@ -450,7 +454,7 @@ def gerar_analise_das_colunas_dados(
           """
       caminho_completo_pdf = diretorio / Path(nome_arquivo_saida).with_suffix(".pdf").name
       HTML(string=html_completo).write_pdf(caminho_completo_pdf)
-      print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
+      #print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
 
   except Exception as e:
     print(f"Erro ao salvar os arquivos de relatório: {e}")

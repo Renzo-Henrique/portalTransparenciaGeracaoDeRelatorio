@@ -1,8 +1,14 @@
 import os
+import requests
 import re
+import sys
+import time
+from tqdm import tqdm
 from pathlib import Path
 from ckanapi import RemoteCKAN
 
+_TEMPO_LIMITE = 20
+_MAX_TENTATIVAS = 5
 
 def agrupar_recursos_dataset(
     dataset_id, portal_url="https://dados.es.gov.br/"
@@ -12,9 +18,42 @@ def agrupar_recursos_dataset(
   rc = RemoteCKAN(portal_url)
   grupos = {}
 
+  
+  tentativa = 1
+  dataset = None
+  sucesso_requisicao = False
+
+  # Loop de retry utilizando tqdm para monitorar as tentativas de requisição do dataset
+  with tqdm(total=_MAX_TENTATIVAS, desc=f"   [{dataset_id}] Conectando ao Dataset", leave=False) as pbar:
+    inicio_rec = time.time()
+
+    for tentativa in range(1, _MAX_TENTATIVAS + 1):
+      if time.time() - inicio_rec > _TEMPO_LIMITE:
+        break
+      try:
+        dataset = rc.action.package_show(id=dataset_id)
+        sucesso_requisicao = True
+        pbar.set_postfix(status="Sucesso!")
+        pbar.update(_MAX_TENTATIVAS - pbar.n) # Completa a barra em caso de sucesso
+        break
+      except requests.exceptions.RequestException as e:
+        pbar.set_postfix(status=f"Falha (Tentativa {tentativa})")
+        pbar.update(1)
+        time.sleep(1)
+      except Exception as e:
+        print(f"\n❌ [Erro na API] Erro não recuperável ao buscar o dataset {dataset_id}: {e}")
+        break
+
+  # Se estourar o tempo limite de 20s por falha de rede, retorna dicionário vazio
+  if not sucesso_requisicao:
+    print(
+        f"❌ [Timeout / Pulado] A requisição do dataset {dataset_id} falhou após {_TEMPO_LIMITE}s de tentativas de rede. Pulando..."
+    )
+    return {}
+
+
   try:
     # Obtém os detalhes do dataset
-    dataset = rc.action.package_show(id=dataset_id)
     recursos = dataset.get("resources", [])
 
     for recurso in recursos:
@@ -48,7 +87,7 @@ def agrupar_recursos_dataset(
     return grupos
 
   except Exception as e:
-    print(f"Erro ao processar o dataset {dataset_id}: {e}")
+    print(f"❌ [Erro na API] Erro inesperado ao buscar o recurso {res_id}: {e}")
     return {}
 
 
@@ -57,13 +96,13 @@ def analisar_colunas_por_periodo(
 ):
   """Analisa os recursos agrupados, extrai os anos, verifica as colunas via Datastore,
 
-  agrupa os períodos consecutivos com a mesma estrutura e calcula as diferenças
-  comparando sempre com o grupo imediatamente anterior.
+  agrupa os períodos consecutivos com a mesma estrutura e calcula separadamente
+  as colunas removidas, alteradas e as que se mantiveram em relação ao grupo anterior.
   """
   rc = RemoteCKAN(portal_url)
   resultado_final = {}
 
-  for chave_principal, lista_recursos in dicionario_agrupado.items():
+  for chave_principal, lista_recursos in tqdm(dicionario_agrupado.items(), desc="Headers: Grupos Principais"):
     recursos_com_ano = []
 
     # 1. Extrai o ano de cada arquivo para ordenação cronológica
@@ -80,17 +119,52 @@ def analisar_colunas_por_periodo(
     current_group = None
 
     # Etapa 1: Cria os blocos brutos de períodos consecutivos com a mesma estrutura
-    for ano, rec in recursos_com_ano:
+    desc_recursos = f"   [{chave_principal}] Verificando recursos"
+    for ano, rec in tqdm(recursos_com_ano, desc=desc_recursos, leave=False):
       res_id = rec["id"]
       res_name = rec["name"]
       colunas = []
 
+      # Mecanismo de Retry com limite para a requisição de headers
+      
+      tentativa_rec = 1
+      ds_res = None
+      sucesso_rec = False
+      with tqdm(total=_MAX_TENTATIVAS, desc=f"      Recurso {res_id[:6]}...", leave=False) as pbar_rec:
+
+        inicio_rec = time.time()
+        for tentativa_rec in range(1, _MAX_TENTATIVAS + 1):
+
+          if time.time() - inicio_rec > _TEMPO_LIMITE:
+            break
+          try:
+            ds_res = rc.action.datastore_search(resource_id=res_id, limit=0)
+            sucesso_rec = True
+            pbar_rec.set_postfix(status="Sucesso!")
+            pbar_rec.update(_MAX_TENTATIVAS - pbar_rec.n)
+            break
+          except requests.exceptions.RequestException as e:
+            pbar_rec.set_postfix(status=f"Retry {tentativa_rec}")
+            pbar_rec.update(1)
+            time.sleep(2)
+          except Exception as e:
+            pbar_rec.set_postfix(status="Erro Estrutural")
+            break
+
+      # Se estourar as tentativas por falha de rede, pula este recurso específico
+      if not sucesso_rec:
+        print(
+            f"\n❌ [Timeout / Pulado] O recurso {res_id} (`{res_name}`) falhou após {_MAX_TENTATIVAS} tentativas. Pulando..."
+        )
+        continue
+
+
       try:
-        ds_res = rc.action.datastore_search(resource_id=res_id, limit=0)
         fields = ds_res.get("fields", [])
         colunas = [f["id"] for f in fields if f["id"] != "_id"]
-      except Exception:
-        pass
+      except Exception as e:
+        print(f"⚠️ [Erro de Processamento] Falha ao extrair colunas do recurso {res_id}: {e}")
+        colunas = []
 
       colunas_ordenadas = sorted(colunas)
       colunas_tuple = tuple(colunas_ordenadas)
@@ -127,26 +201,32 @@ def analisar_colunas_por_periodo(
     if current_group is not None:
       grupos_colunas.append(current_group)
 
-    # Etapa 2: Calcula as diferenças comparando estritamente com o grupo [i - 1]
+    # Etapa 2: Calcula separadamente as colunas removidas, alteradas e mantidas em relação ao grupo [i - 1]
     grupos_finais = []
     for i, grupo in enumerate(grupos_colunas):
       colunas_atuais_set = set(grupo["ColunasAtual"])
 
       if i == 0:
-        diff_cols = []
-        qtd_diff = 0
+        colunas_removidas = []
+        colunas_alteradas = []
+        colunas_mantidas = []
       else:
         colunas_anteriores_set = set(grupos_colunas[i - 1]["ColunasAtual"])
-        diff_cols = sorted(list(colunas_anteriores_set ^ colunas_atuais_set))
-        qtd_diff = len(diff_cols)
+        # Colunas removidas: estavam no anterior, mas não estão no atual
+        colunas_removidas = sorted(list(colunas_anteriores_set - colunas_atuais_set))
+        # Colunas alteradas/adicionadas: estão no atual, mas não estavam no anterior
+        colunas_alteradas = sorted(list(colunas_atuais_set - colunas_anteriores_set))
+        # Colunas mantidas: estavam no anterior e continuam no atual (interseção)
+        colunas_mantidas = sorted(list(colunas_anteriores_set.intersection(colunas_atuais_set)))
 
       grupos_finais.append({
           "PeriodoInicio": grupo["PeriodoInicio"],
           "PeriodoFim": grupo["PeriodoFim"],
           "QtdColunas": grupo["QtdColunas"],
           "ColunasAtual": grupo["ColunasAtual"],
-          "QtdColunasDiferentesAoAnterior": qtd_diff,
-          "ColunasDiferentesAoAnterior": diff_cols,
+          "ColunasRemovidas": colunas_removidas,
+          "ColunasAlteradas": colunas_alteradas,
+          "ColunasMantidas": colunas_mantidas,
           "ArquivosPeriodo": grupo["ArquivosPeriodo"],
       })
 
@@ -188,7 +268,7 @@ def gerar_analise_das_colunas_headers(
 
   # 1. Monta todo o conteúdo do relatório primeiro perpassando os dados
   for chave_principal, grupos in analise_dict.items():
-    linhas.append(f"\n## 📂 Grupo Principal: `{chave_principal}`\n")
+    linhas.append(f"\n##  Grupo Principal: `{chave_principal}`\n")
 
     for i, grupo in enumerate(grupos, start=1):
       periodo_inicio = grupo.get("PeriodoInicio")
@@ -201,24 +281,51 @@ def gerar_analise_das_colunas_headers(
 
       linhas.append(f"### 🔹 Período: {periodo_str}")
       linhas.append(f"- **Quantidade Total de Colunas:** `{grupo.get('QtdColunas')}`")
-      linhas.append(
-          f"- **Diferenças em relação ao grupo anterior:**"
-          f" `{grupo.get('QtdColunasDiferentesAoAnterior')}` colunas"
-      )
 
-      # Colunas removidas / alteradas
-      diff_cols = grupo.get("ColunasDiferentesAoAnterior", [])
-      if diff_cols:
+      # Colunas removidas
+      colunas_removidas = grupo.get("ColunasRemovidas", [])
+      if colunas_removidas:
         linhas.append(
-            f"  - *Colunas removidas/alteradas:* `"
-            + "`, `".join(diff_cols)
+            f"\t- *Colunas removidas (estavam no anterior, mas não agora):* {len(colunas_removidas)}\n\t`"
+            + "`, `".join(colunas_removidas)
             + "`"
         )
       else:
         linhas.append(
-            "  - *Colunas removidas/alteradas:* Nenhuma (estruturalmente"
-            " idêntico ou primeiro período)"
+            "- *Colunas removidas (estavam no anterior, mas não agora):* Nenhuma"
         )
+
+      # Colunas alteradas / adicionadas
+      colunas_alteradas = grupo.get("ColunasAlteradas", [])
+      if colunas_alteradas:
+        linhas.append(
+            f"\t- *Colunas alteradas/adicionadas (estão agora, mas não no anterior):* {len(colunas_alteradas)}\n\t`"
+            + "`, `".join(colunas_alteradas)
+            + "`"
+        )
+      else:
+        linhas.append(
+            "- *Colunas alteradas/adicionadas (estão agora, mas não no anterior):* Nenhuma"
+        )
+
+      # Colunas mantidas
+      colunas_mantidas = grupo.get("ColunasMantidas", [])
+      if colunas_mantidas:
+        linhas.append(
+            f"\t- *Colunas mantidas (estavam no anterior e continuam agora):* {len(colunas_mantidas)}\n\t`"
+            + "`, `".join(colunas_mantidas)
+            + "`"
+        )
+      else:
+        # Se for o primeiro período, não há anterior para comparar
+        if i == 1:
+          linhas.append(
+              "- *Colunas mantidas (estavam no anterior e continuam agora):* N/A (Primeiro período)"
+          )
+        else:
+          linhas.append(
+              "- *Colunas mantidas (estavam no anterior e continuam agora):* Nenhuma"
+          )
 
       # Arquivos do período
       linhas.append("\n**Arquivos/Recursos Vinculados:**\n")
@@ -252,7 +359,7 @@ def gerar_analise_das_colunas_headers(
     # Salva a versão .md
     caminho_completo_md = diretorio / nome_arquivo_saida
     caminho_completo_md.write_text(conteudo_md, encoding="utf-8")
-    print(f"Arquivo .md gerado com sucesso em: '{caminho_completo_md}'")
+    #print(f"Arquivo .md gerado com sucesso em: '{caminho_completo_md}'")
 
     # Salva a versão .pdf (se disponível)
     if SUPORTE_PDF:
@@ -287,7 +394,7 @@ def gerar_analise_das_colunas_headers(
       caminho_completo_pdf = diretorio / nome_arquivo_pdf
 
       HTML(string=html_completo).write_pdf(caminho_completo_pdf)
-      print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
+      #print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
     else:
       print(
           "Aviso: Bibliotecas 'markdown' ou 'weasyprint' não encontradas."

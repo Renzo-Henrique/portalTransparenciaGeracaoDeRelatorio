@@ -1,7 +1,11 @@
-import os
+import requests
 from pathlib import Path
 from ckanapi import RemoteCKAN
 from tqdm import tqdm
+import time
+
+
+_TEMPO_LIMITE = 20  # segundos
 
 # Tentativa de importação das bibliotecas para conversão de PDF
 try:
@@ -59,8 +63,39 @@ def agrupar_recursos_por_metadados(dataset_id, portal_url="https://dados.es.gov.
   rc = RemoteCKAN(portal_url)
   grupos_temporarios = {}
 
+  inicio_tentativa = time.time()
+  tentativa = 1
+  dataset = None
+  sucesso_requisicao = False
+
+  # Loop de retry limitado a 20 segundos para a chamada principal do dataset
+  while (time.time() - inicio_tentativa) < _TEMPO_LIMITE:
+    try:
+      dataset = rc.action.package_show(id=dataset_id)
+      sucesso_requisicao = True
+      break
+    except requests.exceptions.RequestException as e:
+      tempo_decorrido = int(time.time() - inicio_tentativa)
+      print(
+          f"⚠️ [Erro de Rede - Tentativa {tentativa}] Falha ao acessar o dataset {dataset_id} "
+          f"({tempo_decorrido}s decorridos): {e}"
+      )
+      tentativa += 1
+      time.sleep(3)  # Pausa de 3 segundos entre as tentativas
+    except Exception as e:
+      print(f"❌ [Erro na API] Erro não recuperável ao buscar o dataset {dataset_id}: {e}")
+      break
+
+  # Se estourar o tempo limite de 20s por falha de rede, pula a requisição do dataset
+  if not sucesso_requisicao:
+    print(
+        f"❌ [Timeout / Pulado] A requisição do dataset {dataset_id} falhou após {_TEMPO_LIMITE}s de tentativas de rede. Pulando..."
+    )
+    return {}
+  
+  
+  # Processamento do recurso que foi obtido
   try:
-    dataset = rc.action.package_show(id=dataset_id)
     recursos = dataset.get("resources", [])
 
     for recurso in recursos:
@@ -114,8 +149,8 @@ def agrupar_recursos_por_metadados(dataset_id, portal_url="https://dados.es.gov.
     return grupos_finais
 
   except Exception as e:
-    print(f"Erro ao processar metadados do dataset {dataset_id}: {e}")
-    return {}
+    print(f"❌ [Erro Interno] Erro inesperado ao processar os recursos do dataset {dataset_id}: {e}")
+  return {}
 
 
 def enriquecer_analise_metadados(grupos_metadados):
@@ -322,7 +357,7 @@ def gerar_analise_metadados(
 
     caminho_completo_md = diretorio / nome_arquivo_saida
     caminho_completo_md.write_text(conteudo_md, encoding="utf-8")
-    print(f"Arquivo .md de metadados gerado com sucesso em: '{caminho_completo_md}'")
+    #print(f"Arquivo .md de metadados gerado com sucesso em: '{caminho_completo_md}'")
 
     if SUPORTE_PDF:
       conteudo_html = markdown.markdown(conteudo_md, extensions=["fenced_code", "tables"])
@@ -347,7 +382,7 @@ def gerar_analise_metadados(
           """
       caminho_completo_pdf = diretorio / Path(nome_arquivo_saida).with_suffix(".pdf").name
       HTML(string=html_completo).write_pdf(caminho_completo_pdf)
-      print(f"Arquivo .pdf de metadados gerado com sucesso em: '{caminho_completo_pdf}'")
+      #print(f"Arquivo .pdf de metadados gerado com sucesso em: '{caminho_completo_pdf}'")
 
   except Exception as e:
     print(f"Erro ao salvar os arquivos de relatório de metadados: {e}")
