@@ -102,7 +102,7 @@ def analisar_colunas_por_periodo(
   rc = RemoteCKAN(portal_url)
   resultado_final = {}
 
-  for chave_principal, lista_recursos in tqdm(dicionario_agrupado.items(), desc="Headers: Grupos Principais"):
+  for chave_principal, lista_recursos in tqdm(dicionario_agrupado.items(), desc="Headers: Grupos Principais:"):
     recursos_com_ano = []
 
     # 1. Extrai o ano de cada arquivo para ordenação cronológica

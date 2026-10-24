@@ -7,7 +7,7 @@ from tqdm import tqdm
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
 _LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
-_LIMIT_MAXIMO_REGISTROS = 40000  # Limite máximo de registros a serem analisados
+_LIMIT_MAXIMO_REGISTROS = 50000  # Limite máximo de registros a serem analisados
 _LIMIT_NULOS_POR_COLUNA = 50  # Limite de valores nulos por coluna para disparar alerta
 _LIMIT_DISTINTOS_POR_COLUNA = 50  # Limite de valores distintos por coluna para disparar alerta
 _RANDOM_SEED = 42  # Seed fixa para amostragem aleatória consistente
@@ -334,7 +334,7 @@ def gerar_analise_das_colunas_dados(
   linhas.append(
       "\nEste documento apresenta um resumo consolidado das bases de dados por período, "
       "evolução das colunas, métricas de qualidade e estatísticas numéricas consolidadas "
-      "com marcação de alertas (Caso 1: Nulos/Zeros > 50 e Caso 2: Distintos > 50).\n"
+      f"com marcação de alertas (Caso 1: Nulos/Zeros > 50 e Caso 2: Distintos > 50). Foram utilizados apenas `{_LIMIT_MAXIMO_REGISTROS} registros por recurso`\n"
   )
   linhas.append("---")
 
