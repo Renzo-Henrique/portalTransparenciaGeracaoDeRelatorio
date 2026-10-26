@@ -1,18 +1,11 @@
-import time
-import requests
 from pathlib import Path
-from ckanapi import RemoteCKAN
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from concurrent.futures import ProcessPoolExecutor, as_completed
 
-_TEMPO_LIMITE = 30
-_MAX_TENTATIVAS = 5
-_LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 5000  # Blocos seguros para arquivos grandes (>1GB)
 _LIMIT_NULOS_POR_COLUNA = 50
 _LIMIT_DISTINTOS_POR_COLUNA = 50
-_MAX_WORKERS = 2  # Número seguro de subprocessos paralelos para evitar bloqueios/rate-limit na API
+_CHUNKSIZE = 100000  # Tamanho do bloco em linhas para leitura eficiente de arquivos >1GB sem estourar a memória
 
 # Tentativa de importação das bibliotecas para conversão de PDF
 try:
@@ -23,155 +16,122 @@ except ImportError:
   SUPORTE_PDF = False
 
 
-def _baixar_pagina_com_retry(rc, res_id, limit, offset, pagina_atual):
-  """Função auxiliar isolada para executar o loop de retry com tqdm por página."""
-  sucesso_requisicao = False
-  inicio_req = time.time()
-  ds_res = None
+def analisar_arquivo_gigante_local(caminho_arquivo):
+  """Lê e audita um arquivo local massivo (>1GB) de forma otimizada, dividindo
 
-  with tqdm(total=_MAX_TENTATIVAS, desc=f"   Tentativa (pág. {pagina_atual})", leave=False) as pbar_req:
-    for tentativa in range(1, _MAX_TENTATIVAS + 1):
-      if time.time() - inicio_req > _TEMPO_LIMITE:
-        break
-      try:
-        ds_res = rc.action.datastore_search(
-            resource_id=res_id,
-            limit=limit,
-            offset=offset
-        )
-        sucesso_requisicao = True
-        pbar_req.set_postfix(status="Sucesso!")
-        pbar_req.update(_MAX_TENTATIVAS - pbar_req.n)
-        break
-      except requests.exceptions.RequestException:
-        pbar_req.set_postfix(status=f"Falha (Tentativa {tentativa})")
-        pbar_req.update(1)
-        time.sleep(2)
-      except Exception:
-        pbar_req.set_postfix(status="Erro Inesperado")
-        break
-
-  return sucesso_requisicao, ds_res
-
-
-def baixar_e_analisar_arquivo_grande(res_id, portal_url="https://dados.es.gov.br/"):
-  """Conecta-se ao CKAN e baixa os dados utilizando paginação segura e loop de retry[cite: 6]."""
-  rc = RemoteCKAN(portal_url)
-  offset = 0
-  all_records = []
-  pagina_atual = 1
-  colunas_referencia = None
-  erros_estrutura = []
-
-  print(f"\n🔍 Iniciando extração e auditoria estrutural do recurso: {res_id}")
-
-  with tqdm(desc=f"📥 Baixando arquivo {res_id[:8]}", unit="reg") as pbar:
-    while True:
-      sucesso_requisicao, ds_res = _baixar_pagina_com_retry(
-          rc, res_id, _LIMIT_MAXIMO_REGISTROS_POR_PAGINA, offset, pagina_atual
-      )
-
-      if not sucesso_requisicao:
-        erros_estrutura.append(f"Timeout ou falha de rede na página {pagina_atual} (offset {offset}).")
-        print(f"\n❌ [Erro Crítico] Falha ao acessar o recurso {res_id} na página {pagina_atual} após {_MAX_TENTATIVAS} tentativas.")
-        break
-
-      records = ds_res.get("records", [])
-      fields = ds_res.get("fields", [])
-
-      if not records:
-        break
-
-      colunas_pagina = [f["id"] for f in fields if f["id"] != "_id"]
-      if colunas_referencia is None:
-        colunas_referencia = set(colunas_pagina)
-      else:
-        colunas_atual_set = set(colunas_pagina)
-        if colunas_referencia != colunas_atual_set:
-          erros_estrutura.append(f"Divergência estrutural detectada na página {pagina_atual}: as colunas diferem do lote inicial.")
-
-      all_records.extend(records)
-      pbar.update(len(records))
-      pbar.set_postfix(pagina=pagina_atual, total_acumulado=len(all_records))
-
-      if len(records) < _LIMIT_MAXIMO_REGISTROS_POR_PAGINA:
-        break
-
-      offset += _LIMIT_MAXIMO_REGISTROS_POR_PAGINA
-      pagina_atual += 1
-
-  if not all_records:
-    print("⚠️ Nenhum registro retornado para este arquivo.")
-    return None, 0, [], erros_estrutura
-
-  df = pd.DataFrame(all_records)
-  if "_id" in df.columns:
-    df = df.drop(columns=["_id"])
-
-  total_linhas = len(df)
-  colunas_ordenadas = sorted(df.columns)
-
-  return df, total_linhas, colunas_ordenadas, erros_estrutura
-
-
-def _calcular_estatisticas_bloco(args):
-  """Função executada em subprocesso isolado para calcular estatísticas parciais
-
-  de um subconjunto de colunas, evitando overflow numérico e garantindo consistência.
+  o processamento em blocos (chunks) para evitar overflow de memória RAM e numérica.
   """
-  dados_dict, colunas_subset = args
-  df_sub = pd.DataFrame(dados_dict)
-  total_linhas_global = len(df_sub)
-  resultados = {}
+  caminho = Path(caminho_arquivo)
+  if not caminho.exists():
+    print(f"❌ [Erro] O arquivo local '{caminho_arquivo}' não foi encontrado.")
+    return None, 0, [], ["Arquivo local não encontrado."]
 
-  for col in colunas_subset:
+  print(f"\n🔍 Iniciando leitura e auditoria local do arquivo: {caminho.name}")
+
+  total_linhas = 0
+  colunas_ordenadas = None
+  erros_estrutura = []
+  
+  # Acumuladores globais em memória segura para estatísticas consistentes
+  nulos_dict = {}
+  zeros_dict = {}
+  distintos_sets = {}
+  stats_acumuladores = {}
+
+  # Leitura particionada (chunking) ideal para arquivos >1GB
+  try:
+    with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8') as reader:
+      for chunk_idx, chunk in enumerate(tqdm(reader, desc="📥 Lendo blocos do arquivo", unit="chunk")):
+        if colunas_ordenadas is None:
+          colunas_ordenadas = sorted(chunk.columns)
+          for col in colunas_ordenadas:
+            nulos_dict[col] = 0
+            zeros_dict[col] = 0
+            distintos_sets[col] = set()
+            stats_acumuladores[col] = {"valores_numericos": [], "tamanhos_texto": []}
+
+        # Verificação básica de consistência estrutural entre os blocos
+        if sorted(chunk.columns) != colunas_ordenadas:
+          erros_estrutura.append(f"Divergência estrutural detectada no bloco {chunk_idx}: as colunas diferem do cabeçalho inicial.")
+
+        total_linhas += len(chunk)
+
+        # Processamento incremental por coluna em cada chunk
+        for col in colunas_ordenadas:
+          serie = chunk[col]
+          nulos_dict[col] += int(serie.isna().sum())
+
+          try:
+            serie_val_str = serie.astype(str).str.strip().str.replace(',', '.', regex=False)
+            zeros_dict[col] += int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
+          except Exception:
+            zeros_dict[col] += int((serie == 0).sum())
+
+          # Amostragem segura de valores distintos para não estourar memória com cardinality alta
+          valores_unicos_chunk = serie.dropna().unique()
+          if len(distintos_sets[col]) < 10000:  # Teto de segurança para conjuntos de cardinalidade
+            for val in valores_unicos_chunk:
+              distintos_sets[col].add(val)
+
+          # Coleta amostras para estatísticas sem overflow (evitando armazenar todos os dados brutos se forem massivos)
+          serie_limpa = serie.dropna()
+          if len(serie_limpa) > 0:
+            serie_str = serie_limpa.astype(str).str.strip().str.replace(',', '.', regex=False)
+            serie_num = pd.to_numeric(serie_str, errors='coerce')
+
+            if serie_num.notna().all() and len(serie_num) > 0:
+              # Armazena apenas uma amostra representativa ou valores convertidos para float64
+              vals_num = serie_num.astype(np.float64).values
+              stats_acumuladores[col]["valores_numericos"].extend(vals_num[:1000])  # Amostragem segura por chunk
+            else:
+              tamanhos = serie_limpa.astype(str).str.len().astype(np.int64).values
+              stats_acumuladores[col]["tamanhos_texto"].extend(tamanhos[:1000])
+
+  except Exception as e:
+    print(f"❌ [Erro de Leitura] Falha ao processar o arquivo local: {e}")
+    return None, 0, [], [f"Erro na leitura do CSV: {e}"]
+
+  # Consolidação final das estatísticas garantindo consistência e prevenção contra overflow
+  analise_colunas = {}
+  print("📊 Consolidando estatísticas finais...")
+
+  for col in colunas_ordenadas:
     try:
-      serie = df_sub[col]
-      nulos = int(serie.isna().sum())
+      nulos = nulos_dict[col]
+      zeros = zeros_dict[col]
+      distintos = len(distintos_sets[col])
 
-      try:
-        serie_val_str = serie.astype(str).str.strip().str.replace(',', '.', regex=False)
-        zeros = int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
-      except Exception:
-        zeros = int((serie == 0).sum())
+      perc_nulos = (nulos / total_linhas * 100) if total_linhas > 0 else 0
+      perc_zeros = (zeros / total_linhas * 100) if total_linhas > 0 else 0
 
-      distintos = int(serie.nunique(dropna=True))
-      perc_nulos = (nulos / total_linhas_global * 100) if total_linhas_global > 0 else 0
-      perc_zeros = (zeros / total_linhas_global * 100) if total_linhas_global > 0 else 0
-
-      provavel_enum = (distintos <= _LIMIT_DISTINTOS_POR_COLUNA or (distintos / total_linhas_global < 0.05)) if total_linhas_global > 0 else False
+      provavel_enum = (distintos <= _LIMIT_DISTINTOS_POR_COLUNA or (distintos / total_linhas < 0.05)) if total_linhas > 0 else False
       alerta_caso_1 = (nulos > _LIMIT_NULOS_POR_COLUNA) or (zeros > _LIMIT_NULOS_POR_COLUNA)
       alerta_caso_2 = (distintos > _LIMIT_DISTINTOS_POR_COLUNA)
 
-      serie_limpa = serie.dropna()
       stats_col = None
+      dados_col = stats_acumuladores[col]
 
-      if len(serie_limpa) > 0:
-        serie_str = serie_limpa.astype(str).str.strip().str.replace(',', '.', regex=False)
-        serie_num = pd.to_numeric(serie_str, errors='coerce')
+      if dados_col["valores_numericos"]:
+        arr_num = np.array(dados_col["valores_numericos"], dtype=np.float64)
+        stats_col = {
+            "tipo_estatistica": "numerica",
+            "minimo": float(arr_num.min()),
+            "maximo": float(arr_num.max()),
+            "media": round(float(arr_num.mean()), 2),
+            "mediana": float(np.median(arr_num)),
+            "desvio_padrao": round(float(arr_num.std(ddof=0)), 2) if len(arr_num) > 1 else 0.0
+        }
+      elif dados_col["tamanhos_texto"]:
+        arr_tam = np.array(dados_col["tamanhos_texto"], dtype=np.int64)
+        stats_col = {
+            "tipo_estatistica": "texto",
+            "min_length": int(arr_tam.min()),
+            "max_length": int(arr_tam.max()),
+            "mean_length": round(float(arr_tam.mean()), 2),
+            "std_length": round(float(arr_tam.std(ddof=0)), 2) if len(arr_tam) > 1 else 0.0
+        }
 
-        if serie_num.notna().all() and len(serie_num) > 0:
-          serie_num = serie_num.astype(np.float64)
-          stats_col = {
-              "tipo_estatistica": "numerica",
-              "minimo": float(serie_num.min()),
-              "maximo": float(serie_num.max()),
-              "media": round(float(serie_num.mean()), 2),
-              "mediana": float(serie_num.median()),
-              "desvio_padrao": round(float(serie_num.std(ddof=0)), 2) if len(serie_num) > 1 else 0.0
-          }
-        else:
-          tamanhos = serie_limpa.astype(str).str.len().astype(np.int64)
-          if len(tamanhos) > 0:
-            stats_col = {
-                "tipo_estatistica": "texto",
-                "min_length": int(tamanhos.min()),
-                "max_length": int(tamanhos.max()),
-                "mean_length": round(float(tamanhos.mean()), 2),
-                "std_length": round(float(tamanhos.std(ddof=0)), 2) if len(tamanhos) > 1 else 0.0
-            }
-
-      resultados[col] = {
+      analise_colunas[col] = {
           "valores_nulos": nulos,
           "valores_zeros": zeros,
           "porcentagem_nulos": round(perc_nulos, 2),
@@ -184,43 +144,15 @@ def _calcular_estatisticas_bloco(args):
           "status_analise": "sucesso"
       }
     except Exception:
-      resultados[col] = {"status_analise": "insuficiente"}
+      analise_colunas[col] = {"status_analise": "insuficiente"}
 
-  return resultados
-
-
-def processar_estatisticas_paralelas(df, colunas_ordenadas):
-  """Divide as colunas em blocos para execução paralela em subprocessos."""
-  analise_colunas = {}
-  num_workers = min(_MAX_WORKERS, len(colunas_ordenadas)) if colunas_ordenadas else 1
-  if num_workers < 1:
-    return analise_colunas
-
-  chunks = np.array_split(colunas_ordenadas, num_workers)
-  dados_dict = df.to_dict(orient='list')
-
-  print(f"⚡ Processando estatísticas em paralelo usando {num_workers} subprocessos...")
-
-  with ProcessPoolExecutor(max_workers=num_workers) as executor:
-    futures = [
-        executor.submit(_calcular_estatisticas_bloco, (dados_dict, list(chunk)))
-        for chunk in chunks if len(chunk) > 0
-    ]
-
-    for future in as_completed(futures):
-      try:
-        res_parcial = future.result()
-        analise_colunas.update(res_parcial)
-      except Exception as e:
-        print(f"⚠️ Erro em subprocesso de cálculo: {e}")
-
-  return analise_colunas
+  return analise_colunas, total_linhas, colunas_ordenadas, erros_estrutura
 
 
 def identificar_colunas_mesmas_estatisticas(analise_colunas):
   """Agrupa colunas que possuem exatamente as mesmas métricas e estatísticas
 
-  de dados, auxiliando na detecção de colunas duplicadas com nomes diferentes.
+  de dados, permitindo detectar colunas duplicadas com nomes diferentes.
   """
   mapa_stats = {}
   for col_nome, metricas in analise_colunas.items():
@@ -237,36 +169,30 @@ def identificar_colunas_mesmas_estatisticas(analise_colunas):
       )
       mapa_stats.setdefault(sig, []).append(col_nome)
 
-  colunas_mesmas_estatisticas = [cols for cols in mapa_stats.values() if len(cols) > 1]
-  return colunas_mesmas_estatisticas
+  return [cols for cols in mapa_stats.values() if len(cols) > 1]
 
 
-def gerar_relatorio_arquivo_unico(
-    res_id,
-    nome_arquivo_saida="relatorio_arquivo_unico.md",
-    caminho_saida="./generated",
-    portal_url="https://dados.es.gov.br/"
+def gerar_relatorio_arquivo_local(
+    caminho_arquivo,
+    nome_arquivo_saida="relatorio_arquivo_local.md",
+    caminho_saida="./generated"
 ):
-  """Executa a extração, confere estrutura, processa métricas em subprocessos,
+  """Executa a leitura local do arquivo, valida estruturas, processa estatísticas
 
-  verifica colunas duplicadas/mesmas estatísticas e salva o relatório.
+  sem desperdício de memória e gera o relatório completo em Markdown e PDF.
   """
-  df, total_linhas, colunas_ordenadas, erros_estrutura = baixar_e_analisar_arquivo_grande(res_id, portal_url)
+  analise_colunas, total_linhas, colunas_ordenadas, erros_estrutura = analisar_arquivo_gigante_local(caminho_arquivo)
 
-  if df is None or total_linhas == 0:
-    print("❌ Impossível gerar relatório devido à ausência de dados.")
+  if not analise_colunas or total_linhas == 0:
+    print("❌ Impossível gerar relatório devido à ausência de dados ou falha na leitura.")
     return
 
-  # Processamento paralelo em subprocessos
-  analise_colunas = processar_estatisticas_paralelas(df, colunas_ordenadas)
-
-  # Identificação de colunas com as mesmas estatísticas (possíveis duplicadas)
   colunas_mesmas_stats = identificar_colunas_mesmas_estatisticas(analise_colunas)
 
   # Montagem do Relatório em Markdown
   linhas = []
-  linhas.append(f"# Relatório de Auditoria de Arquivo Único (Grande Porte)")
-  linhas.append(f"\n- **ID do Recurso:** `{res_id}`")
+  linhas.append(f"# Relatório de Auditoria de Arquivo Local (Grande Porte)")
+  linhas.append(f"\n- **Caminho do Arquivo:** `{caminho_arquivo}`")
   linhas.append(f"- **Total de Linhas Auditadas:** `{total_linhas}`")
   linhas.append(f"- **Total de Colunas:** `{len(colunas_ordenadas)}`\n")
   linhas.append("---")
@@ -278,7 +204,7 @@ def gerar_relatorio_arquivo_unico(
     for err in erros_estrutura:
       linhas.append(f"> - ❌ {err}")
   else:
-    linhas.append("> ✅ **Nenhum erro estrutural detectado.** A integridade e consistência das colunas foram mantidas em todas as páginas.\n")
+    linhas.append("> ✅ **Nenhum erro estrutural detectado.** A consistência das colunas foi mantida em todos os blocos do arquivo.\n")
   linhas.append("---")
 
   # Seção de Qualidade de Colunas
@@ -312,7 +238,7 @@ def gerar_relatorio_arquivo_unico(
           f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}{stats_str}"
       )
 
-  # Adiciona a verificação de colunas com exatamente as mesmas estatísticas
+  # Adiciona a verificação correta de colunas com exatamente as mesmas estatísticas
   if colunas_mesmas_stats:
     linhas.append("\n---")
     linhas.append("\n> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**\n")
@@ -359,8 +285,9 @@ def gerar_relatorio_arquivo_unico(
 
 
 if __name__ == "__main__":
-  _EXEMPLO_RESOURCE_ID = "2dc2d874-0d72-4c01-b8a0-ecb6f392d6e4"
-  gerar_relatorio_arquivo_unico(
-      res_id=_EXEMPLO_RESOURCE_ID,
-      nome_arquivo_saida="relatorio_arquivo_gigante.md"
+  # Exemplo de uso local para arquivo gigante
+  _EXEMPLO_CAMINHO_ARQUIVO = "arquivos/Receitas-2025.csv"
+  gerar_relatorio_arquivo_local(
+      caminho_arquivo=_EXEMPLO_CAMINHO_ARQUIVO,
+      nome_arquivo_saida="analise_completa_dados_Receitas-2025_.md"
   )

@@ -21,15 +21,7 @@ def analise_completa_de_bases():
 
 
 
-_RECEITAS_2025_ID = "2dc2d874-0d72-4c01-b8a0-ecb6f392d6e4"
-def analise_dos_dados_de_arquivos():
-  gerar_relatorio_arquivo_unico(
-        res_id=_RECEITAS_2025_ID,
-        nome_arquivo_saida="receitas-2025_dados.md"
-    )
-
 # Exemplo de uso com o ID fornecido:
 if __name__ == "__main__":
 
-  # analise_completa_de_bases()
-  analise_dos_dados_de_arquivos()
+  analise_completa_de_bases()
