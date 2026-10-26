@@ -1,0 +1,6 @@
+
+🔍 Iniciando extração e auditoria estrutural do recurso: 2dc2d874-0d72-4c01-b8a0-ecb6f392d6e4
+📊 Analisando qualidade e estatísticas das colunas...
+
+📄 Relatório Markdown salvo com sucesso em: 'generated/receitas-2025_dados.md'
+📑 Relatório PDF gerado com sucesso em: 'generated/receitas-2025_dados.pdf'

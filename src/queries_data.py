@@ -3,14 +3,18 @@ from pathlib import Path
 from ckanapi import RemoteCKAN
 import pandas as pd
 from tqdm import tqdm
+import time
 
 from queries_headers import agrupar_recursos_dataset, analisar_colunas_por_periodo
 
 _LIMIT_MAXIMO_REGISTROS_POR_PAGINA = 10000  # Limite máximo de registros por página para evitar travamentos
-_LIMIT_MAXIMO_REGISTROS = 50000  # Limite máximo de registros a serem analisados
+_LIMIT_MAXIMO_REGISTROS = 10000  # Limite máximo de registros a serem analisados
 _LIMIT_NULOS_POR_COLUNA = 50  # Limite de valores nulos por coluna para disparar alerta
 _LIMIT_DISTINTOS_POR_COLUNA = 50  # Limite de valores distintos por coluna para disparar alerta
 _RANDOM_SEED = 42  # Seed fixa para amostragem aleatória consistente
+
+_TEMPO_LIMITE = 20
+_MAX_TENTATIVAS = 5
 
 # Tentativa de importação das bibliotecas para conversão de PDF
 try:
@@ -23,8 +27,8 @@ except ImportError:
 
 def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.br/"):
   """Analisa estatísticas de um recurso limitando a no máximo registros
-
-  amostrados aleatoriamente (com seed fixa), incluindo contagem de linhas no TQDM.
+  amostrados aleatoriamente (com seed fixa), incluindo contagem de linhas no TQDM
+  e loop de retry com tqdm para monitorar as tentativas de requisição.
   """
   rc = RemoteCKAN(portal_url)
 
@@ -41,13 +45,31 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
 
         current_limit = min(_LIMIT_MAXIMO_REGISTROS_POR_PAGINA, _LIMIT_MAXIMO_REGISTROS - len(all_records))  
 
-        try:
-          ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
-        except requests.exceptions.RequestException as e:
-          print(f"❌ [Erro de Rede] Falha de conexão ao acessar o portal CKAN: {e}")
-          break
-        except Exception as e:
-          print(f"❌ [Erro na API] Erro inesperado ao buscar o recurso {res_id}: {e}")
+        ds_res = None
+        sucesso_requisicao = False
+        inicio_req = time.time()
+
+        # Loop de retry utilizando tqdm para monitorar as tentativas de requisição
+        with tqdm(total=_MAX_TENTATIVAS, desc=f"      Tentativa (pág. {pagina_atual})", leave=False) as pbar_req:
+          for tentativa in range(1, _MAX_TENTATIVAS + 1):
+            if time.time() - inicio_req > _TEMPO_LIMITE:
+              break
+            try:
+              ds_res = rc.action.datastore_search(resource_id=res_id, limit=current_limit, offset=offset)
+              sucesso_requisicao = True
+              pbar_req.set_postfix(status="Sucesso!")
+              pbar_req.update(_MAX_TENTATIVAS - pbar_req.n)
+              break
+            except requests.exceptions.RequestException as e:
+              pbar_req.set_postfix(status=f"Falha (Tentativa {tentativa})")
+              pbar_req.update(1)
+              time.sleep(2)
+            except Exception as e:
+              pbar_req.set_postfix(status="Erro Inesperado")
+              break
+
+        if not sucesso_requisicao:
+          print(f"\n❌ [Timeout / Pulado] Falha ao acessar o recurso {res_id} após {_MAX_TENTATIVAS} tentativas.")
           break
 
         records = ds_res.get("records", [])
@@ -84,7 +106,6 @@ def analisar_qualidade_colunas_recurso(res_id, portal_url="https://dados.es.gov.
 
 def _calcular_estatisticas_coluna(serie):
   """Calcula estatísticas avançadas para colunas numéricas (mínimo, máximo, média,
-
   mediana, desvio padrão) ou para colunas de texto (comprimento mínimo, comprimento
   máximo, comprimento médio e desvio padrão do tamanho).
   """
@@ -122,7 +143,6 @@ def _calcular_estatisticas_coluna(serie):
 
 def enriquecer_analise_com_qualidade(analise_dict, portal_url="https://dados.es.gov.br/"):
   """Varre o dicionário utilizando 3 níveis de TQDM incluindo o nome do grupo
-
   principal e o período de tempo nas descrições.
   """
   for chave_principal, grupos in tqdm(analise_dict.items(), desc="Grupos Principais"):
@@ -322,7 +342,6 @@ def gerar_analise_das_colunas_dados(
     caminho_saida="./",
 ):
   """Gera os arquivos .md e .pdf com base na análise estrutural e de qualidade por período,
-
   incluindo estatísticas numéricas nos relatórios.
   """
   resultado_agrupado = agrupar_recursos_dataset(dataset_id)
@@ -429,7 +448,6 @@ def gerar_analise_das_colunas_dados(
 
     caminho_completo_md = diretorio / nome_arquivo_saida
     caminho_completo_md.write_text(conteudo_md, encoding="utf-8")
-    #print(f"Arquivo .md gerado com sucesso em: '{caminho_completo_md}'")
 
     if SUPORTE_PDF:
       conteudo_html = markdown.markdown(conteudo_md, extensions=["fenced_code", "tables"])
@@ -454,7 +472,6 @@ def gerar_analise_das_colunas_dados(
           """
       caminho_completo_pdf = diretorio / Path(nome_arquivo_saida).with_suffix(".pdf").name
       HTML(string=html_completo).write_pdf(caminho_completo_pdf)
-      #print(f"Arquivo .pdf gerado com sucesso em: '{caminho_completo_pdf}'")
 
   except Exception as e:
     print(f"Erro ao salvar os arquivos de relatório: {e}")
