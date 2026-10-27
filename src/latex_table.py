@@ -116,6 +116,6 @@ def gerar_latex_tabelas_periodos_para_dataset(dataset_id, nome_arquivo_saida="ge
 
 if __name__ == "__main__":
   
-  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _RECEITAS_ID, nome_arquivo_saida="generated/apendice_gerado_receitas.tex")
-  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _DESPESAS_ID, nome_arquivo_saida="generated/apendice_gerado_despesas.tex")
-  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _CONTRATOS_ID, nome_arquivo_saida="generated/apendice_gerado_contratos.tex")
+  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _RECEITAS_ID, nome_arquivo_saida="generated/latex/apendice_gerado_receitas.tex")
+  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _DESPESAS_ID, nome_arquivo_saida="generated/latex/apendice_gerado_despesas.tex")
+  gerar_latex_tabelas_periodos_para_dataset(dataset_id = _CONTRATOS_ID, nome_arquivo_saida="generated/latex/apendice_gerado_contratos.tex")

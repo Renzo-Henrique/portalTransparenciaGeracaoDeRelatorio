@@ -9,9 +9,9 @@ _CONTRATOS_ID = "36f4bfc0-48f2-4cf9-a812-5249724da742"
 _PREFIXO_ARQUIVO_SAIDA = "analise"
 
 def analise_completa_da_base(id, nome_base):
-  gerar_analise_metadados(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_metadados.md", caminho_saida = "./generated")
-  gerar_analise_das_colunas_headers(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_headers.md", caminho_saida = "./generated")
-  gerar_analise_das_colunas_dados(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_dados.md", caminho_saida = "./generated")
+  gerar_analise_metadados(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_metadados.md", caminho_saida = "./generated/metadados_e_headers")
+  gerar_analise_das_colunas_headers(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_headers.md", caminho_saida = "./generated/metadados_e_headers")
+  gerar_analise_das_colunas_dados(dataset_id = id, nome_arquivo_saida=f"{_PREFIXO_ARQUIVO_SAIDA}_{nome_base}_dados.md", caminho_saida = "./generated/analise_com_amostragem")
 
 
 def analise_completa_de_bases():

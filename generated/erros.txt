@@ -1,6 +1,15 @@
 
-🔍 Iniciando leitura e auditoria local do arquivo: Receitas-2025.csv
-📊 Consolidando estatísticas finais...
+🔍 Iniciando leitura e auditoria local do arquivo: orcamentosexecucoes-2025.csv
+❌ [Erro de Leitura] Falha ao processar o arquivo local: Error tokenizing data. C error: Expected 7 fields in line 36, saw 11
 
-📄 Relatório Markdown salvo com sucesso em: 'generated/analise_completa_dados_Receitas-2025_.md'
-📑 Relatório PDF gerado com sucesso em: 'generated/analise_completa_dados_Receitas-2025_.pdf'
+❌ Impossível gerar relatório devido à ausência de dados ou falha na leitura.
+
+🔍 Iniciando leitura e auditoria local do arquivo: RestosAPagar-2024.csv
+❌ [Erro de Leitura] Falha ao processar o arquivo local: Error tokenizing data. C error: Expected 4 fields in line 38, saw 5
+
+❌ Impossível gerar relatório devido à ausência de dados ou falha na leitura.
+
+🔍 Iniciando leitura e auditoria local do arquivo: orcamentosdespesa-2025.csv
+❌ [Erro de Leitura] Falha ao processar o arquivo local: Error tokenizing data. C error: Expected 7 fields in line 191, saw 8
+
+❌ Impossível gerar relatório devido à ausência de dados ou falha na leitura.

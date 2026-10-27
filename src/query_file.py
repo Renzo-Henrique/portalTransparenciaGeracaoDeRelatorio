@@ -284,10 +284,31 @@ def gerar_relatorio_arquivo_local(
     print(f"❌ Erro ao salvar os arquivos de relatório: {e}")
 
 
-if __name__ == "__main__":
-  # Exemplo de uso local para arquivo gigante
+def analisar_arquivo_base_de_receitas():
   _EXEMPLO_CAMINHO_ARQUIVO = "arquivos/Receitas-2025.csv"
   gerar_relatorio_arquivo_local(
       caminho_arquivo=_EXEMPLO_CAMINHO_ARQUIVO,
       nome_arquivo_saida="analise_completa_dados_Receitas-2025_.md"
   )
+
+def analisar_arquivos_base__de_despesas():
+  # gerar_relatorio_arquivo_local(
+  #       caminho_arquivo="arquivos/despesas-2025.csv",
+  #       nome_arquivo_saida="/base-despesas/analise_Despesas-2025_.md"
+  #   )
+  gerar_relatorio_arquivo_local(
+          caminho_arquivo="arquivos/orcamentosexecucoes-2025.csv",
+          nome_arquivo_saida="/base-despesas/analise_orcamentosExecucoes-2025_.md"
+      )
+  gerar_relatorio_arquivo_local(
+          caminho_arquivo="arquivos/RestosAPagar-2024.csv",
+          nome_arquivo_saida="/base-despesas/analise_RestosAPagar-2024_.md"
+      )
+  gerar_relatorio_arquivo_local(
+          caminho_arquivo="arquivos/orcamentosdespesa-2025.csv",
+          nome_arquivo_saida="/base-despesas/analise_orcamentosEespesa-2025_.md"
+      )
+
+if __name__ == "__main__":
+  # analisar_arquivo_base_de_receitas()
+  analisar_arquivos_base__de_despesas()
