@@ -16,10 +16,11 @@ except ImportError:
   SUPORTE_PDF = False
 
 
-def analisar_arquivo_gigante_local(caminho_arquivo):
+def analisar_arquivo_gigante_local(caminho_arquivo, caminho_saida="./generated"):
   """Lê e audita um arquivo local massivo (>1GB) de forma otimizada, dividindo
 
   o processamento em blocos (chunks) para evitar overflow de memória RAM e numérica.
+  Caso ocorra erro em uma linha ou bloco, o erro é printado, registrado e a execução continua.
   """
   caminho = Path(caminho_arquivo)
   if not caminho.exists():
@@ -31,6 +32,7 @@ def analisar_arquivo_gigante_local(caminho_arquivo):
   total_linhas = 0
   colunas_ordenadas = None
   erros_estrutura = []
+  erros_execucao = []
   
   # Acumuladores globais em memória segura para estatísticas consistentes
   nulos_dict = {}
@@ -40,56 +42,85 @@ def analisar_arquivo_gigante_local(caminho_arquivo):
 
   # Leitura particionada (chunking) ideal para arquivos >1GB
   try:
-    with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8') as reader:
-      for chunk_idx, chunk in enumerate(tqdm(reader, desc="📥 Lendo blocos do arquivo", unit="chunk")):
-        if colunas_ordenadas is None:
-          colunas_ordenadas = sorted(chunk.columns)
+    with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8', sep=';', on_bad_lines='skip') as reader:
+      for chunk_idx, chunk in enumerate(tqdm(reader, desc=f"📥 Lendo blocos do arquivo <{caminho_arquivo}>", unit="chunk")):
+        try:
+          if colunas_ordenadas is None:
+            colunas_ordenadas = sorted(chunk.columns)
+            for col in colunas_ordenadas:
+              nulos_dict[col] = 0
+              zeros_dict[col] = 0
+              distintos_sets[col] = set()
+              stats_acumuladores[col] = {"valores_numericos": [], "tamanhos_texto": []}
+
+          # Verificação básica de consistência estrutural entre os blocos
+          if sorted(chunk.columns) != colunas_ordenadas:
+            msg_erro = f"Divergência estrutural detectada no bloco {chunk_idx}: as colunas diferem do cabeçalho inicial."
+            erros_estrutura.append(msg_erro)
+            print(f"⚠️ [Aviso] {msg_erro}")
+            continue
+
+          total_linhas += len(chunk)
+
+          # Processamento incremental por coluna em cada chunk com tratamento de erro por linha/coluna
           for col in colunas_ordenadas:
-            nulos_dict[col] = 0
-            zeros_dict[col] = 0
-            distintos_sets[col] = set()
-            stats_acumuladores[col] = {"valores_numericos": [], "tamanhos_texto": []}
+            try:
+              serie = chunk[col]
+              nulos_dict[col] += int(serie.isna().sum())
 
-        # Verificação básica de consistência estrutural entre os blocos
-        if sorted(chunk.columns) != colunas_ordenadas:
-          erros_estrutura.append(f"Divergência estrutural detectada no bloco {chunk_idx}: as colunas diferem do cabeçalho inicial.")
+              try:
+                serie_val_str = serie.astype(str).str.strip().str.replace(',', '.', regex=False)
+                zeros_dict[col] += int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
+              except Exception:
+                zeros_dict[col] += int((serie == 0).sum())
 
-        total_linhas += len(chunk)
+              # Amostragem segura de valores distintos para não estourar memória com cardinality alta
+              valores_unicos_chunk = serie.dropna().unique()
+              if len(distintos_sets[col]) < 10000:  # Teto de segurança para conjuntos de cardinalidade
+                for val in valores_unicos_chunk:
+                  distintos_sets[col].add(val)
 
-        # Processamento incremental por coluna em cada chunk
-        for col in colunas_ordenadas:
-          serie = chunk[col]
-          nulos_dict[col] += int(serie.isna().sum())
+              # Coleta amostras para estatísticas sem overflow
+              serie_limpa = serie.dropna()
+              if len(serie_limpa) > 0:
+                serie_str = serie_limpa.astype(str).str.strip().str.replace(',', '.', regex=False)
+                serie_num = pd.to_numeric(serie_str, errors='coerce')
 
-          try:
-            serie_val_str = serie.astype(str).str.strip().str.replace(',', '.', regex=False)
-            zeros_dict[col] += int((pd.to_numeric(serie_val_str, errors='coerce') == 0.0).sum())
-          except Exception:
-            zeros_dict[col] += int((serie == 0).sum())
+                if serie_num.notna().all() and len(serie_num) > 0:
+                  vals_num = serie_num.astype(np.float64).values
+                  stats_acumuladores[col]["valores_numericos"].extend(vals_num[:1000])
+                else:
+                  tamanhos = serie_limpa.astype(str).str.len().astype(np.int64).values
+                  stats_acumuladores[col]["tamanhos_texto"].extend(tamanhos[:1000])
 
-          # Amostragem segura de valores distintos para não estourar memória com cardinality alta
-          valores_unicos_chunk = serie.dropna().unique()
-          if len(distintos_sets[col]) < 10000:  # Teto de segurança para conjuntos de cardinalidade
-            for val in valores_unicos_chunk:
-              distintos_sets[col].add(val)
+            except Exception as e_col:
+              msg_col_erro = f"Erro ao processar a coluna '{col}' no bloco {chunk_idx}: {e_col}"
+              erros_execucao.append(msg_col_erro)
+              print(f"❌ [Erro na Coluna] {msg_col_erro}")
 
-          # Coleta amostras para estatísticas sem overflow (evitando armazenar todos os dados brutos se forem massivos)
-          serie_limpa = serie.dropna()
-          if len(serie_limpa) > 0:
-            serie_str = serie_limpa.astype(str).str.strip().str.replace(',', '.', regex=False)
-            serie_num = pd.to_numeric(serie_str, errors='coerce')
-
-            if serie_num.notna().all() and len(serie_num) > 0:
-              # Armazena apenas uma amostra representativa ou valores convertidos para float64
-              vals_num = serie_num.astype(np.float64).values
-              stats_acumuladores[col]["valores_numericos"].extend(vals_num[:1000])  # Amostragem segura por chunk
-            else:
-              tamanhos = serie_limpa.astype(str).str.len().astype(np.int64).values
-              stats_acumuladores[col]["tamanhos_texto"].extend(tamanhos[:1000])
+        except Exception as e_chunk:
+          msg_chunk_erro = f"Erro ao processar o bloco {chunk_idx}: {e_chunk}"
+          erros_execucao.append(msg_chunk_erro)
+          print(f"❌ [Erro no Bloco] {msg_chunk_erro}")
+          continue
 
   except Exception as e:
-    print(f"❌ [Erro de Leitura] Falha ao processar o arquivo local: {e}")
-    return None, 0, [], [f"Erro na leitura do CSV: {e}"]
+    msg_leitura = f"Falha crítica ao processar o arquivo local: {e}"
+    print(f"❌ [Erro de Leitura] {msg_leitura}")
+    erros_execucao.append(msg_leitura)
+
+  # Consolidação dos erros em arquivo de texto no mesmo path de caminho_saida
+  todos_os_erros = erros_estrutura + erros_execucao
+  if todos_os_erros:
+    try:
+      diretorio_saida = Path(caminho_saida)
+      diretorio_saida.mkdir(parents=True, exist_ok=True)
+      nome_arquivo_erros = f"{caminho.stem}_erros.txt"
+      caminho_completo_erros = diretorio_saida / nome_arquivo_erros
+      caminho_completo_erros.write_text("\n".join(todos_os_erros), encoding="utf-8")
+      print(f"📝 Arquivo de erros gerado com sucesso em: '{caminho_completo_erros}'")
+    except Exception as e_err_file:
+      print(f"❌ Erro ao salvar o arquivo de erros: {e_err_file}")
 
   # Consolidação final das estatísticas garantindo consistência e prevenção contra overflow
   analise_colunas = {}
@@ -181,7 +212,9 @@ def gerar_relatorio_arquivo_local(
 
   sem desperdício de memória e gera o relatório completo em Markdown e PDF.
   """
-  analise_colunas, total_linhas, colunas_ordenadas, erros_estrutura = analisar_arquivo_gigante_local(caminho_arquivo)
+  analise_colunas, total_linhas, colunas_ordenadas, erros_estrutura = analisar_arquivo_gigante_local(
+      caminho_arquivo, caminho_saida=caminho_saida
+  )
 
   if not analise_colunas or total_linhas == 0:
     print("❌ Impossível gerar relatório devido à ausência de dados ou falha na leitura.")
@@ -191,7 +224,7 @@ def gerar_relatorio_arquivo_local(
 
   # Montagem do Relatório em Markdown
   linhas = []
-  linhas.append(f"# Relatório de Auditoria de Arquivo Local (Grande Porte)")
+  linhas.append(f"# Relatório de Auditoria com Arquivo Local")
   linhas.append(f"\n- **Caminho do Arquivo:** `{caminho_arquivo}`")
   linhas.append(f"- **Total de Linhas Auditadas:** `{total_linhas}`")
   linhas.append(f"- **Total de Colunas:** `{len(colunas_ordenadas)}`\n")
@@ -238,7 +271,6 @@ def gerar_relatorio_arquivo_local(
           f"Distintos: **{metricas.get('valores_distintos')}**{tag_str}{stats_str}"
       )
 
-  # Adiciona a verificação correta de colunas com exatamente as mesmas estatísticas
   if colunas_mesmas_stats:
     linhas.append("\n---")
     linhas.append("\n> **⚠️ Aviso: Colunas com exatamente as mesmas estatísticas de dados (possíveis colunas duplicadas com nomes diferentes):**\n")
@@ -284,31 +316,39 @@ def gerar_relatorio_arquivo_local(
     print(f"❌ Erro ao salvar os arquivos de relatório: {e}")
 
 
+
+_PREFIXO_SAIDA = "generated/analise_de_arquivos/"
+
 def analisar_arquivo_base_de_receitas():
-  _EXEMPLO_CAMINHO_ARQUIVO = "arquivos/Receitas-2025.csv"
   gerar_relatorio_arquivo_local(
-      caminho_arquivo=_EXEMPLO_CAMINHO_ARQUIVO,
-      nome_arquivo_saida="analise_completa_dados_Receitas-2025_.md"
+      caminho_arquivo="arquivos/Receitas-2025.csv",
+      nome_arquivo_saida="analise_Receitas-2025.md",
+      caminho_saida=_PREFIXO_SAIDA+ "base-receitas/"
   )
 
 def analisar_arquivos_base__de_despesas():
-  # gerar_relatorio_arquivo_local(
-  #       caminho_arquivo="arquivos/despesas-2025.csv",
-  #       nome_arquivo_saida="/base-despesas/analise_Despesas-2025_.md"
-  #   )
+  path_saida = _PREFIXO_SAIDA + "base-despesas/"
   gerar_relatorio_arquivo_local(
           caminho_arquivo="arquivos/orcamentosexecucoes-2025.csv",
-          nome_arquivo_saida="/base-despesas/analise_orcamentosExecucoes-2025_.md"
+          nome_arquivo_saida="analise_orcamentosExecucoes-2025.md",
+          caminho_saida=path_saida
       )
   gerar_relatorio_arquivo_local(
           caminho_arquivo="arquivos/RestosAPagar-2024.csv",
-          nome_arquivo_saida="/base-despesas/analise_RestosAPagar-2024_.md"
+          nome_arquivo_saida="analise_RestosAPagar-2024.md",
+          caminho_saida=path_saida
       )
   gerar_relatorio_arquivo_local(
           caminho_arquivo="arquivos/orcamentosdespesa-2025.csv",
-          nome_arquivo_saida="/base-despesas/analise_orcamentosEespesa-2025_.md"
+          nome_arquivo_saida="analise_orcamentosDespesa-2025.md",
+          caminho_saida=path_saida
       )
+  gerar_relatorio_arquivo_local(
+            caminho_arquivo="arquivos/despesas-2025.csv",
+            nome_arquivo_saida="analise_despesas-2025.md",
+            caminho_saida=path_saida
+        )
 
 if __name__ == "__main__":
-  # analisar_arquivo_base_de_receitas()
+  analisar_arquivo_base_de_receitas()
   analisar_arquivos_base__de_despesas()
