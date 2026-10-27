@@ -1,4 +1,4 @@
-# Relatório de Auditoria de Arquivo Local (Grande Porte)
+# Relatório de Auditoria com Arquivo Local
 
 - **Caminho do Arquivo:** `arquivos/Receitas-2025.csv`
 - **Total de Linhas Auditadas:** `1004745`

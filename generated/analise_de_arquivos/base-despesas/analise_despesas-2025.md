@@ -1,4 +1,4 @@
-# Relatório de Auditoria de Arquivo Local (Grande Porte)
+# Relatório de Auditoria com Arquivo Local
 
 - **Caminho do Arquivo:** `arquivos/despesas-2025.csv`
 - **Total de Linhas Auditadas:** `1456562`
@@ -15,10 +15,10 @@
 ## 📋 Qualidade e Estatísticas das Colunas
 
 1. `Acao` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **324** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 13, Tam Máx: 178, Média: 52.32]
-2. `AgenciaOrigem` ➔ Nulos: **68.92%** | Zeros: **0.0%** | Distintos: **11** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 4, Média: 3.87]
+2. `AgenciaOrigem` ➔ Nulos: **70.47%** | Zeros: **0.0%** | Distintos: **10** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Numérica:** [Mín: 104.0, Máx: 3665.0, Média: 831.71, DesvPad: 789.97]
 3. `Ano` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **1** 🟢 [Enum] | 📊 **Numérica:** [Mín: 2025.0, Máx: 2025.0, Média: 2025.0, DesvPad: 0.0]
 4. `AnoLicitacao` ➔ Nulos: **0.0%** | Zeros: **72.36%** | Distintos: **34** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Numérica:** [Mín: 0.0, Máx: 2025.0, Média: 577.2, DesvPad: 913.63]
-5. `BancoOrigem` ➔ Nulos: **68.92%** | Zeros: **0.0%** | Distintos: **4** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 3, Média: 2.91]
+5. `BancoOrigem` ➔ Nulos: **70.47%** | Zeros: **0.0%** | Distintos: **3** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] | 📊 **Numérica:** [Mín: 1.0, Máx: 104.0, Média: 19.71, DesvPad: 5.95]
 6. `CargoFuncao` ➔ Nulos: **100.0%** | Zeros: **0.0%** | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 7. `CategoriaEconomica` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **2** 🟢 [Enum] | 📝 **Texto:** [Tam Mín: 18, Tam Máx: 19, Média: 18.04]
 8. `CodigoAcao` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **334** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Numérica:** [Mín: 3.0, Máx: 8683.0, Média: 2247.5, DesvPad: 901.78]
@@ -51,16 +51,16 @@
 35. `DetalhamentoFonte` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **207** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 12, Tam Máx: 185, Média: 56.04]
 36. `Documento` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **41354** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 11, Tam Máx: 11, Média: 11.0]
 37. `DocumentoEmpenho` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **11807** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 11, Tam Máx: 11, Média: 11.0]
-38. `DomicilioBancarioOrigem` ➔ Nulos: **68.92%** | Zeros: **0.0%** | Distintos: **450** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 10, Média: 7.94]
+38. `DomicilioBancarioOrigem` ➔ Nulos: **70.47%** | Zeros: **0.0%** | Distintos: **449** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 6, Tam Máx: 10, Média: 8.25]
 39. `ElementoDespesa` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **55** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 8, Tam Máx: 120, Média: 32.27]
-40. `Embasamento` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **6243** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 223, Média: 48.56]
-41. `Emenda` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **970** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 12, Média: 1.05]
+40. `Embasamento` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **6242** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 8, Tam Máx: 223, Média: 48.56]
+41. `Emenda` ➔ Nulos: **99.66%** | Zeros: **0.0%** | Distintos: **969** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 12, Tam Máx: 12, Média: 12.0]
 42. `Esfera` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **2** 🟢 [Enum] | 📊 **Numérica:** [Mín: 10.0, Máx: 20.0, Média: 13.06, DesvPad: 4.61]
 43. `Favorecido` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **14266** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 7, Tam Máx: 104, Média: 33.87]
 44. `Fonte` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **55** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 26, Tam Máx: 141, Média: 41.58]
 45. `Funcao` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **24** 🟢 [Enum] | 📝 **Texto:** [Tam Mín: 5, Tam Máx: 21, Média: 12.23]
 46. `GrupoDespesa` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **6** 🟢 [Enum] | 📝 **Texto:** [Tam Mín: 13, Tam Máx: 26, Média: 24.62]
-47. `HistoricoDocumento` ➔ Nulos: **0.03%** | Zeros: **0.0%** | Distintos: **67381** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 1, Tam Máx: 1024, Média: 189.52]
+47. `HistoricoDocumento` ➔ Nulos: **20.09%** | Zeros: **0.0%** | Distintos: **67380** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 3, Tam Máx: 1024, Média: 234.41]
 48. `Id` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **100000** ⚠️ [Caso 2: >50 Distintos] | 📊 **Numérica:** [Mín: 255610263.0, Máx: 257011262.0, Média: 256310762.5, DesvPad: 432049.48]
 49. `IdFavorecido` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **14306** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📊 **Numérica:** [Mín: 8314695.0, Máx: 8426646.0, Média: 8374789.01, DesvPad: 33165.32]
 50. `IdUso` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **2** 🟢 [Enum] | 📊 **Numérica:** [Mín: 1.0, Máx: 2.0, Média: 1.06, DesvPad: 0.24]
@@ -71,7 +71,7 @@
 55. `NumeroProcesso` ➔ Nulos: **100.0%** | Zeros: **0.0%** | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 56. `Orgao` ➔ Nulos: **100.0%** | Zeros: **0.0%** | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
 57. `PlanoOrcamentario` ➔ Nulos: **100.0%** | Zeros: **0.0%** | Distintos: **0** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros]
-58. `Processo` ➔ Nulos: **99.03%** | Zeros: **0.0%** | Distintos: **202** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 13, Tam Máx: 238, Média: 141.36]
+58. `Processo` ➔ Nulos: **99.03%** | Zeros: **0.0%** | Distintos: **201** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 13, Tam Máx: 238, Média: 141.36]
 59. `ProcessoAssunto` ➔ Nulos: **99.03%** | Zeros: **0.0%** | Distintos: **94** 🟢 [Enum] ⚠️ [Caso 1: >50 Nulos/Zeros] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 3, Tam Máx: 42, Média: 17.75]
 60. `Programa` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **58** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 7, Tam Máx: 111, Média: 31.41]
 61. `SubFuncao` ➔ Nulos: **0.0%** | Zeros: **0.0%** | Distintos: **74** 🟢 [Enum] ⚠️ [Caso 2: >50 Distintos] | 📝 **Texto:** [Tam Mín: 7, Tam Máx: 48, Média: 23.63]

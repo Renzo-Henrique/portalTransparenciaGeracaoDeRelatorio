@@ -45,6 +45,8 @@ def analisar_arquivo_gigante_local(caminho_arquivo, caminho_saida="./generated")
     with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8', sep=';', on_bad_lines='skip') as reader:
       for chunk_idx, chunk in enumerate(tqdm(reader, desc=f"📥 Lendo blocos do arquivo <{caminho_arquivo}>", unit="chunk")):
         try:
+          # Converte strings vazias ou com apenas espaços em NaN:
+          chunk = chunk.replace(r'^\s*$', np.nan, regex=True)
           if colunas_ordenadas is None:
             colunas_ordenadas = sorted(chunk.columns)
             for col in colunas_ordenadas:

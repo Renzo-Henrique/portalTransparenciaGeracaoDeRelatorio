@@ -50,7 +50,7 @@ if __name__ == "__main__":
 Execute a automação através do comando:
 
 ```bash
-python3 src/main.py >generated/erros.txt
+python3 src/main.py >generated/output.txt
 
 ```
 
