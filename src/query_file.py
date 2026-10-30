@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
+import csv
 from tqdm import tqdm
 
 _LIMIT_NULOS_POR_COLUNA = 50
@@ -16,6 +17,24 @@ except ImportError:
   SUPORTE_PDF = False
 
 
+def detectar_delimitador(caminho_arquivo, n_linhas=5):
+    """Lê as primeiras linhas do arquivo para detectar se o delimitador é ',' ou ';'."""
+    caminho = Path(caminho_arquivo)
+    try:
+        with open(caminho, 'r', encoding='utf-8', errors='ignore') as f:
+            amostra = "".join([f.readline() for _ in range(n_linhas)])
+        
+        # Tenta usar o Sniffer do Python para identificar o delimitador entre ',' e ';'
+        sniffer = csv.Sniffer()
+        delimitador = sniffer.sniff(amostra, delimiters=',;').delimiter
+        return delimitador
+    except Exception:
+        # Fallback seguro: conta qual caractere aparece mais na primeira linha
+        primeira_linha = amostra.split('\n')[0] if amostra else ""
+        if primeira_linha.count(';') > primeira_linha.count(','):
+            return ';'
+        return ','
+
 def analisar_arquivo_gigante_local(caminho_arquivo, caminho_saida="./generated"):
   """Lê e audita um arquivo local massivo (>1GB) de forma otimizada, dividindo
 
@@ -27,7 +46,9 @@ def analisar_arquivo_gigante_local(caminho_arquivo, caminho_saida="./generated")
     print(f"❌ [Erro] O arquivo local '{caminho_arquivo}' não foi encontrado.")
     return None, 0, [], ["Arquivo local não encontrado."]
 
-  print(f"\n🔍 Iniciando leitura e auditoria local do arquivo: {caminho.name}")
+  #Detecta o delimitador automaticamente antes de ler com o Pandas
+  delimitador_detectado = detectar_delimitador(caminho)
+  print(f"\nIniciando leitura e auditoria local do arquivo: {caminho.name}")
 
   total_linhas = 0
   colunas_ordenadas = None
@@ -42,7 +63,7 @@ def analisar_arquivo_gigante_local(caminho_arquivo, caminho_saida="./generated")
 
   # Leitura particionada (chunking) ideal para arquivos >1GB
   try:
-    with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8', sep=';', on_bad_lines='skip') as reader:
+    with pd.read_csv(caminho, chunksize=_CHUNKSIZE, low_memory=False, encoding='utf-8', sep=delimitador_detectado, on_bad_lines='skip') as reader:
       for chunk_idx, chunk in enumerate(tqdm(reader, desc=f"📥 Lendo blocos do arquivo <{caminho_arquivo}>", unit="chunk")):
         try:
           # Converte strings vazias ou com apenas espaços em NaN:

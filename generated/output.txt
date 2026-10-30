@@ -1,29 +1,29 @@
 
-🔍 Iniciando leitura e auditoria local do arquivo: Receitas-2025.csv
+Iniciando leitura e auditoria local do arquivo: Receitas-2025.csv
 📊 Consolidando estatísticas finais...
 
 📄 Relatório Markdown salvo com sucesso em: 'generated/analise_de_arquivos/base-receitas/analise_Receitas-2025.md'
 📑 Relatório PDF gerado com sucesso em: 'generated/analise_de_arquivos/base-receitas/analise_Receitas-2025.pdf'
 
-🔍 Iniciando leitura e auditoria local do arquivo: orcamentosexecucoes-2025.csv
+Iniciando leitura e auditoria local do arquivo: orcamentosexecucoes-2025.csv
 📊 Consolidando estatísticas finais...
 
 📄 Relatório Markdown salvo com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_orcamentosExecucoes-2025.md'
 📑 Relatório PDF gerado com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_orcamentosExecucoes-2025.pdf'
 
-🔍 Iniciando leitura e auditoria local do arquivo: RestosAPagar-2024.csv
+Iniciando leitura e auditoria local do arquivo: RestosAPagar-2024.csv
 📊 Consolidando estatísticas finais...
 
 📄 Relatório Markdown salvo com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_RestosAPagar-2024.md'
 📑 Relatório PDF gerado com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_RestosAPagar-2024.pdf'
 
-🔍 Iniciando leitura e auditoria local do arquivo: orcamentosdespesa-2025.csv
+Iniciando leitura e auditoria local do arquivo: orcamentosdespesa-2025.csv
 📊 Consolidando estatísticas finais...
 
 📄 Relatório Markdown salvo com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_orcamentosDespesa-2025.md'
 📑 Relatório PDF gerado com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_orcamentosDespesa-2025.pdf'
 
-🔍 Iniciando leitura e auditoria local do arquivo: despesas-2025.csv
+Iniciando leitura e auditoria local do arquivo: despesas-2025.csv
 📊 Consolidando estatísticas finais...
 
 📄 Relatório Markdown salvo com sucesso em: 'generated/analise_de_arquivos/base-despesas/analise_despesas-2025.md'
